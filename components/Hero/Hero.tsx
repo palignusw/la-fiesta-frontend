@@ -32,7 +32,7 @@ export default function Hero() {
 					<div className={s.frame}>
 						<Image
 							className={s.photo}
-							src='/hero/hall.png'
+							src='/hero/hro.jpg'
 							alt='La Fiesta Hall'
 							width={900}
 							height={600}

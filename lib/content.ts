@@ -156,8 +156,8 @@ export type MediaType = 'image' | 'video'
 export type MediaItem = {
 	id: string
 	src: string // путь в /public
-	w: number
-	h: number
+	w?: number
+	h?: number
 	album: 'დარბაზი' | 'დეკორი' | 'საჭმელი' | 'ივენთები'
 	type?: MediaType
 	poster?: string
@@ -177,14 +177,64 @@ export const media: MediaItem[] = [
 	{ id: 'd1', src: '/hero/hall.png', w: 1200, h: 1500, album: 'დეკორი' },
 	{ id: 'f1', src: '/hero/hall.png', w: 1400, h: 933, album: 'საჭმელი' },
 	{
-		id: 'v1',
-		type: 'video',
-		src: '/videos/gallery/first_dance.mp4',
-		poster: '/images/gallery/events/poster.jpg',
-		w: 1920,
-		h: 1080,
-		album: 'ივენთები',
+		id: 'hall1',
+		src: '/gallery/hall1.jpg',
+		album: 'დარბაზი',
 	},
+	{
+		id: 'hall2',
+		src: '/gallery/hall2.jpg',
+		album: 'დარბაზი',
+	},
+	{
+		id: 'hall3',
+		src: '/gallery/hall3.jpg',
+		album: 'დარბაზი',
+	},
+	{
+		id: 'hall4',
+		src: '/gallery/hall4.jpg',
+		album: 'დარბაზი',
+	},
+	{
+		id: 'hall5',
+		src: '/gallery/hall5.jpg',
+		album: 'დარბაზი',
+	},
+	{
+		id: 'hall6',
+		src: '/gallery/hall6.jpg',
+		album: 'დარბაზი',
+	},
+	{
+		id: 'hall7',
+		src: '/gallery/hall7.jpg',
+		album: 'დარბაზი',
+	},
+	{
+		id: 'hall8',
+		src: '/gallery/hall8.jpg',
+		album: 'დარბაზი',
+	},
+	{
+		id: 'hall9',
+		src: '/gallery/hall9.jpg',
+		album: 'დარბაზი',
+	},
+	{
+		id: 'hall10',
+		src: '/gallery/hall10.jpg',
+		album: 'დარბაზი',
+	},
+	// {
+	// 	id: 'v1',
+	// 	type: 'video',
+	// 	src: '/videos/gallery/first_dance.mp4',
+	// 	poster: '/images/gallery/events/poster.jpg',
+	// 	w: 1920,
+	// 	h: 1080,
+	// 	album: 'ივენთები',
+	// },
 ]
 
 // ---------- TEXTS (без intl, обычный объект)

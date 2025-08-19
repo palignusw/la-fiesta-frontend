@@ -14,14 +14,12 @@ export default function Lightbox({
 	start?: number
 	onClose: () => void
 }) {
-	// фильтруем сразу, но без раннего return
 	const safeItems = useMemo(() => items.filter(i => !!i.src), [items])
 
 	const clamp = (n: number) =>
 		Math.max(0, Math.min(n, Math.max(safeItems.length - 1, 0)))
 	const [i, setI] = useState(() => clamp(start))
 
-	// если длина изменилась (сменили альбом) — корректируем индекс
 	useEffect(() => {
 		setI(prev => clamp(prev))
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -42,8 +40,6 @@ export default function Lightbox({
 	)
 
 	const cur = safeItems[i]
-
-	// клавиатура + запрет скролла
 	useEffect(() => {
 		const onKey = (e: KeyboardEvent) => {
 			if (e.key === 'Escape') onClose()
@@ -65,7 +61,6 @@ export default function Lightbox({
 		}
 	}, [onClose, prev, next])
 
-	// свайп на мобилке
 	const touchX = useRef<number | null>(null)
 	const onTouchStart = (e: React.TouchEvent) => {
 		touchX.current = e.touches[0].clientX
@@ -77,7 +72,6 @@ export default function Lightbox({
 		touchX.current = null
 	}
 
-	// РЕНДЕР-ГУАРДЫ — только теперь (после хуков)
 	if (safeItems.length === 0 || !cur?.src) return null
 
 	return (
@@ -110,12 +104,13 @@ export default function Lightbox({
 						›
 					</button>
 
+					{/* ВАЖНО: fill + object-fit: contain — ничего не режем */}
 					<Image
 						src={cur.src}
 						alt={cur.alt ?? 'Gallery image'}
-						width={cur.w || 1600}
-						height={cur.h || 1067}
-						sizes='100vw'
+						fill
+						sizes='(max-width: 700px) 90vw, 600px'
+						className={s.fitContain}
 						priority
 					/>
 				</div>
