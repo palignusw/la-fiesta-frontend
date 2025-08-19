@@ -1,7 +1,7 @@
 
 import type { MetadataRoute } from 'next'
 
-const site = 'https://la-fiesta-frontend.vercel.app/' // ← твой прод-домен
+const site = 'https://lafiesta.ge' // ← твой прод-домен
 
 export default function robots(): MetadataRoute.Robots {
 	return {

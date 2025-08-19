@@ -4,7 +4,7 @@ import Footer from '@/components/Footer/Footer'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-	metadataBase: new URL('https://la-fiesta-frontend.vercel.app/'),
+	metadataBase: new URL('https://lafiesta.ge'),
 	title: {
 		default: 'ლა ფიესტა (La Fiesta) — საქორწილო/ბანკეტის დარბაზი მარტვილში',
 		template: '%s | ლა ფიესტა (La Fiesta)',
@@ -61,7 +61,7 @@ const jsonLd = {
 	'@context': 'https://schema.org',
 	'@type': 'LocalBusiness',
 	name: 'La Fiesta',
-	url: 'https://la-fiesta-frontend.vercel.app/',
+	url: 'https://lafiesta.ge',
 	telephone: '+995599435644',
 	address: {
 		'@type': 'PostalAddress',
