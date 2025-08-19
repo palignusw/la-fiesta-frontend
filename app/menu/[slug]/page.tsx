@@ -3,9 +3,72 @@ import Link from 'next/link'
 import { packages } from '@/lib/content'
 import SectionSpy from '@/components/SectionSpy/SectionSpy'
 import s from './page.module.scss'
+import type { Metadata } from 'next' // ← добавили только этот импорт
 
 type Params = { slug: string }
 type Search = { [key: string]: string | string[] | undefined }
+
+/* === ДОБАВКА: пер-страничные метаданные, остальное не трогаем === */
+export async function generateMetadata({
+	params,
+}: {
+	params: Promise<{ slug: string }>
+}): Promise<Metadata> {
+	const { slug } = await params
+	const pkg = packages.find(p => p.slug === slug)
+
+	if (!pkg) {
+		return {
+			title: 'პაკეტი ვერ მოიძებნა | ლა ფიესტა (La Fiesta)',
+			description: 'საჩვენებელი პაკეტი ვერ მოიძებნა.',
+			alternates: { canonical: `/menu/${slug}` },
+			openGraph: {
+				title: 'პაკეტი ვერ მოიძებნა | ლა ფიესტა (La Fiesta)',
+				description: 'საჩვენებელი პაკეტი ვერ მოიძებნა.',
+				url: `/menu/${slug}`,
+				images: [
+					{
+						url: '/og/cover.jpg',
+						width: 1200,
+						height: 630,
+						alt: 'ლა ფიესტა (La Fiesta)',
+					},
+				],
+				type: 'article',
+				locale: 'ka_GE',
+				siteName: 'ლა ფიესტა (La Fiesta)',
+			},
+			// можно и keywords тут опустить — не обязательно
+		}
+	}
+
+	const title = `${pkg.name} — ლა ფიესტა (La Fiesta)`
+	const description = `${pkg.name} · ${pkg.price} ₾ · ${pkg.perPersonLabel}`
+
+	return {
+		title,
+		description,
+		alternates: { canonical: `/menu/${slug}` },
+		openGraph: {
+			title,
+			description,
+			url: `/menu/${slug}`,
+			images: [
+				{
+					url: '/og/cover.jpg',
+					width: 1200,
+					height: 630,
+					alt: 'ლა ფიესტა (La Fiesta)',
+				},
+			],
+			type: 'article',
+			locale: 'ka_GE',
+			siteName: 'ლა ფიესტა (La Fiesta)',
+		},
+		keywords: ['ბანკეტი', 'მენიუ', 'საქორწილო დარბაზი', 'თბილისი', pkg.name],
+	}
+}
+/* === КОНЕЦ ДОБАВКИ === */
 
 export default async function PackagePage({
 	params,

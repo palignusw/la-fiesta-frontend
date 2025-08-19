@@ -1,10 +1,94 @@
 import Header from '@/components/Header/Header'
 import './globals.css'
 import Footer from '@/components/Footer/Footer'
+import { Metadata } from 'next'
 
-export const metadata = {
-	title: 'La Fiesta — საქორწილო დარბაზი',
-	description: 'ელეგანტური ბანკეტები და უმაღლესი მომსახურება',
+export const metadata: Metadata = {
+	metadataBase: new URL('https://la-fiesta-frontend.vercel.app/'),
+	title: {
+		default: 'ლა ფიესტა (La Fiesta) — საქორწილო/ბანკეტის დარბაზი მარტვილში',
+		template: '%s | ლა ფიესტა (La Fiesta)',
+	},
+	description:
+		'ელეგანტური ბანკეტები, ქორწილები და უმაღლესი მომსახურება მარტვილში — ლა ფიესტა (La Fiesta).',
+	keywords: [
+		'ლა ფიესტა',
+		'La Fiesta',
+		'ბანკეტი',
+		'საქორწილო დარბაზი',
+		'მარტვილი',
+		'ქორწილი',
+		'ნათლობა',
+		'გასვენების სუფრა',
+		'ორმოცის სუფრა',
+		'წლისთავის სუფრა',
+		'წლისთავი',
+		'ორმოცი',
+	],
+	alternates: { canonical: '/' },
+	openGraph: {
+		type: 'website',
+		url: '/',
+		siteName: 'ლა ფიესტა (La Fiesta)',
+		title: 'ლა ფიესტა (La Fiesta) — საქორწილო/ბანკეტის დარბაზი მარტვილში',
+		description:
+			'ელეგანტური ბანკეტები, ქორწილები და უმაღლესი მომსახურება მარტვილში.',
+		images: [
+			{
+				url: '/hero/hall.png',
+				width: 1200,
+				height: 630,
+				alt: 'ლა ფიესტა (La Fiesta)',
+			},
+		],
+		locale: 'ka_GE',
+	},
+	twitter: {
+		card: 'summary_large_image',
+		title: 'ლა ფიესტა (La Fiesta) — ბანკეტის დარბაზი მარტვილში',
+		description: 'ელეგანტური ბანკეტები და უმაღლესი მომსახურება.',
+		images: ['/hero/hall.png'],
+	},
+	robots: { index: true, follow: true },
+	icons: {
+		icon: '/brand/la-fiesta-logo.png',
+		shortcut: '/favicon.ico',
+		apple: '/apple-touch-icon.png',
+	},
+}
+
+const jsonLd = {
+	'@context': 'https://schema.org',
+	'@type': 'LocalBusiness',
+	name: 'La Fiesta',
+	url: 'https://la-fiesta-frontend.vercel.app/',
+	telephone: '+995599435644',
+	address: {
+		'@type': 'PostalAddress',
+		addressLocality: 'მარტვილი',
+		addressCountry: 'GE',
+	},
+	openingHoursSpecification: [
+		{
+			'@type': 'OpeningHoursSpecification',
+			dayOfWeek: [
+				'Monday',
+				'Tuesday',
+				'Wednesday',
+				'Thursday',
+				'Friday',
+				'Saturday',
+				'Sunday',
+			],
+			opens: '11:00',
+			closes: '02:00',
+		},
+	],
+	sameAs: [
+		'https://www.tiktok.com/@la_fiesta2022',
+		'https://www.facebook.com/profile.php?id=100083011586797',
+	],
+	image: ['https://lafiestamartvili.ge/hero/hall.png'],
 }
 
 export default function RootLayout({
