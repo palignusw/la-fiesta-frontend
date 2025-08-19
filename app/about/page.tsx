@@ -40,7 +40,7 @@ export default function AboutPage() {
 				<div className={s.cta}>
 					<h4 className={s.ctaTitle}>{t.ctaTitle}</h4>
 					<p className={s.ctaText}>{t.ctaText}</p>
-					<Link href='/booking' className={s.btn}>
+					<Link href='/contacts' className={s.btn}>
 						{t.ctaButton}
 					</Link>
 				</div>
