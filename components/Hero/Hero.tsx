@@ -1,9 +1,15 @@
 import s from './Hero.module.scss'
 import Image from 'next/image'
 import Link from 'next/link'
+import WeddingsCounter from '@/components/WeddingsCounter/WeddingsCounter'
 
-export default function Hero() {
-	// Прямой текст без i18n
+export default function Hero({
+	weddingsTotal,
+	weddingsTotalText,
+}: {
+	weddingsTotal: number
+	weddingsTotalText: string
+}) {
 	const t = {
 		title: 'La Fiesta — საქორწილო დარბაზი მარტვილში',
 		subtitle: 'ელეგანტური ბანკეტები და უმაღლესი მომსახურება',
@@ -16,9 +22,9 @@ export default function Hero() {
 			<div className='container'>
 				<div className={s.row}>
 					<div>
-						<p className={s.kicker}>მუკავშირდით შეუსახებად</p>
 						<h1 className={s.title}>{t.title}</h1>
 						<p className={s.subtitle}>{t.subtitle}</p>
+
 						<div className={s.actions}>
 							<Link href='/menu' className='btn'>
 								{t.seeMenu}
@@ -26,6 +32,14 @@ export default function Hero() {
 							<Link href='/contacts' className='btn outline'>
 								{t.book}
 							</Link>
+						</div>
+
+						{/* Счётчик сразу под кнопками */}
+						<div className={s.stats}>
+							<WeddingsCounter
+								initial={weddingsTotal}
+								initialText={weddingsTotalText}
+							/>
 						</div>
 					</div>
 

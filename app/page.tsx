@@ -3,6 +3,8 @@ import Hero from '@/components/Hero/Hero'
 import PackageGrid from '@/components/Menu/PackageGrid'
 import Section from '@/components/Section/Section'
 import { packages } from '@/lib/content'
+import { promises as fs } from 'fs'
+import path from 'path'
 
 export const metadata: Metadata = {
 	title: 'ლა ფიესტა (La Fiesta) — საქორწილო და ბანკეტის დარბაზი მარტვილში',
@@ -46,10 +48,22 @@ export const metadata: Metadata = {
 	],
 }
 
-export default function HomePage() {
+async function getStats() {
+	const raw = await fs.readFile(
+		path.join(process.cwd(), 'public', 'stats.json'),
+		'utf8'
+	)
+	const { weddingsTotal = 0 } = JSON.parse(raw)
+	// Сразу форматируем как строку для SSR-рендера
+	const formatted = weddingsTotal.toLocaleString('ka-GE')
+	return { weddingsTotal, formatted }
+}
+
+export default async function HomePage() {
+	const { weddingsTotal, formatted } = await getStats()
 	return (
 		<>
-			<Hero />
+			<Hero weddingsTotal={weddingsTotal} weddingsTotalText={formatted} />
 			<Section
 				title='ბანკეტის პაკეტები'
 				subtitle='აირჩიეთ შესაბამისი შეთავაზება'

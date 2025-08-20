@@ -58,3 +58,21 @@
 		height: 240px;
 	}
 }
+.actions {
+	display: flex;
+	gap: 12px;
+	flex-wrap: wrap;
+}
+
+.stats {
+	margin-top: 14px; /* отступ от кнопок */
+	display: flex;
+	align-items: center;
+}
+
+/* мобильная адаптация уже есть; при надобности центрируем */
+@media (max-width: 900px) {
+	.stats {
+		justify-content: flex-start;
+	} /* или center */
+}
