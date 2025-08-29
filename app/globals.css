@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;600;700&display=swap');
 
-/* ——— Токены ——— */
 :root {
 	--bg: #fffcf5;
 	--text: #222;
@@ -11,7 +10,6 @@
 	--container: 1200px;
 }
 
-/* ——— База ——— */
 * {
 	box-sizing: border-box;
 }
@@ -31,7 +29,6 @@ body {
 	-webkit-font-smoothing: antialiased;
 }
 
-/* тёплая виньетка, как мы делали */
 body::before {
 	content: '';
 	position: fixed;
@@ -70,7 +67,6 @@ svg {
 	}
 }
 
-/* ——— Кнопки ——— */
 .btn {
 	display: inline-flex;
 	align-items: center;
@@ -98,11 +94,10 @@ svg {
 	outline-offset: 2px;
 }
 
-/* ——— Полезные мелочи ——— */
 ::selection {
 	background: #efe4cf;
 	color: var(--text);
-} /* красивое выделение */
+} 
 .visually-hidden {
 	position: absolute !important;
 	width: 1px;

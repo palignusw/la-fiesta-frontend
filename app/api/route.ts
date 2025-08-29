@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { packages } from '@/lib/content'
 import { z } from 'zod'
 
-export const runtime = 'nodejs' // важно для Vercel, чтобы были серверные логи
+export const runtime = 'nodejs'
 
 const EVENT_TYPES = [
 	'ქორწილი',
@@ -15,10 +15,10 @@ const EVENT_TYPES = [
 const BookingSchema = z.object({
 	name: z.string().min(2).max(120),
 	phone: z.string().min(5).max(40),
-	date: z.string().optional(), // 'YYYY-MM-DD'
+	date: z.string().optional(),
 	guests: z.number().int().min(1).max(1000).optional(),
 	message: z.string().max(1000).optional(),
-	company: z.string().max(0).optional(), // honeypot
+	company: z.string().max(0).optional(),
 	packageSlug: z
 		.string()
 		.refine(v => packages.some(p => p.slug === v), 'invalid package'),
@@ -67,7 +67,6 @@ async function sendTelegram(html: string, subject: string) {
 	return { ok: true as const }
 }
 
-// (опционально) отправка письма через Resend
 async function sendEmail(subject: string, html: string) {
 	const resendKey = process.env.RESEND_API_KEY
 	const toEmail = process.env.BOOKINGS_EMAIL_TO
@@ -90,7 +89,7 @@ async function sendEmail(subject: string, html: string) {
 }
 
 export async function POST(req: NextRequest) {
-	const reqId = Math.random().toString(36).slice(2, 8) // чтобы проще искать логи
+	const reqId = Math.random().toString(36).slice(2, 8)
 	try {
 		const raw = await req.json()
 		console.log(`[API ${reqId}] incoming`, raw)
@@ -110,7 +109,6 @@ export async function POST(req: NextRequest) {
 
 		const data = parsed.data
 
-		// honeypot: если боты заполнили поле, тихо отвечаем ОК и ничего не отправляем
 		if (data.company && data.company.length > 0) {
 			console.log(`[API ${reqId}] honeypot triggered, skip sending`)
 			return NextResponse.json({ ok: true, skipped: 'HONEYPOT' })
@@ -134,15 +132,13 @@ export async function POST(req: NextRequest) {
 				? `<b>შეტყობინება:</b><br/>${data.message.replace(/\n/g, '<br/>')}`
 				: '')
 
-		// 1) Telegram
 		const tg = await sendTelegram(html, subject)
 
-		// 2) Email (опционально)
+		//  Email
 		const email = await sendEmail(subject, html)
 
 		console.log(`[API ${reqId}] result`, { tg, email })
 		if (!tg.ok) {
-			// вернём 207 Multi-Status? оставим 200, но с деталями — на фронте покажешь предупреждение
 			return NextResponse.json(
 				{ ok: false, channel: { tg, email } },
 				{ status: 500 }

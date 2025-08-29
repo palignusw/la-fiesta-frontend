@@ -3,12 +3,11 @@ import Link from 'next/link'
 import { packages } from '@/lib/content'
 import SectionSpy from '@/components/SectionSpy/SectionSpy'
 import s from './page.module.scss'
-import type { Metadata } from 'next' // ← добавили только этот импорт
+import type { Metadata } from 'next'
 
 type Params = { slug: string }
 type Search = { [key: string]: string | string[] | undefined }
 
-/* === ДОБАВКА: пер-страничные метаданные, остальное не трогаем === */
 export async function generateMetadata({
 	params,
 }: {
@@ -38,7 +37,6 @@ export async function generateMetadata({
 				locale: 'ka_GE',
 				siteName: 'ლა ფიესტა (La Fiesta)',
 			},
-			// можно и keywords тут опустить — не обязательно
 		}
 	}
 
@@ -68,7 +66,6 @@ export async function generateMetadata({
 		keywords: ['ბანკეტი', 'მენიუ', 'საქორწილო დარბაზი', 'თბილისი', pkg.name],
 	}
 }
-/* === КОНЕЦ ДОБАВКИ === */
 
 export default async function PackagePage({
 	params,

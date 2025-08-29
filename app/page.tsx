@@ -54,7 +54,6 @@ async function getStats() {
 		'utf8'
 	)
 	const { weddingsTotal = 0 } = JSON.parse(raw)
-	// Сразу форматируем как строку для SSR-рендера
 	const formatted = weddingsTotal.toLocaleString('ka-GE')
 	return { weddingsTotal, formatted }
 }

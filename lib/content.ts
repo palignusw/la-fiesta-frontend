@@ -53,7 +53,7 @@ export const packages: MenuPackage[] = [
 					'ქათმის სალათი',
 					'ცეზარის სალათი',
 					'სოკო კეცზე',
-					'ყველის ასორტი (სულგუნи, შებოლილი სულგუნი, სულგუნის ფირფიტები ხაჭოთი)',
+					'ყველის ასორტი (სულგუნი, შებოლილი სულგუნი, სულგუნის ფირფიტები ხაჭოთი)',
 					'გებჟალია',
 					'მეგრული ხაჭაპური',
 					'აჩმა',
@@ -127,7 +127,7 @@ export const packages: MenuPackage[] = [
 			},
 			{ title: 'დესერტი', items: ['ნამცხვარი', 'ქიშმიში-მიწისთხილი'] },
 			{
-				title: 'პური და წყლისფაფა',
+				title: 'პური',
 				items: ['შოთის პური', 'მჭადი', 'ღომი', 'ელარჯი'],
 			},
 			{ title: 'საწებელი', items: ['ტყემალი', 'საწებელი პომიდვრის'] },
@@ -147,15 +147,13 @@ export const packages: MenuPackage[] = [
 	},
 ]
 
-// Вспомогалка
 export const getPackageBySlug = (slug: MenuPackage['slug']) =>
 	packages.find(p => p.slug === slug)
 
-// ---------- GALLERY
 export type MediaType = 'image' | 'video'
 export type MediaItem = {
 	id: string
-	src: string // путь в /public
+	src: string 
 	w?: number
 	h?: number
 	album: 'დარბაზი' | 'დეკორი' | 'საჭმელი' | 'ივენთები'
@@ -237,7 +235,6 @@ export const media: MediaItem[] = [
 	// },
 ]
 
-// ---------- TEXTS (без intl, обычный объект)
 export const texts = {
 	About: {
 		title: 'ჩვენ შესახებ',

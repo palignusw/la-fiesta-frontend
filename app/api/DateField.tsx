@@ -5,9 +5,9 @@ import { useEffect, useRef } from 'react'
 import s from '../../components/Booking/BookingForm.module.scss'
 
 type Props = {
-	name: string // имя поля (в форму уйдёт YYYY-MM-DD)
+	name: string 
 	placeholder?: string
-	defaultValue?: string // формата 'YYYY-MM-DD'
+	defaultValue?: string
 	minDate?: Date
 	error?: string | false
 	onChange?: (value: string) => void
@@ -29,7 +29,6 @@ export default function DateField({
 		let mounted = true
 
 		;(async () => {
-			// ВАЖНО: именно так достаём default, чтобы он был «вызываемым»
 			const [{ default: flatpickr }, { Georgian }] = await Promise.all([
 				import('flatpickr'),
 				import('flatpickr/dist/l10n/ka.js'),
@@ -37,15 +36,14 @@ export default function DateField({
 
 			if (!mounted || !inputRef.current) return
 
-			// локаль
 			flatpickr.localize(Georgian)
 
 			const inst = flatpickr(inputRef.current, {
 				disableMobile: true,
-				dateFormat: 'Y-m-d', // значение, которое уходит на сервер
-				altInput: true, // красивый видимый input
-				altFormat: 'd.m.Y', // формат для пользователя
-				altInputClass: s.dateAlt, // класс на alt-input из CSS-модуля
+				dateFormat: 'Y-m-d', 
+				altInput: true,
+				altFormat: 'd.m.Y', 
+				altInputClass: s.dateAlt,
 				defaultDate: defaultValue,
 				minDate,
 				clickOpens: true,

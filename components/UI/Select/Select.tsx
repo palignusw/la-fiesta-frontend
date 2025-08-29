@@ -30,7 +30,6 @@ export default function Select({
 	className,
 	required,
 }: Props) {
-	// если есть placeholder и селект неконтролируемый — показываем его как дефолт
 	const computedDefault =
 		value === undefined && defaultValue === undefined && placeholder
 			? ''

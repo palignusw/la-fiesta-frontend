@@ -5,7 +5,7 @@ import s from './WeddingsCounter.module.scss'
 
 export default function WeddingsCounter({
 	initial,
-	initialText, // ← строка, отрендеренная сервером
+	initialText,
 	className,
 	animate = true,
 }: {
@@ -17,7 +17,6 @@ export default function WeddingsCounter({
 	const ref = useRef<HTMLSpanElement | null>(null)
 
 	useEffect(() => {
-		// уважим системную настройку «уменьшить анимацию»
 		const prefersReduce =
 			typeof window !== 'undefined' &&
 			window.matchMedia &&
@@ -39,7 +38,6 @@ export default function WeddingsCounter({
 			if (p < 1) requestAnimationFrame(step)
 		}
 
-		// Запускаем уже после первого кадра — но цифра уже видна (SSR-текст)
 		el.textContent = fmt.format(from)
 		requestAnimationFrame(step)
 	}, [initial, animate])
