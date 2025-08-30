@@ -1,6 +1,3 @@
-// lib/content.ts
-
-// ---------- MENU (пакеты)
 export type MenuSection = { title: string; items: string[] }
 export type MenuPackage = {
 	slug: '65gel' | '85gel'
@@ -153,7 +150,7 @@ export const getPackageBySlug = (slug: MenuPackage['slug']) =>
 export type MediaType = 'image' | 'video'
 export type MediaItem = {
 	id: string
-	src: string 
+	src: string
 	w?: number
 	h?: number
 	album: 'დარბაზი' | 'დეკორი' | 'საჭმელი' | 'ივენთები'
@@ -170,10 +167,6 @@ export const albums = [
 ] as const
 
 export const media: MediaItem[] = [
-	{ id: 'h1', src: '/hero/hall.png', w: 1600, h: 1067, album: 'დარბაზი' },
-	{ id: 'h2', src: '/hero/hall.png', w: 1600, h: 1000, album: 'დარბაზი' },
-	{ id: 'd1', src: '/hero/hall.png', w: 1200, h: 1500, album: 'დეკორი' },
-	{ id: 'f1', src: '/hero/hall.png', w: 1400, h: 933, album: 'საჭმელი' },
 	{
 		id: 'hall1',
 		src: '/gallery/hall1.jpg',

@@ -5,11 +5,11 @@ import s from './DateFancy.module.scss'
 
 type Props = {
 	name?: string
-	label?: string // напр.: 'თარიღი'
-	min?: string // YYYY-MM-DD
+	label?: string 
+	min?: string 
 	max?: string
 	error?: string
-	note?: string // подсказка под полем (мобила)
+	note?: string
 	defaultValue?: string
 	onChange?: (value: string) => void
 }
@@ -54,7 +54,7 @@ export default function DateFancy({
 				<input
 					id={id}
 					type='date'
-					lang='ka' // фиксируем грузинский
+					lang='ka'
 					name={name}
 					min={min}
 					max={max}

@@ -6,11 +6,11 @@ import DateFancy from './DateFancy'
 
 type Props = {
 	name?: string
-	label?: string // например: 'თარიღი'
-	min?: string // YYYY-MM-DD
-	max?: string // YYYY-MM-DD
+	label?: string 
+	min?: string 
+	max?: string 
 	error?: string
-	note?: string // подсказка (покажем только на мобиле)
+	note?: string 
 	defaultValue?: string
 	onChange?: (value: string) => void
 }
@@ -21,7 +21,7 @@ function NativeDate({ name = 'date', min, max, error, defaultValue }: Props) {
 			<input
 				type='date'
 				name={name}
-				lang='ka' // всегда грузинский
+				lang='ka'
 				min={min}
 				max={max}
 				defaultValue={defaultValue}
@@ -38,9 +38,9 @@ export default function DateResponsive(props: Props) {
 	useEffect(() => {
 		const mq = window.matchMedia('(max-width: 640px)')
 		const onChange = () => setIsMobile(mq.matches)
-		onChange() // сразу установим текущее состояние
+		onChange() 
 		mq.addEventListener?.('change', onChange)
-		mq.addListener && mq.addListener(onChange) // для старых браузеров
+		mq.addListener && mq.addListener(onChange)
 		return () => {
 			mq.removeEventListener?.('change', onChange)
 			mq.removeListener && mq.removeListener(onChange)

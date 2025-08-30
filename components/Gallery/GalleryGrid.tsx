@@ -18,26 +18,22 @@ export default function GalleryGrid({
 	const [active, setActive] = useState<MediaItem['album'] | 'all'>('all')
 	const [lbIndex, setLbIndex] = useState<number | null>(null)
 
-	// Текущий набор карточек
 	const filtered = useMemo(
 		() => (active === 'all' ? items : items.filter(i => i.album === active)),
 		[items, active]
 	)
 
-	// Только изображения для лайтбокса
 	const images = useMemo(
 		() => filtered.filter(i => i.type !== 'video'),
 		[filtered]
 	)
 
-	// Быстрый поиск: id -> индекс в массиве images
 	const imageIndexById = useMemo(() => {
 		const map = new Map<string, number>()
 		images.forEach((it, idx) => map.set(it.id, idx))
 		return map
 	}, [images])
 
-	// Сменили альбом — закрываем лайтбокс
 	useEffect(() => {
 		setLbIndex(null)
 	}, [active])

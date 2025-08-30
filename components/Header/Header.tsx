@@ -10,12 +10,10 @@ export default function Header() {
 	const [open, setOpen] = useState(false)
 	const pathname = usePathname()
 
-	// Закрывать меню при смене маршрута
 	useEffect(() => {
 		setOpen(false)
 	}, [pathname])
 
-	// Блокировать скролл подложки
 	useEffect(() => {
 		if (open) {
 			const prev = document.body.style.overflow
@@ -26,7 +24,6 @@ export default function Header() {
 		}
 	}, [open])
 
-	// Закрытие по ESC
 	useEffect(() => {
 		const onKey = (e: KeyboardEvent) => {
 			if (e.key === 'Escape') setOpen(false)
@@ -110,10 +107,10 @@ export default function Header() {
 					</Link>
 				</nav>
 				<div className={s.mobileFooter}>
-					<Link href='tel:+9955XXXXXXXX' className='btn'>
+					<Link href='tel:+995599435644' className='btn'>
 						დარეკვა
 					</Link>
-					<Link href='https://wa.me/9955XXXXXXXX' className='btn btn--outline'>
+					<Link href='https://wa.me/995599435644' className='btn btn--outline'>
 						WhatsApp
 					</Link>
 				</div>
