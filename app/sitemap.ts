@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next'
-const site = 'https://lafiestamartvili.ge'
+const site = 'https://lafiesta.ge'
 
 export default function sitemap(): MetadataRoute.Sitemap {
 	return [
