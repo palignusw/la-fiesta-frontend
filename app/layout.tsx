@@ -50,11 +50,6 @@ export const metadata: Metadata = {
 		images: ['/hero/hall.png'],
 	},
 	robots: { index: true, follow: true },
-	icons: {
-		icon: '/brand/la-fiesta-logo.png',
-		shortcut: '/favicon.ico',
-		apple: '/apple-touch-icon.png',
-	},
 }
 
 const jsonLd = {
