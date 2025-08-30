@@ -51,6 +51,7 @@ export default function Header() {
 					<Link href='/menu'>{'მენიუ'}</Link>
 					<Link href='/gallery'>{'გალერეა'}</Link>
 					<Link href='/about'>{'ჩვენ შესახებ'}</Link>
+					<Link href='/location'>{'ლოკაცია'}</Link>
 				</nav>
 
 				{/* Десктоп-кнопка */}
@@ -104,6 +105,9 @@ export default function Header() {
 					</Link>
 					<Link href='/contacts' onClick={() => setOpen(false)}>
 						{'კონტაქტი'}
+					</Link>
+					<Link href='/location' onClick={() => setOpen(false)}>
+						{'ლოკაცია'}
 					</Link>
 				</nav>
 				<div className={s.mobileFooter}>
