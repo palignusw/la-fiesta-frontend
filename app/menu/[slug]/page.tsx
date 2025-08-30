@@ -63,7 +63,7 @@ export async function generateMetadata({
 			locale: 'ka_GE',
 			siteName: 'ლა ფიესტა (La Fiesta)',
 		},
-		keywords: ['ბანკეტი', 'მენიუ', 'საქორწილო დარბაზი', 'თბილისი', pkg.name],
+		keywords: ['ბანკეტი', 'მენიუ', 'საქორწილო დარბაზი', 'მარტვილი', pkg.name],
 	}
 }
 

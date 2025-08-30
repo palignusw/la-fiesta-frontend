@@ -28,14 +28,14 @@ export const metadata: Metadata = {
 	alternates: { canonical: '/' },
 	openGraph: {
 		type: 'website',
-		url: '/',
+		url: 'https://lafiesta.ge',
 		siteName: 'ლა ფიესტა (La Fiesta)',
 		title: 'ლა ფიესტა (La Fiesta) — საქორწილო/ბანკეტის დარბაზი მარტვილში',
 		description:
 			'ელეგანტური ბანკეტები, ქორწილები და უმაღლესი მომსახურება მარტვილში.',
 		images: [
 			{
-				url: '/hero/hall.png',
+				url: 'https://lafiesta.ge/hero/hall.png',
 				width: 1200,
 				height: 630,
 				alt: 'ლა ფიესტა (La Fiesta)',
@@ -54,15 +54,19 @@ export const metadata: Metadata = {
 
 const jsonLd = {
 	'@context': 'https://schema.org',
-	'@type': 'LocalBusiness',
+	'@type': ['EventVenue', 'Restaurant'],
 	name: 'La Fiesta',
 	url: 'https://lafiesta.ge',
 	telephone: '+995599435644',
+	priceRange: '₾₾',
+	acceptsReservations: true,
 	address: {
 		'@type': 'PostalAddress',
 		addressLocality: 'მარტვილი',
+		addressRegion: 'Samegrelo-Zemo Svaneti',
 		addressCountry: 'GE',
 	},
+	geo: { '@type': 'GeoCoordinates', latitude: 42.43033, longitude: 42.38122 }, // если знаешь, подставь точные
 	openingHoursSpecification: [
 		{
 			'@type': 'OpeningHoursSpecification',
@@ -83,7 +87,8 @@ const jsonLd = {
 		'https://www.tiktok.com/@la_fiesta2022',
 		'https://www.facebook.com/profile.php?id=100083011586797',
 	],
-	image: ['https://lafiestamartvili.ge/hero/hall.png'],
+	image: ['https://lafiesta.ge/hero/hall.png'],
+	menu: 'https://lafiesta.ge/menu',
 }
 
 export default function RootLayout({
@@ -93,6 +98,13 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang='ka'>
+			<head>
+				<script
+					type='application/ld+json'
+					suppressHydrationWarning
+					dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+				/>
+			</head>
 			<body>
 				<Header />
 				<main>{children}</main>
