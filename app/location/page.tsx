@@ -5,9 +5,7 @@ import s from './page.module.scss'
 const LAT = 42.43033
 const LNG = 42.38122
 
-// Встроенная карта (без API-ключа)
 const MAP_EMBED = `https://www.google.com/maps?&q=${LAT},${LNG}&z=16&hl=ka&output=embed`
-// Прямая ссылка «Открыть в Google Maps»
 const MAP_LINK = `https://www.google.com/maps/search/?api=1&query=${LAT},${LNG}`
 
 export const metadata: Metadata = {
@@ -45,7 +43,6 @@ export default function LocationPage() {
 				</p>
 			</div>
 
-			{/* Карта */}
 			<div className='container'>
 				<div className={s.mapWrap} aria-label='Google Map'>
 					<iframe
@@ -59,7 +56,6 @@ export default function LocationPage() {
 				</div>
 			</div>
 
-			{/* Информация и действия */}
 			<div className='container'>
 				<div className={s.info}>
 					<div className={s.card}>
