@@ -2,9 +2,13 @@ export const GA_ID = process.env.NEXT_PUBLIC_GA_ID || ''
 
 declare global {
 	interface Window {
-		dataLayer?: unknown[] 
+		dataLayer?: unknown[]
 		gtag?: (...args: [string, string, Record<string, unknown>?]) => void
 	}
+}
+export const event = (action: string, params: Record<string, unknown> = {}) => {
+	if (!GA_ID || typeof window.gtag === 'undefined') return
+	window.gtag('event', action, params)
 }
 
 export const pageview = (url: string) => {

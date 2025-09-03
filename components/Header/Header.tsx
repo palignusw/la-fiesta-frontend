@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import s from './Header.module.scss'
+import { trackLink } from '@/lib/trackLink'
 
 export default function Header() {
 	const [open, setOpen] = useState(false)
@@ -111,12 +112,33 @@ export default function Header() {
 					</Link>
 				</nav>
 				<div className={s.mobileFooter}>
-					<Link href='tel:+995599435644' className='btn'>
+					<a
+						href='tel:+995599435644'
+						className='btn'
+						onClick={() =>
+							trackLink('click_phone', {
+								value: '+995599435644',
+								place: 'header_mobile',
+							})
+						}
+					>
 						დარეკვა
-					</Link>
-					<Link href='https://wa.me/995599435644' className='btn btn--outline'>
+					</a>
+
+					<a
+						href='https://wa.me/995599435644'
+						className='btn btn--outline'
+						target='_blank'
+						rel='noopener noreferrer'
+						onClick={() =>
+							trackLink('click_whatsapp', {
+								value: 'https://wa.me/995599435644',
+								place: 'header_mobile',
+							})
+						}
+					>
 						WhatsApp
-					</Link>
+					</a>
 				</div>
 			</aside>
 		</header>

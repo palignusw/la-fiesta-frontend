@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
 import s from './page.module.scss'
+import TrackAnchor from '@/components/TrackAnchor'
 
 const LAT = 42.43033
 const LNG = 42.38122
@@ -66,22 +66,29 @@ export default function LocationPage() {
 					<div className={s.card}>
 						<h3 className={s.cardTitle}>ტელეფონი</h3>
 						<p className={s.text}>
-							<a href='tel:+995599435644' className={s.link}>
+							<TrackAnchor
+								href='tel:+995599435644'
+								className={s.link}
+								action='click_phone'
+								params={{ value: '+995599435644', place: 'location_page' }}
+							>
 								+995 599 43 56 44
-							</a>
+							</TrackAnchor>
 						</p>
 					</div>
 
 					<div className={s.card}>
 						<h3 className={s.cardTitle}>მარშრუტი</h3>
-						<Link
+						<TrackAnchor
 							href={MAP_LINK}
 							target='_blank'
 							rel='noopener noreferrer'
 							className={`btn ${s.btnShine} ${s.submit}`}
+							action='click_route'
+							params={{ value: MAP_LINK, place: 'location_page' }}
 						>
 							გახსენი Google Maps-ში
-						</Link>
+						</TrackAnchor>
 					</div>
 				</div>
 			</div>
