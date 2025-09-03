@@ -2,6 +2,9 @@ import Header from '@/components/Header/Header'
 import './globals.css'
 import Footer from '@/components/Footer/Footer'
 import { Metadata } from 'next'
+import Script from 'next/script'
+import Analytics from './analytics'
+import { Suspense } from 'react'
 
 export const metadata: Metadata = {
 	metadataBase: new URL('https://lafiesta.ge'),
@@ -91,21 +94,45 @@ const jsonLd = {
 	menu: 'https://lafiesta.ge/menu',
 }
 
+
 export default function RootLayout({
 	children,
 }: {
 	children: React.ReactNode
 }) {
+	const GA_ID = process.env.NEXT_PUBLIC_GA_ID
+
 	return (
 		<html lang='ka'>
 			<head>
+				{/* JSON-LD */}
 				<script
 					type='application/ld+json'
 					suppressHydrationWarning
 					dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
 				/>
+				{/* GA4 скрипты */}
+				{GA_ID && (
+					<>
+						<Script
+							src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+							strategy='afterInteractive'
+						/>
+						<Script id='ga4-init' strategy='afterInteractive'>
+							{`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${GA_ID}', { page_path: window.location.pathname });
+              `}
+						</Script>
+					</>
+				)}
 			</head>
 			<body>
+				<Suspense fallback={null}>
+					<Analytics />
+				</Suspense>
 				<Header />
 				<main>{children}</main>
 				<Footer />
