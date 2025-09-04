@@ -1,6 +1,6 @@
 export type MenuSection = { title: string; items: string[] }
 export type MenuPackage = {
-	slug: '65gel' | '85gel'
+	slug: '40gel' | '70gel' | '90gel'
 	name: string
 	price: number
 	perPersonLabel: string
@@ -10,9 +10,9 @@ export type MenuPackage = {
 
 export const packages: MenuPackage[] = [
 	{
-		slug: '85gel',
-		name: '85 ₾ პაკეტი',
-		price: 85,
+		slug: '90gel',
+		name: '90 ₾ პაკეტი',
+		price: 90,
 		perPersonLabel: 'ფასი ერთ სტუმარზე',
 		highlights: [
 			'ცხელი კერძები',
@@ -84,9 +84,9 @@ export const packages: MenuPackage[] = [
 		],
 	},
 	{
-		slug: '65gel',
-		name: '65 ₾ პაკეტი',
-		price: 65,
+		slug: '70gel',
+		name: '70 ₾ პაკეტი',
+		price: 70,
 		perPersonLabel: 'ფასი ერთ სტუმარზე',
 		highlights: [
 			'ცხელი კერძები',
@@ -136,6 +136,53 @@ export const packages: MenuPackage[] = [
 					'ნაბეღლავი',
 					'ფანტა',
 					'კოკა-კოლა',
+					'წყალი',
+					'ყავა და ჩაი',
+				],
+			},
+		],
+	},
+	{
+		slug: '40gel',
+		name: '40 ₾ პაკეტი',
+		price: 40,
+		perPersonLabel: 'ფასი ერთ სტუმარზე',
+		highlights: [
+			'ცხელი კერძები',
+			'სალათები/ცივი ასორტი',
+			'სასმელები',
+		],
+		sections: [
+			{
+				title: 'ცხელი კერძები',
+				items: ['თევზი შემწვარი (ორაგული)', 'სოკო პილპილით', 'ლობიო მოშუშული'],
+			},
+			{
+				title: 'ცივი ასორტი და სალათები',
+				items: [
+					'ვინეგრეტი',
+					'კიტრი-პომიდორი',
+					'კომბოსტოს სალათი',
+					'ბადრიჯანი ნივრით',
+					'მწვანილის ასორტი',
+					'ფხალი',
+				],
+			},
+			{
+				title: 'ცომეული',
+				items: ['პური (თონე)', 'მჭადი', 'ხაჭაპური', 'ლობიანი'],
+			},
+			{
+				title: 'საწებელი',
+				items: ['ტყემალი', 'საწებელი პომიდვრის', 'აჯიკა'],
+			},
+			{
+				title: 'სასმელები',
+				items: [
+					'ლიმონათი (ზედაზენი)',
+					'ფანტა',
+					'კოკა-კოლა',
+					'მინერალური წყალი (ნაბეღლავი)',
 					'წყალი',
 					'ყავა და ჩაი',
 				],

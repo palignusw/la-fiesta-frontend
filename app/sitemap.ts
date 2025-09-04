@@ -8,8 +8,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
 		{ url: `${site}/gallery`, changeFrequency: 'monthly', priority: 0.7 },
 		{ url: `${site}/about`, changeFrequency: 'monthly', priority: 0.6 },
 		{ url: `${site}/contacts`, changeFrequency: 'monthly', priority: 0.8 },
-		{ url: `${site}/menu/65gel`, changeFrequency: 'monthly', priority: 0.8 },
-		{ url: `${site}/menu/85gel`, changeFrequency: 'monthly', priority: 0.8 },
+		{ url: `${site}/menu/70gel`, changeFrequency: 'monthly', priority: 0.8 },
+		{ url: `${site}/menu/90gel`, changeFrequency: 'monthly', priority: 0.8 },
 		{ url: `${site}/location`, changeFrequency: 'monthly', priority: 0.8 },
 	]
 }
