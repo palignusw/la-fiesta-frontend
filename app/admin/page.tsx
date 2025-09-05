@@ -47,7 +47,7 @@ export default async function AdminPage() {
 
 	return (
 		<main className={s.container}>
-			<h1 className={s.title}>ბрони</h1>
+			<h1 className={s.title}>ჯავშნები</h1>
 			<div className={s.card}>
 				<div className={s.tableWrap}>
 					<table className={s.table}>
