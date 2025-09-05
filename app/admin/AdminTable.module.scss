@@ -1,0 +1,129 @@
+.container {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 24px 16px 56px;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 16px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.06);
+}
+
+.tableWrap {
+  width: 100%;
+  overflow: auto;
+  border-radius: 16px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 14px;
+}
+
+.thead {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, #fafafa, #f2f2f2);
+}
+
+.th,
+.td {
+  padding: 12px 14px;
+  white-space: nowrap;
+  vertical-align: top;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+.th {
+  font-weight: 600;
+  color: #333;
+  text-align: start;
+}
+
+.tr:nth-child(even) .td {
+  background: #fcfcfc;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  line-height: 1;
+  border: 1px solid transparent;
+}
+
+.badgePending {
+  color: #8a6d00;
+  background: #fff7cc;
+  border-color: #ffe58f;
+}
+.badgeConfirmed {
+  color: #096a3b;
+  background: #e8f9f0;
+  border-color: #b7f0d6;
+}
+.badgeCancelled {
+  color: #8a2d2d;
+  background: #fdecec;
+  border-color: #f9caca;
+}
+
+.form {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  min-width: 520px; /* чтобы элементы не слипались */
+}
+
+.select,
+.input {
+  appearance: none;
+  padding: 8px 10px;
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 10px;
+  background: #fff;
+  outline: none;
+  min-width: 120px;
+  transition: box-shadow .15s ease, border-color .15s ease;
+}
+.input {
+  min-width: 220px;
+}
+
+.select:focus,
+.input:focus {
+  border-color: #c7a66b; /* мягкое золото под ваш стиль */
+  box-shadow: 0 0 0 3px rgba(199,166,107,0.25);
+}
+
+.btn {
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid #c7a66b;
+  background: linear-gradient(180deg, #d9b77d, #c7a66b);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform .05s ease, filter .15s ease;
+  white-space: nowrap;
+}
+.btn:hover { filter: brightness(1.03); }
+.btn:active { transform: translateY(1px); }
+
+.empty {
+  text-align: center;
+  color: #777;
+  padding: 32px 0;
+}

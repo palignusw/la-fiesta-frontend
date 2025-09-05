@@ -1,10 +1,7 @@
-import { headers } from "next/headers"
+import { headers } from 'next/headers'
+import s from './AdminTable.module.scss'
 
 export const dynamic = 'force-dynamic'
-export const metadata = {
-	title: 'Admin — Брони',
-	robots: { index: false, follow: false },
-}
 
 type Booking = {
 	id: number
@@ -15,105 +12,87 @@ type Booking = {
 	message: string | null
 	packageSlug: string
 	eventType: 'ქორწილი' | 'ნათლობა' | 'ბანკეტი' | 'გასვენების სუფრა'
-	status: 'pending' | 'confirmed' | 'cancelled'
-	notes: string | null
 	createdAt: string
 }
 
-
-async function baseUrl() {
-	const h = headers()
-	const proto = (await h).get('x-forwarded-proto') ?? 'http'
-	const host = (await h).get('x-forwarded-host') ?? (await h).get('host')
+async function getOrigin() {
+	const h = await headers()
+	const proto = h.get('x-forwarded-proto') ?? 'http'
+	const host = h.get('x-forwarded-host') ?? h.get('host')
+	if (!host) throw new Error('Host header is missing')
 	return `${proto}://${host}`
 }
 
-async function getBookings() {
-	const r = await fetch(`${baseUrl()}/api/admin/bookings`, {
-		cache: 'no-store',
-	})
-	if (!r.ok) throw new Error(await r.text())
+async function getBookings(): Promise<Booking[]> {
+	const origin = await getOrigin()
+	const url = new URL('/api/admin/bookings', origin)
+	const r = await fetch(url, { cache: 'no-store' })
+
+	if (!r.ok) {
+		// читаем осмысленное сообщение и просто вернём пусто, чтобы страница не падала
+		try {
+			const j = await r.json()
+			console.error('[admin] API error', j)
+		} catch {
+			const t = await r.text().catch(() => '')
+			console.error('[admin] API error', r.status, t)
+		}
+		return []
+	}
 	return r.json()
 }
+
 export default async function AdminPage() {
 	const bookings = await getBookings()
 
 	return (
-		<main className='mx-auto max-w-6xl p-6 space-y-6'>
-			<h1 className='text-2xl font-bold'>ბрони</h1>
-
-			<div className='rounded-2xl border overflow-x-auto'>
-				<table className='w-full text-sm'>
-					<thead className='bg-gray-50 text-left'>
-						<tr>
-							<th className='p-3'>თარიღი</th>
-							<th className='p-3'>სახელი</th>
-							<th className='p-3'>ტელეფონი</th>
-							<th className='p-3'>სტუმრები</th>
-							<th className='p-3'>პაკეტი</th>
-							<th className='p-3'>ტიპი</th>
-							<th className='p-3'>სტატუსი</th>
-							<th className='p-3'>შენიშვნა</th>
-							<th className='p-3'></th>
-						</tr>
-					</thead>
-					<tbody>
-						{bookings.map((b: Booking) => (
-							<tr key={b.id} className='border-t align-top'>
-								<td className='p-3'>{b.date ?? '—'}</td>
-								<td className='p-3'>{b.name}</td>
-								<td className='p-3'>
-									<a className='underline' href={`tel:${b.phone}`}>
-										{b.phone}
-									</a>
-								</td>
-								<td className='p-3'>{b.guests ?? '—'}</td>
-								<td className='p-3'>{b.packageSlug}</td>
-								<td className='p-3'>{b.eventType}</td>
-								<td className='p-3'>
-									<span className='rounded-full border px-2 py-0.5 text-xs'>
-										{b.status}
-									</span>
-								</td>
-								<td className='p-3 whitespace-pre-wrap'>{b.notes ?? '—'}</td>
-								<td className='p-3'>
-									{/* форма обновления для каждой строки */}
-									<form
-										action={`/api/admin/bookings/${b.id}`}
-										method='post'
-										className='flex gap-2'
-									>
-										<select
-											name='status'
-											className='border rounded px-2 py-1'
-											defaultValue={b.status}
-										>
-											<option value='pending'>pending</option>
-											<option value='confirmed'>confirmed</option>
-											<option value='cancelled'>cancelled</option>
-										</select>
-										<input
-											name='notes'
-											className='border rounded px-2 py-1'
-											placeholder='შენიშვნა'
-											defaultValue={b.notes ?? ''}
-										/>
-										<button className='rounded border px-3 py-1 hover:bg-gray-50'>
-											შენახვა
-										</button>
-									</form>
-								</td>
-							</tr>
-						))}
-						{bookings.length === 0 && (
+		<main className={s.container}>
+			<h1 className={s.title}>ბрони</h1>
+			<div className={s.card}>
+				<div className={s.tableWrap}>
+					<table className={s.table}>
+						<thead className={s.thead}>
 							<tr>
-								<td className='p-6 text-center text-gray-500' colSpan={9}>
-									ჯერ არ არის ჯავშნები.
-								</td>
+								<th className={s.th}>თარიღი</th>
+								<th className={s.th}>სახელი</th>
+								<th className={s.th}>ტელეფონი</th>
+								<th className={s.th}>სტუმრები</th>
+								<th className={s.th}>პაკეტი</th>
+								<th className={s.th}>ტიპი</th>
+								<th className={s.th}>შეტყობინება</th>
 							</tr>
-						)}
-					</tbody>
-				</table>
+						</thead>
+						<tbody>
+							{bookings.map(b => (
+								<tr key={b.id} className={s.tr}>
+									<td className={s.td}>{b.date ?? '—'}</td>
+									<td className={s.td}>{b.name}</td>
+									<td className={s.td}>
+										<a
+											href={`tel:${b.phone}`}
+											style={{ textDecoration: 'underline' }}
+										>
+											{b.phone}
+										</a>
+									</td>
+									<td className={s.td}>{b.guests ?? '—'}</td>
+									<td className={s.td}>{b.packageSlug}</td>
+									<td className={s.td}>{b.eventType}</td>
+									<td className={s.td} style={{ whiteSpace: 'pre-wrap' }}>
+										{b.message ?? '—'}
+									</td>
+								</tr>
+							))}
+							{bookings.length === 0 && (
+								<tr>
+									<td className={`${s.td} ${s.empty}`} colSpan={7}>
+										ვერ ჩაიტვირთა ბრონები ან სია ცარიელია.
+									</td>
+								</tr>
+							)}
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</main>
 	)
