@@ -50,7 +50,7 @@ const isFutureDate = (d?: string) => {
 	return dt.getTime() >= today.getTime()
 }
 
-const PACKAGE_SLUGS = packages.map(p => p.slug) as [string, ...string[]];
+const PACKAGE_SLUGS = packages.map(p => p.slug) as [string, ...string[]]
 
 const ClientSchema = z.object({
 	name: z.string().min(2, 'შეიყვანეთ სრული სახელი'),
@@ -63,16 +63,26 @@ const ClientSchema = z.object({
 		.refine(isFutureDate, 'აირჩიეთ მომავალი თარიღი'),
 	guests: z.coerce
 		.number()
+		.refine(v => !Number.isNaN(v), 'შეიყვანეთ რიცხვი')
 		.int('მხოლოდ მთელი რიცხვი')
-		.min(1, 'სტუმრების მინ. 1')
+		.min(60, 'სტუმრების მინ 60')
 		.max(1200, 'ძალიან ბევრი სტუმარი'),
 	message: z.string().max(1000, 'მაქსიმუმ 1000 სიმბოლო').optional(),
 	company: z.string().max(0).optional(),
 	packageSlug: z.enum(PACKAGE_SLUGS, { message: 'აირჩიეთ პაკეტი' }),
-	eventType: z.enum(EVENT_TYPES, {
-		message: 'აირჩიეთ ტიპი',
-	}),
+	eventType: z.enum(EVENT_TYPES, { message: 'აირჩიეთ ტიპი' }),
 })
+
+// Тексты для серверных ответов
+const REASON_TEXT: Record<string, string> = {
+	occupied: 'ამ თარიღზე ადგილი უკვე დაკავებულია. გთხოვთ აირჩიოთ სხვა თარიღი.',
+}
+const ERROR_TEXT: Record<string, string> = {
+	INVALID_PACKAGE: 'აირჩიეთ სწორი პაკეტი',
+	PAST_DATE: 'აირჩიეთ მომავალი თარიღი',
+	VALIDATION: 'შეამოწმეთ ველები — ვერიფიკაცია ჩავარდა',
+	SERVER_ERROR: 'სერვერის შეცდომა',
+}
 
 export default function BookingForm() {
 	const [state, setState] = useState<'idle' | 'sending' | 'ok' | 'err'>('idle')
@@ -88,7 +98,6 @@ export default function BookingForm() {
 		const form = e.currentTarget
 		const fd = new FormData(form)
 		const payload: any = Object.fromEntries(fd.entries())
-		payload.guests = payload.guests ? Number(payload.guests) : undefined
 
 		const parsed = ClientSchema.safeParse(payload)
 		if (!parsed.success) {
@@ -112,24 +121,59 @@ export default function BookingForm() {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(parsed.data),
-				
 			})
+
 			if (!res.ok) {
-				console.log('okkkk')
-				const txt = await res.text()
+				// Пытаемся вытащить осмысленную ошибку из JSON
+				let msg = `HTTP ${res.status}`
+				try {
+					const err = await res.json()
+					if (err?.issues?.length) {
+						msg = err.issues[0]?.message || ERROR_TEXT.VALIDATION
+					} else if (err?.error && ERROR_TEXT[err.error]) {
+						msg = ERROR_TEXT[err.error]
+					} else if (err?.error) {
+						msg = String(err.error)
+					}
+				} catch {
+					const txt = await res.text()
+					if (txt) msg += `: ${txt.slice(0, 120)}`
+				}
 				setState('err')
-				setErrMsg(`HTTP ${res.status}: ${txt.slice(0, 120)}`)
+				setErrMsg(msg)
 				return
 			}
+
 			const data = await res.json()
+
 			if (!data.ok) {
+				// Специальный случай: дата занята
+				if (data.reason === 'occupied') {
+					setErrors(prev => ({ ...prev, date: REASON_TEXT.occupied }))
+					setState('idle')
+					setErrMsg('')
+					const dateAlt = form.querySelector(
+						`.${s.dateAlt}`
+					) as HTMLInputElement | null
+					dateAlt?.focus()
+					return
+				}
+
+				// Прочие ошибки с сервера
+				const msg =
+					(data.error && (ERROR_TEXT[data.error] || String(data.error))) ||
+					ERROR_TEXT.SERVER_ERROR
 				setState('err')
-				setErrMsg(data?.error ?? 'Server error')
-			} else {
-				setState('ok')
-				form.reset()
-				setTimeout(() => setState('idle'), 10000)
+				setErrMsg(msg)
+				return
 			}
+
+			// Успех
+			setState('ok')
+			form.reset()
+			// очищаем ошибки у полей
+			setErrors({})
+			setTimeout(() => setState('idle'), 10000)
 		} catch (err: any) {
 			setState('err')
 			setErrMsg(err?.message ?? 'Network error')
@@ -169,7 +213,7 @@ export default function BookingForm() {
 				{errors.name && <div className={s.errorText}>{errors.name}</div>}
 			</div>
 
-			{/* Пакет + дата */}
+			{/* Пакет + тип события */}
 			<div className={s.row2}>
 				<div className={s.field}>
 					<Select
@@ -187,7 +231,7 @@ export default function BookingForm() {
 				/>
 			</div>
 
-			{/* Телефон + тип события */}
+			{/* Телефон + дата */}
 			<div className={s.row2}>
 				<div className={s.field}>
 					<input
