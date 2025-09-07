@@ -2,7 +2,7 @@ import BookingForm from '@/components/Booking/BookingForm'
 
 export default function ContactsPage() {
 	const t = {
-		title: 'კონტაქტი',
+		title: 'ჯავშანი',
 		address: 'მისამართი: მარტვილი, საქართველო',
 		hours: 'სამუშაო საათები: 14:00–01:00',
 	}
