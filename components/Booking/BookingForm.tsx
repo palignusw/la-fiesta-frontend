@@ -193,7 +193,7 @@ export default function BookingForm() {
 
 			{state === 'ok' && (
 				<div className={`${s.alert} ${s.success}`}>
-					<span className={s.icon}>✓</span> თქვენი ჯავშანი წარმატებით გაიგზავნა
+					<span className={s.icon}>✓</span> თქვენი ჯავშანი წარმატებით გაიგზავნა,მალე დაგიკავშირდებით!
 				</div>
 			)}
 			{state === 'err' && (
