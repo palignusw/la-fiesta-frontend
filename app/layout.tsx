@@ -133,6 +133,7 @@ export default function RootLayout({
   return (
     <html lang="ka">
       <head>
+        <link rel="icon" href="/brand/la-fiesta-logo.png" type="image/png" />
         {/* JSON-LD */}
         <script
           type="application/ld+json"
