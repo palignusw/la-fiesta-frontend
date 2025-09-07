@@ -4,7 +4,7 @@ export default function ContactsPage() {
 	const t = {
 		title: 'კონტაქტი',
 		address: 'მისამართი: მარტვილი, საქართველო',
-		hours: 'სამუშაო საათები: 11:00–23:00',
+		hours: 'სამუშაო საათები: 14:00–01:00',
 	}
 
 	return (
