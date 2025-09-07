@@ -12,7 +12,7 @@ const EVENT_TYPES = [
 	'ქორწილი',
 	'ნათლობა',
 	'ბანკეტი',
-	'გასვენების სუფრა',
+	'ქელეხი',
 ] as const
 type EventType = (typeof EVENT_TYPES)[number]
 
