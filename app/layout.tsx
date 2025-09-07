@@ -61,6 +61,7 @@ const jsonLd = {
 	name: 'La Fiesta',
 	url: 'https://lafiesta.ge',
 	telephone: '+995599435644',
+	logo:'/brand/la-fiesta-logo.png',
 	priceRange: '₾₾',
 	acceptsReservations: true,
 	address: {
