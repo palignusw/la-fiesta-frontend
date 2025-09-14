@@ -151,7 +151,7 @@ export default async function PackagePage({
                                   src={img}
                                   alt={alt}
                                   fill
-                                  sizes="(min-width:1100px) 260px, (min-width:720px) 40vw, 92vw"
+								  sizes="(max-width:480px) 100vw, (max-width:600px) 48vw, (max-width:1100px) 40vw, 260px"
                                   className={s.rowImg}
                                 />
                               </a>

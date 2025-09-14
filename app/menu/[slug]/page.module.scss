@@ -363,7 +363,6 @@
 	 box-shadow: 0 10px 26px rgba(0,0,0,.09);
 	 border-color:#eadfca;
    }
-   @media (max-width: 719px) {   .rowCard { grid-template-columns: 140px minmax(0, 1fr); }}
    
    .rowPhoto{
 	position: relative;
@@ -376,9 +375,7 @@
 	height: 100%;
 	min-height: 200px;         /* базовая минимальная высота */
   }
-  @media (max-width: 719px) {
-	.rowPhoto { min-height: 140px; }  /* на мобиле — поменьше */
-  }
+
   
   .rowImg{
 	object-fit: cover;          /* заполнить контейнер */
@@ -405,3 +402,27 @@
    /* На всякий случай: отключаем влияние старой мини-раскладки внутри новых строк */
    .withImg { display: contents; }
    
+   @media (max-width: 600px) {
+	.rowCard {
+	  /* было: 140px minmax(0,1fr) из блока на 719px,
+		 делаем шире: почти половина экрана под фото */
+	  grid-template-columns: 48vw minmax(0, 1fr);
+	}
+	.rowPhoto { min-height: 180px; }  /* было 140px */
+	.rowTitle { font-size: 16px; }
+  }
+  
+  /* ——— совсем узко 480px: фото сверху, текст снизу (опционально) ——— */
+  @media (max-width: 480px) {
+	.rowCard {
+	  grid-template-columns: 1fr;
+	  grid-template-rows: auto auto;
+	}
+	.rowPhoto {
+	  height: 58vw;
+	  min-height: 220px;
+	  border-right: 0;
+	  border-bottom: 1px solid var(--border);
+	}
+	.rowBody { padding: 12px 14px 14px; }
+  }
