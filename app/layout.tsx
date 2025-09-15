@@ -28,6 +28,10 @@ export const metadata: Metadata = {
     "წლისთავი",
     "ორმოცი",
   ],
+  icons: {
+    icon: [{ url: "/favicon.ico" }],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+  },
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
@@ -133,7 +137,6 @@ export default function RootLayout({
   return (
     <html lang="ka">
       <head>
-        <link rel="icon" href="/brand/la-fiesta-logo.png" type="image/png" />
         {/* JSON-LD */}
         <script
           type="application/ld+json"
