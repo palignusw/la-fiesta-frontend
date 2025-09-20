@@ -8,7 +8,7 @@ export type MenuItem =
     };
 export type MenuSection = { title: string; items: MenuItem[] };
 export type MenuPackage = {
-  slug: "40gel" | "70gel" | "90gel";
+  slug: "40gel" | "70gel" | "85gel";
   name: string;
   price: number;
   perPersonLabel: string;
@@ -18,9 +18,9 @@ export type MenuPackage = {
 
 export const packages: MenuPackage[] = [
   {
-    slug: "90gel",
-    name: "90 ₾ პაკეტი",
-    price: 90,
+    slug: "85gel",
+    name: "85 ₾ პაკეტი",
+    price: 85,
     perPersonLabel: "ფასი ერთ სტუმარზე",
     highlights: [
       "ცხელი კერძები",
