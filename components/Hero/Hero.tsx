@@ -34,7 +34,6 @@ export default function Hero({
 							</Link>
 						</div>
 
-						{/* Счётчик сразу под кнопками */}
 						<div className={s.stats}>
 							<WeddingsCounter
 								initial={weddingsTotal}

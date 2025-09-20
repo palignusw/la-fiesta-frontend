@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 		title: 'ლა ფიესტა (La Fiesta) — საქორწილო და ბანკეტის დარბაზი მარტვილში',
 		description:
 			'ქორწილები, ნათლობები და ელეგანტური ბანკეტები მარტვილში. დიდი დარბაზი, გემრიელი მენიუ და უმაღლესი მომსახურება.',
-		url: '/',
+		url: 'https://lafiesta.ge/',
 		siteName: 'ლა ფიესტა (La Fiesta)',
 		images: [
 			{
