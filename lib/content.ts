@@ -266,8 +266,8 @@ export const packages: MenuPackage[] = [
             alt: "ქათმის სალათი",
           },
           {
-            label: "ცეზარის სალათი",
-            img: "/menu/cezari.jpg",
+            label: "ვინიგრეტი",
+            img: "/menu/vinegreti.jpg",
             alt: "ცეზარის სალათი",
           }, // новый файл
         ],
