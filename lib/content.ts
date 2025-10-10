@@ -81,25 +81,17 @@ export const packages: MenuPackage[] = [
             alt: "ფხალის ასორტი",
           },
           {
-            label: "ბოსტნეულის თაიგული",
-            img: "/menu/bostneuli.webp",
-            alt: "ბოსტნეულის თაიგული",
+            label: "გებჟალია",
+            img: "/menu/gebjalia.jpg",
+            alt: "გებჟალია",
           },
-          {
-            label: "კიტრი-პომიდორი",
-            img: "/menu/kitripomidori.webp",
-            alt: "კიტრი-პომიდორი",
-          },
+
           {
             label: "მჟავის ასორტი",
             img: "/menu/mjave.webp",
             alt: "მჟავის ასორტი",
           },
-          {
-            label: "მწვანილის თაიგული",
-            img: "/menu/mwvanili.jpg",
-            alt: "მწვანილის თაიგული",
-          },
+
           { label: "ზეთისხილი", img: "/menu/zetisxili.jpg", alt: "ზეთისხილი" },
         ],
       },
@@ -123,6 +115,16 @@ export const packages: MenuPackage[] = [
             label: "ცეზარის სალათი",
             img: "/menu/cezari.jpg",
             alt: "ცეზარის სალათი",
+          },
+          {
+            label: "კიტრი-პომიდორი",
+            img: "/menu/kitripomidori.webp",
+            alt: "კიტრი-პომიდორი",
+          },
+          {
+            label: "მწვანილის თაიგული",
+            img: "/menu/mwvanili.jpg",
+            alt: "მწვანილის თაიგული",
           },
         ],
       },
@@ -362,17 +364,17 @@ export const packages: MenuPackage[] = [
             img: "/menu/tevziqindzmarshi.jpg",
             alt: "თევზი ქინძმარში",
           },
-        
+
           {
             label: "ლობიო მოლესილი",
             img: "/menu/lobio.jpg",
             alt: "ლობიო მოლესილი",
-          }, 
+          },
           {
             label: "ფლავი",
             img: "/menu/flavi.jpg",
             alt: "ფლავი",
-          }, 
+          },
           {
             label: "სოკო კეცზე",
             img: "/menu/soko.jpg",
@@ -393,12 +395,12 @@ export const packages: MenuPackage[] = [
             label: "ბადრიჯანი ნიგვზით",
             img: "/menu/badrijani.jpg",
             alt: "ბადრიჯანი ნიგვზით",
-          }, 
+          },
           {
             label: "ბულგარული ნიგვზით",
             img: "/menu/bulgaruli.jpg",
             alt: "ბულგარული ნიგვზით",
-          }, 
+          },
           {
             label: "ხიზილალა",
             img: "/menu/xizilala.jpg",
