@@ -71,7 +71,7 @@ export const packages: MenuPackage[] = [
         items: [
           {
             label:
-              "ყველის ასორტი (სულგუნი, შებოლილი სულგუნი, სულგუნის ფირფიტები ხაჭოთი)",
+              "ყველის ასორტი (სულგუნი, შებოლილი სულგუნი,იმერული ყველი)",
             img: "/menu/sulguni.jpg",
             alt: "ყველის ასორტი",
           },
@@ -232,7 +232,7 @@ export const packages: MenuPackage[] = [
         items: [
           { label: "ხიზილალა", img: "/menu/xizilala.jpg", alt: "ხიზილალა" },
           {
-            label: "ყველის ასორტი (სულგუნი, სულგუნის ფირფიტები ხაჭოთი)",
+            label: "ყველის ასორტი (სულგუნი, იმერული ყველი)",
             img: "/menu/sulguni.jpg",
             alt: "ყველის ასორტი",
           },
