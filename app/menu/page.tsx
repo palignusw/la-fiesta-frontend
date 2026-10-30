@@ -2,6 +2,10 @@ import type { Metadata } from "next";
 import PackageGrid from "@/components/Menu/PackageGrid";
 import MenuComparison from "@/components/Experience/MenuComparison";
 import { packages } from "@/lib/content";
+import {
+  getMenuStructuredData,
+  serializeStructuredData,
+} from "@/lib/restaurant";
 export const metadata: Metadata = {
   title: "მენიუ",
   alternates: { canonical: "/menu" },
@@ -9,6 +13,12 @@ export const metadata: Metadata = {
 export default function MenuPage() {
   return (
     <section className="section container">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: serializeStructuredData(getMenuStructuredData()),
+        }}
+      />
       <div className="page-heading">
         <span className="eyebrow">გემრიელი შეხვედრებისთვის</span>
         <h1>

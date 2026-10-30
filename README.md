@@ -30,7 +30,7 @@ Remove old deployment variables `NEXT_PUBLIC_API_URL`, `ADMIN_USER`, `ADMIN_PASS
 - `app/page.tsx`: homepage.
 - `public/gallery`, `public/menu`, `public/hero`: original venue and food photography.
 
-Existing menu prices (40/70/85 ₾), phone number and location are retained from the repository. Verify prices and event conditions before launch. No real Telegram enquiries should be sent during automated checks.
+Existing menu prices (40/80/95 ₾), phone number and location are retained from the repository. Verify prices and event conditions before launch. No real Telegram enquiries should be sent during automated checks.
 
 ## Custom reservation experience
 
@@ -44,3 +44,9 @@ The enquiry form has three steps: event/date/guests, menu, then contact details 
 ## Restaurant content
 
 The homepage uses real menu data for package previews, comparison rows, price ranges and links from featured dishes to packages. Update `lib/content.ts` rather than duplicating prices in presentation components. `MenuComparison.tsx`, `CuisineSelection.tsx` and `VenueDetails.tsx` supply the richer menu and venue sections. Venue photos are examples of past setups; no capacity, parking, included decoration, testimonials or event statistics are assumed.
+
+## Google rating
+
+The homepage links to the owner's confirmed Google Business profile. It displays the owner's manual snapshot (4.8 from 39 ratings, 2026-10-30) with its date. Update `googleReviews` in `lib/restaurant.ts` after checking the Google profile; the displayed date is derived from `updatedAt`.
+
+There are no Google Places API requests, API keys, subscriptions or automatic synchronization. Visitors open Google to see current ratings and individual reviews. The score is not emitted as AggregateRating and does not promise search-result stars.
