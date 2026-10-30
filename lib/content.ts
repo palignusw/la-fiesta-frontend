@@ -19,8 +19,8 @@ export type MenuPackage = {
 export const packages: MenuPackage[] = [
   {
     slug: "85gel",
-    name: "85 ₾ პაკეტი",
-    price: 85,
+    name: "95 ₾ პაკეტი",
+    price: 95,
     perPersonLabel: "ფასი ერთ სტუმარზე",
     highlights: [
       "ცხელი კერძები",
@@ -204,8 +204,8 @@ export const packages: MenuPackage[] = [
   },
   {
     slug: "70gel",
-    name: "70 ₾ პაკეტი",
-    price: 70,
+    name: "80 ₾ პაკეტი",
+    price: 80,
     perPersonLabel: "ფასი ერთ სტუმარზე",
     highlights: [
       "ცხელი კერძები",
