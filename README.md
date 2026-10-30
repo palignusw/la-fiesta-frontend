@@ -44,3 +44,11 @@ The enquiry form has three steps: event/date/guests, menu, then contact details 
 ## Restaurant content
 
 The homepage uses real menu data for package previews, comparison rows, price ranges and links from featured dishes to packages. Update `lib/content.ts` rather than duplicating prices in presentation components. `MenuComparison.tsx`, `CuisineSelection.tsx` and `VenueDetails.tsx` supply the richer menu and venue sections. Venue photos are examples of past setups; no capacity, parking, included decoration, testimonials or event statistics are assumed.
+
+## Google rating
+
+The homepage links to the owner's confirmed Google Business profile. A dated manual snapshot (4.8 from 39 ratings, 2026-10-30) is the fallback only. It is not emitted as AggregateRating or promised to produce search-result stars.
+
+For automatic rating/count updates, enable Places API (New) in your Google Cloud project and set server-only `GOOGLE_PLACES_API_KEY` and `GOOGLE_PLACES_PLACE_ID` in Vercel for the desired environments, then redeploy. The ID must identify the La Fiesta listing in Martvili; a `share.google` URL is not a Place ID. Restrict the API key to Places API. Google may charge for API use; review its billing and quotas before enabling it.
+
+The server fetches only business identity, location, rating, rating count and Google Maps URI. It rejects mismatched IDs, names and locations. Next.js caches the request for one hour; refresh happens through incoming page requests/revalidation rather than a background hourly job. Google failures, invalid responses or missing configuration use the visibly dated manual snapshot. No API key or raw API error is exposed to the browser. This does not scrape Google or republish individual review texts.

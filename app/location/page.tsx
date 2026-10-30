@@ -34,7 +34,17 @@ export default function LocationPage() {
         />
       </div>
       <div className="map-footer">
-        <p>მარშრუტის სანახავად გახსენით რუკა.</p>
+        <div>
+          <p>მარშრუტის სანახავად გახსენით რუკა.</p>
+          <a
+            href={restaurant.googleMapsUrl}
+            className="text-link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            ჩვენი Google-პროფილი და შეფასებები ↗
+          </a>
+        </div>
         <a href={mapUrl} className="btn" target="_blank" rel="noreferrer">
           მარშრუტის ნახვა ↗
         </a>

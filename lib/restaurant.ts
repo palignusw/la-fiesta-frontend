@@ -12,10 +12,19 @@ export const restaurant = {
   countryCode: "GE",
   latitude: 42.43033,
   longitude: 42.38122,
+  googleMapsUrl: "https://share.google/ethf2SpqwployIiL8",
   socialUrls: [
     "https://www.tiktok.com/@la_fiesta2022",
     "https://www.facebook.com/profile.php?id=100083011586797",
   ],
+} as const;
+
+// Manual snapshot supplied by the owner, not a live Google API integration.
+export const googleReviews = {
+  rating: 4.8,
+  reviewCount: 39,
+  updatedAt: "2026-10-30",
+  url: restaurant.googleMapsUrl,
 } as const;
 
 export const mapUrl = `https://www.google.com/maps/search/?api=1&query=${restaurant.latitude},${restaurant.longitude}`;
@@ -64,7 +73,7 @@ export function getRestaurantStructuredData() {
           url: `${restaurant.siteUrl}/menu`,
           inLanguage: "ka-GE",
         },
-        sameAs: [...restaurant.socialUrls],
+        sameAs: [...restaurant.socialUrls, restaurant.googleMapsUrl],
       },
       {
         "@type": "WebSite",

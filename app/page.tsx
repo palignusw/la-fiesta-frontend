@@ -7,6 +7,7 @@ import Icon from "@/components/Experience/Icon";
 import MenuComparison from "@/components/Experience/MenuComparison";
 import VenueDetails from "@/components/Experience/VenueDetails";
 import CuisineSelection from "@/components/Experience/CuisineSelection";
+import GoogleReputation from "@/components/Experience/GoogleReputation";
 export default function HomePage() {
   return (
     <>
@@ -117,6 +118,7 @@ export default function HomePage() {
           </Link>
         </div>
       </section>
+      <GoogleReputation />
       <EventExplorer />
       <section className="section container feast-section">
         <div className="section-heading">
