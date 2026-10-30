@@ -19,12 +19,12 @@ export type MenuPackage = {
 export const packages: MenuPackage[] = [
   {
     slug: "85gel",
-    name: "85 ₾ პაკეტი",
-    price: 85,
+    name: "95 ₾ პაკეტი",
+    price: 95,
     perPersonLabel: "ფასი ერთ სტუმარზე",
     highlights: [
       "ცხელი კერძები",
-      "სალათები/ცივი ასორტი",
+      "სალათები და ცივი კერძები",
       "დესერტი",
       "სასმელები",
     ],
@@ -39,7 +39,11 @@ export const packages: MenuPackage[] = [
             alt: "ოსტრი ან ქაბაბი",
           },
           { label: "ხაშლამა", img: "/menu/xashlama.jpg", alt: "ხაშლამა" },
-          { label: "ბაჟე ქათმის", img: "/menu/baje.webp", alt: "ბაჟე ქათმის" },
+          {
+            label: "ქათამი ბაჟეში",
+            img: "/menu/baje.webp",
+            alt: "ქათამი ბაჟეში",
+          },
           {
             label: "წიწილა ტაბაკა",
             img: "/menu/tabaka.jpg",
@@ -50,13 +54,13 @@ export const packages: MenuPackage[] = [
             img: "/menu/soko.jpg",
             alt: "სოკო სულგუნით",
           },
-          { label: "მწვადი ღორის", img: "/menu/mwv.webp", alt: "მწვადი ღორის" },
+          { label: "ღორის მწვადი", img: "/menu/mwv.webp", alt: "ღორის მწვადი" },
           {
             label: "მწვადი ხბოს ან ასიტრინის",
             img: "/menu/mwvadixbo.jpg",
             alt: "მწვადი ხბოს ან ასიტრინის",
           },
-          { label: "კუჭ-მაჭი", img: "/menu/kuchmachi.jpg", alt: "კუჭ-მაჭი" },
+          { label: "კუჭმაჭი", img: "/menu/kuchmachi.jpg", alt: "კუჭმაჭი" },
           { label: "კუპატი", img: "/menu/kupati.jpg", alt: "კუპატი" },
           {
             label: "ხორციანი რულეტი",
@@ -70,8 +74,7 @@ export const packages: MenuPackage[] = [
         title: "ცივი კერძები",
         items: [
           {
-            label:
-              "ყველის ასორტი (სულგუნი, შებოლილი სულგუნი,იმერული ყველი)",
+            label: "ყველის ასორტი (სულგუნი, შებოლილი სულგუნი, იმერული ყველი)",
             img: "/menu/sulguni.jpg",
             alt: "ყველის ასორტი",
           },
@@ -104,7 +107,7 @@ export const packages: MenuPackage[] = [
         ],
       },
       {
-        title: "სალათი",
+        title: "სალათები",
         items: [
           {
             label: "ქათმის სალათი",
@@ -134,12 +137,12 @@ export const packages: MenuPackage[] = [
           { label: "ნამცხვარი", img: "/menu/namcxvari.jpg", alt: "ნამცხვარი" },
           { label: "ჟელატინი", img: "/menu/jele.jpg", alt: "ჟელატინი" },
           {
-            label: "ქიშმიში-მიწისთხილი",
+            label: "ქიშმიში და მიწისთხილი",
             img: "/menu/txili.webp",
-            alt: "ქიშმიში-მიწისთხილი",
+            alt: "ქიშმიში და მიწისთხილი",
           },
           {
-            label: "ნაყინი ან მაწონი(თაფლით და თხილით)",
+            label: "ნაყინი ან მაწონი (თაფლითა და თხილით)",
             img: "/menu/nayini.jpeg",
             alt: "ნაყინი ან მაწონი",
           },
@@ -162,12 +165,12 @@ export const packages: MenuPackage[] = [
         ],
       },
       {
-        title: "საწებელი",
+        title: "საწებლები",
         items: [
           {
-            label: "საწებელი პომიდვრის",
+            label: "პომიდვრის საწებელი",
             img: "/menu/sawebeli.jpg",
-            alt: "საწებელი პომიდვრის",
+            alt: "პომიდვრის საწებელი",
           },
           { label: "ტყემალი", img: "/menu/tyemali.jpg", alt: "ტყემალი" },
         ],
@@ -186,7 +189,7 @@ export const packages: MenuPackage[] = [
         title: "სასმელები",
         items: [
           {
-            label: "ლიმონათი (ზედაზენი,ზანდუკელი)",
+            label: "ლიმონათი (ზედაზენი, ზანდუკელი)",
             img: "/menu/limonati.png",
             alt: "ლიმონათი",
           },
@@ -201,12 +204,12 @@ export const packages: MenuPackage[] = [
   },
   {
     slug: "70gel",
-    name: "70 ₾ პაკეტი",
-    price: 70,
+    name: "80 ₾ პაკეტი",
+    price: 80,
     perPersonLabel: "ფასი ერთ სტუმარზე",
     highlights: [
       "ცხელი კერძები",
-      "სალათები/ცივი ასორტი",
+      "სალათები და ცივი კერძები",
       "დესერტი",
       "სასმელები",
     ],
@@ -216,10 +219,14 @@ export const packages: MenuPackage[] = [
         items: [
           { label: "გოჭი", img: "/menu/gochi.jpg", alt: "გოჭი" },
           { label: "ქათამი", img: "/menu/qatami.webp", alt: "ქათამი" },
-          { label: "ბაჟე ქათმის", img: "/menu/baje.webp", alt: "ბაჟე ქათმის" },
+          {
+            label: "ქათამი ბაჟეში",
+            img: "/menu/baje.webp",
+            alt: "ქათამი ბაჟეში",
+          },
           { label: "ხაშლამა", img: "/menu/xashlama.jpg", alt: "ხაშლამა" },
-          { label: "მწვადი ღორის", img: "/menu/mwv.webp", alt: "მწვადი ღორის" },
-          { label: "კუჭ-მაჭი", img: "/menu/kuchmachi.jpg", alt: "კუჭ-მაჭი" },
+          { label: "ღორის მწვადი", img: "/menu/mwv.webp", alt: "ღორის მწვადი" },
+          { label: "კუჭმაჭი", img: "/menu/kuchmachi.jpg", alt: "კუჭმაჭი" },
           {
             label: "სოკო სულგუნით",
             img: "/menu/soko.jpg",
@@ -268,7 +275,7 @@ export const packages: MenuPackage[] = [
             alt: "ქათმის სალათი",
           },
           {
-            label: "ვინიგრეტი",
+            label: "ვინეგრეტი",
             img: "/menu/vinegreti.jpg",
             alt: "ცეზარის სალათი",
           }, // новый файл
@@ -291,13 +298,13 @@ export const packages: MenuPackage[] = [
         ],
       },
       {
-        title: "საწებელი",
+        title: "საწებლები",
         items: [
           { label: "ტყემალი", img: "/menu/tyemali.jpg", alt: "ტყემალი" },
           {
-            label: "საწებელი პომიდვრის",
+            label: "პომიდვრის საწებელი",
             img: "/menu/sawebeli.jpg",
-            alt: "საწებელი პომიდვრის",
+            alt: "პომიდვრის საწებელი",
           },
         ],
       },
@@ -316,9 +323,9 @@ export const packages: MenuPackage[] = [
         items: [
           { label: "ნამცხვარი", img: "/menu/namcxvari.jpg", alt: "ნამცხვარი" },
           {
-            label: "ქიშმიში-მიწისთხილი",
+            label: "ქიშმიში და მიწისთხილი",
             img: "/menu/txili.webp",
-            alt: "ქიშმიში-მიწისთხილი",
+            alt: "ქიშმიში და მიწისთხილი",
           },
         ],
       },
@@ -326,7 +333,7 @@ export const packages: MenuPackage[] = [
         title: "სასმელები",
         items: [
           {
-            label: "ლიმონათი (ზედაზენი,ზანდუკელი)",
+            label: "ლიმონათი (ზედაზენი, ზანდუკელი)",
             img: "/menu/limonati.png",
             alt: "ლიმონათი",
           },
@@ -344,15 +351,15 @@ export const packages: MenuPackage[] = [
     name: "40 ₾ პაკეტი",
     price: 40,
     perPersonLabel: "ფასი ერთ სტუმარზე",
-    highlights: ["ცხელი კერძები", "სალათები/ცივი ასორტი", "სასმელები"],
+    highlights: ["ცხელი კერძები", "სალათები და ცივი კერძები", "სასმელები"],
     sections: [
       {
         title: "ძირითადი კერძები",
         items: [
           {
-            label: "თევზი შემწვარი (ორაგული)",
+            label: "შემწვარი თევზი (ორაგული)",
             img: "/menu/oragulishemwvari.jpeg",
-            alt: "თევზი შემწვარი",
+            alt: "შემწვარი თევზი",
           },
           {
             label: "თევზი ბაჟეში (გენერალი)",
@@ -366,9 +373,9 @@ export const packages: MenuPackage[] = [
           },
 
           {
-            label: "ლობიო მოლესილი",
+            label: "მოლესილი ლობიო",
             img: "/menu/lobio.jpg",
-            alt: "ლობიო მოლესილი",
+            alt: "მოლესილი ლობიო",
           },
           {
             label: "ფლავი",
@@ -397,9 +404,9 @@ export const packages: MenuPackage[] = [
             alt: "ბადრიჯანი ნიგვზით",
           },
           {
-            label: "ბულგარული ნიგვზით",
+            label: "ბულგარული წიწაკა ნიგვზით",
             img: "/menu/bulgaruli.jpg",
-            alt: "ბულგარული ნიგვზით",
+            alt: "ბულგარული წიწაკა ნიგვზით",
           },
           {
             label: "ხიზილალა",
@@ -445,20 +452,20 @@ export const packages: MenuPackage[] = [
         items: [
           { label: "აჩმა", img: "/menu/achma.jpg", alt: "აჩმა" },
           { label: "ღომი", img: "/menu/ghomi.jpg", alt: "ღომი" },
-          { label: "პური (თონე)", img: "/menu/shoti.jpg", alt: "პური (თონე)" },
+          { label: "თონის პური", img: "/menu/shoti.jpg", alt: "თონის პური" },
           { label: "მჭადი", img: "/menu/mchadi.webp", alt: "მჭადი" },
           { label: "ხაჭაპური", img: "/menu/xachapuri.jpg", alt: "ხაჭაპური" },
           { label: "ლობიანი", img: "/menu/lobiani.webp", alt: "ლობიანი" }, // новый файл
         ],
       },
       {
-        title: "საწებელი",
+        title: "საწებლები",
         items: [
           { label: "ტყემალი", img: "/menu/tyemali.jpg", alt: "ტყემალი" },
           {
-            label: "საწებელი პომიდვრის",
+            label: "პომიდვრის საწებელი",
             img: "/menu/sawebeli.jpg",
-            alt: "საწებელი პომიდვრის",
+            alt: "პომიდვრის საწებელი",
           },
           { label: "აჯიკა", img: "/menu/ajika.webp", alt: "აჯიკა" }, // новый файл
         ],
@@ -509,6 +516,12 @@ export const albums = [
 ] as const;
 
 export const media: MediaItem[] = [
+  {
+    id: "decor1",
+    src: "/gallery/dekor1.jpg",
+    album: "დეკორი",
+    alt: "ლა ფიესტას დეკორი",
+  },
   {
     id: "hall1",
     src: "/gallery/hall1.jpg",

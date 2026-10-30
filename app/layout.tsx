@@ -1,5 +1,6 @@
 import Header from "@/components/Header/Header";
 import "./globals.css";
+import "./experience.css";
 import Footer from "@/components/Footer/Footer";
 import { Metadata } from "next";
 import Script from "next/script";
@@ -9,11 +10,11 @@ import { Suspense } from "react";
 export const metadata: Metadata = {
   metadataBase: new URL("https://lafiesta.ge"),
   title: {
-    default: "ლა ფიესტა (La Fiesta) — საქორწილო/ბანკეტის დარბაზი მარტვილში",
+    default: "ლა ფიესტა — რესტორანი და საბანკეტო დარბაზი მარტვილში",
     template: "%s | ლა ფიესტა (La Fiesta)",
   },
   description:
-    "ელეგანტური ბანკეტები, ქორწილები და უმაღლესი მომსახურება მარტვილში — ლა ფიესტა (La Fiesta).",
+    "რესტორანი და საბანკეტო დარბაზი მარტვილში. ქართული და მეგრული კერძები, მენიუს პაკეტები, დარბაზის ფოტოები და ღონისძიების დაგეგმვა — ლა ფიესტა.",
   keywords: [
     "ლა ფიესტა",
     "La Fiesta",
@@ -30,16 +31,15 @@ export const metadata: Metadata = {
   ],
   icons: {
     icon: [{ url: "/favicon.ico" }],
-    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
   },
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     url: "https://lafiesta.ge",
     siteName: "ლა ფიესტა (La Fiesta)",
-    title: "ლა ფიესტა (La Fiesta) — საქორწილო/ბანკეტის დარბაზი მარტვილში",
+    title: "ლა ფიესტა — რესტორანი და საბანკეტო დარბაზი მარტვილში",
     description:
-      "ელეგანტური ბანკეტები, ქორწილები და უმაღლესი მომსახურება მარტვილში.",
+      "ქორწილები, ნათლობები და ბანკეტები მარტვილში. გაეცანით მენიუსა და დარბაზის ფოტოებს.",
     images: [
       {
         url: "https://lafiesta.ge/hero/hall.png",
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "ლა ფიესტა (La Fiesta) — ბანკეტის დარბაზი მარტვილში",
-    description: "ელეგანტური ბანკეტები და უმაღლესი მომსახურება.",
+    description: "ქართული სუფრა და ღონისძიებების დაგეგმვა მარტვილში.",
     images: ["/hero/hall.png"],
   },
   robots: { index: true, follow: true },
@@ -78,7 +78,7 @@ const jsonLd = [
     name: "La Fiesta",
     alternateName: "ლა ფიესტა",
     url: "https://lafiesta.ge",
-    telephone: "+99555150910",
+    telephone: "+995599435644",
     priceRange: "₾₾",
     acceptsReservations: true,
     image: ["https://lafiesta.ge/hero/hall.png"],
@@ -93,22 +93,6 @@ const jsonLd = [
     geo: { "@type": "GeoCoordinates", latitude: 42.43033, longitude: 42.38122 },
     hasMap: "https://maps.google.com/?q=42.43033,42.38122",
     menu: "https://lafiesta.ge/menu",
-    openingHoursSpecification: [
-      {
-        "@type": "OpeningHoursSpecification",
-        dayOfWeek: [
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday",
-          "Sunday",
-        ],
-        opens: "11:00",
-        closes: "02:00",
-      },
-    ],
   },
   {
     "@context": "https://schema.org",
@@ -171,7 +155,7 @@ export default function RootLayout({
           <Analytics />
         </Suspense>
         <Header />
-        <main>{children}</main>
+        <main id="main-content">{children}</main>
         <Footer />
       </body>
     </html>

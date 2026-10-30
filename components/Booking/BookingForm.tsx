@@ -1,290 +1,534 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-'use client'
-
-import { useState } from 'react'
-import s from './BookingForm.module.scss'
-import { z } from 'zod'
-import { packages } from '@/lib/content'
-import DateResponsive from './DateResponsive'
-import Select from '@/components/UI/Select/Select'
-
-const EVENT_TYPES = [
-	'ქორწილი',
-	'ნათლობა',
-	'ბანკეტი',
-	'ქელეხი',
-] as const
-type EventType = (typeof EVENT_TYPES)[number]
-
-type FormPayload = {
-	name: string
-	phone: string
-	date?: string
-	guests?: number
-	message?: string
-	company?: string
-	packageSlug: string
-	eventType: EventType
-}
-
-type Errors = Partial<Record<keyof FormPayload, string>>
-
-const isValidGEPhone = (raw: string) => {
-	const v = (raw || '').replace(/\s|-/g, '')
-	const mobileLocal = /^0?5\d{8}$/
-	const mobileIntl = /^\+?9955\d{8}$/
-	const cityLocal = /^0?(?:32|\d{2})\d{7}$/
-	const cityIntl = /^\+?995(?:32|\d{2})\d{7}$/
-	return (
-		mobileLocal.test(v) ||
-		mobileIntl.test(v) ||
-		cityLocal.test(v) ||
-		cityIntl.test(v)
-	)
-}
-const isFutureDate = (d?: string) => {
-	if (!d) return false
-	const dt = new Date(d + 'T00:00:00')
-	const today = new Date()
-	today.setHours(0, 0, 0, 0)
-	return dt.getTime() >= today.getTime()
-}
-
-const PACKAGE_SLUGS = packages.map(p => p.slug) as [string, ...string[]]
-
-const ClientSchema = z.object({
-	name: z.string().min(2, 'შეიყვანეთ სრული სახელი'),
-	phone: z
-		.string()
-		.refine(isValidGEPhone, 'ნომერი დაწერეთ სწორი ფორმატით მაგ:599435644'),
-	date: z
-		.string()
-		.min(1, 'აირჩიეთ თარიღი')
-		.refine(isFutureDate, 'აირჩიეთ მომავალი თარიღი'),
-	guests: z.coerce
-		.number()
-		.refine(v => !Number.isNaN(v), 'შეიყვანეთ რიცხვი')
-		.int('მხოლოდ მთელი რიცხვი')
-		.min(60, 'სტუმრების მინ 60')
-		.max(1200, 'ძალიან ბევრი სტუმარი'),
-	message: z.string().max(1000, 'მაქსიმუმ 1000 სიმბოლო').optional(),
-	company: z.string().max(0).optional(),
-	packageSlug: z.enum(PACKAGE_SLUGS, { message: 'აირჩიეთ პაკეტი' }),
-	eventType: z.enum(EVENT_TYPES, { message: 'აირჩიეთ ტიპი' }),
-})
-
-// Тексты для серверных ответов
-const REASON_TEXT: Record<string, string> = {
-	occupied: 'ამ თარიღზე ადგილი უკვე დაკავებულია. გთხოვთ აირჩიოთ სხვა თარიღი.',
-}
-const ERROR_TEXT: Record<string, string> = {
-	INVALID_PACKAGE: 'აირჩიეთ სწორი პაკეტი',
-	PAST_DATE: 'აირჩიეთ მომავალი თარიღი',
-	VALIDATION: 'შეამოწმეთ ველები — ვერიფიკაცია ჩავარდა',
-	SERVER_ERROR: 'სერვერის შეცდომა',
-}
-
+"use client";
+import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { packages } from "@/lib/content";
+import { bookingSchema, eventTypes } from "@/lib/booking";
+import { formatGeorgianDate } from "@/lib/calendar";
+import CalendarPicker from "./CalendarPicker";
+import CustomSelect from "./CustomSelect";
+import Icon from "@/components/Experience/Icon";
+const initial = {
+  name: "",
+  phone: "",
+  date: "",
+  guests: "100",
+  eventType: "",
+  packageSlug: "undecided",
+  message: "",
+  company: "",
+};
+const steps = ["ღონისძიება", "მენიუ", "კონტაქტი"];
 export default function BookingForm() {
-	const [state, setState] = useState<'idle' | 'sending' | 'ok' | 'err'>('idle')
-	const [errMsg, setErrMsg] = useState('')
-	const [errors, setErrors] = useState<Errors>({})
-
-	async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
-		e.preventDefault()
-		setErrMsg('')
-		setErrors({})
-		setState('sending')
-
-		const form = e.currentTarget
-		const fd = new FormData(form)
-		const payload: any = Object.fromEntries(fd.entries())
-
-		const parsed = ClientSchema.safeParse(payload)
-		if (!parsed.success) {
-			const map: Errors = {}
-			parsed.error.issues.forEach(i => {
-				const key = i.path[0] as keyof FormPayload
-				if (!map[key]) map[key] = i.message
-			})
-			setErrors(map)
-			setState('idle')
-			const firstKey = Object.keys(map)[0]
-			if (firstKey)
-				(
-					form.querySelector(`[name="${firstKey}"]`) as HTMLElement | null
-				)?.focus()
-			return
-		}
-
-		try {
-			const res = await fetch('/api', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify(parsed.data),
-			})
-
-			if (!res.ok) {
-				// Пытаемся вытащить осмысленную ошибку из JSON
-				let msg = `HTTP ${res.status}`
-				try {
-					const err = await res.json()
-					if (err?.issues?.length) {
-						msg = err.issues[0]?.message || ERROR_TEXT.VALIDATION
-					} else if (err?.error && ERROR_TEXT[err.error]) {
-						msg = ERROR_TEXT[err.error]
-					} else if (err?.error) {
-						msg = String(err.error)
-					}
-				} catch {
-					const txt = await res.text()
-					if (txt) msg += `: ${txt.slice(0, 120)}`
-				}
-				setState('err')
-				setErrMsg(msg)
-				return
-			}
-
-			const data = await res.json()
-
-			if (!data.ok) {
-				// Специальный случай: дата занята
-				if (data.reason === 'occupied') {
-					setErrors(prev => ({ ...prev, date: REASON_TEXT.occupied }))
-					setState('idle')
-					setErrMsg('')
-					const dateAlt = form.querySelector(
-						`.${s.dateAlt}`
-					) as HTMLInputElement | null
-					dateAlt?.focus()
-					return
-				}
-
-				// Прочие ошибки с сервера
-				const msg =
-					(data.error && (ERROR_TEXT[data.error] || String(data.error))) ||
-					ERROR_TEXT.SERVER_ERROR
-				setState('err')
-				setErrMsg(msg)
-				return
-			}
-
-			// Успех
-			setState('ok')
-			form.reset()
-			// очищаем ошибки у полей
-			setErrors({})
-			setTimeout(() => setState('idle'), 10000)
-		} catch (err: any) {
-			setState('err')
-			setErrMsg(err?.message ?? 'Network error')
-		}
-	}
-
-	return (
-		<form className={s.form} onSubmit={onSubmit} noValidate>
-			{/* honeypot */}
-			<input
-				type='text'
-				name='company'
-				className={s.honey}
-				tabIndex={-1}
-				autoComplete='off'
-			/>
-
-			{state === 'ok' && (
-				<div className={`${s.alert} ${s.success}`}>
-					<span className={s.icon}>✓</span> თქვენი ჯავშანი წარმატებით გაიგზავნა,მალე დაგიკავშირდებით!
-				</div>
-			)}
-			{state === 'err' && (
-				<div className={`${s.alert} ${s.danger}`}>
-					<span className={s.icon}>!</span> შეცდომა: {errMsg}
-				</div>
-			)}
-
-			{/* Имя */}
-			<div className={s.field}>
-				<input
-					name='name'
-					placeholder='სახელი და გვარი'
-					aria-invalid={!!errors.name}
-					className={errors.name ? s.inputError : ''}
-				/>
-				{errors.name && <div className={s.errorText}>{errors.name}</div>}
-			</div>
-
-			{/* Пакет + тип события */}
-			<div className={s.row2}>
-				<div className={s.field}>
-					<Select
-						name='packageSlug'
-						placeholder='აირჩიეთ პაკეტი'
-						options={packages.map(p => ({ value: p.slug, label: p.name }))}
-						error={errors.packageSlug}
-					/>
-				</div>
-				<Select
-					name='eventType'
-					placeholder='ივენთის ტიპი'
-					options={EVENT_TYPES.map(t => ({ value: t, label: t }))}
-					error={errors.eventType}
-				/>
-			</div>
-
-			{/* Телефон + дата */}
-			<div className={s.row2}>
-				<div className={s.field}>
-					<input
-						type='tel'
-						name='phone'
-						placeholder='ტელეფონი'
-						aria-invalid={!!errors.phone}
-						className={errors.phone ? s.inputError : ''}
-					/>
-					{errors.phone && <div className={s.errorText}>{errors.phone}</div>}
-				</div>
-
-				<div className={s.field}>
-					<DateResponsive
-						name='date'
-						label='თარიღი'
-						error={errors.date}
-						note='სამუშაო საათები: 11:00–23:00'
-					/>
-				</div>
-			</div>
-
-			{/* Гости */}
-			<div className={s.field}>
-				<input
-					type='number'
-					name='guests'
-					min={1}
-					placeholder='სტუმრების რაოდენობა'
-					aria-invalid={!!errors.guests}
-					className={errors.guests ? s.inputError : ''}
-				/>
-				{errors.guests && <div className={s.errorText}>{errors.guests}</div>}
-			</div>
-
-			{/* Сообщение */}
-			<div className={s.field}>
-				<textarea
-					name='message'
-					placeholder='დამატებითი ინფორმაცია'
-					rows={5}
-					aria-invalid={!!errors.message}
-					className={errors.message ? s.inputError : ''}
-				/>
-				{errors.message && <div className={s.errorText}>{errors.message}</div>}
-			</div>
-
-			<button
-				className={`btn ${s.btnShine} ${s.submit}`}
-				disabled={state === 'sending'}
-			>
-				{state === 'sending' ? '...' : 'გაგზავნა'}
-			</button>
-		</form>
-	)
+  const [values, setValues] = useState(initial);
+  const [step, setStep] = useState(0);
+  const [status, setStatus] = useState<"idle" | "sending" | "ok" | "error">(
+    "idle",
+  );
+  const [message, setMessage] = useState("");
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const busy = useRef(false);
+  const formRef = useRef<HTMLFormElement>(null);
+  const heading = useRef<HTMLHeadingElement>(null);
+  const alertRef = useRef<HTMLDivElement>(null);
+  const changeStepFocus = useRef(false);
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search);
+    setValues((v) => ({
+      ...v,
+      eventType: eventTypes.includes(
+        q.get("event") as (typeof eventTypes)[number],
+      )
+        ? q.get("event")!
+        : "",
+      packageSlug: packages.some((p) => p.slug === q.get("menu"))
+        ? q.get("menu")!
+        : "undecided",
+    }));
+  }, []);
+  useEffect(() => {
+    if (changeStepFocus.current) {
+      heading.current?.focus();
+      changeStepFocus.current = false;
+    }
+  }, [step]);
+  useEffect(() => {
+    if (status === "ok" || status === "error") alertRef.current?.focus();
+  }, [status]);
+  function update(key: keyof typeof initial, value: string) {
+    setValues((v) => ({ ...v, [key]: value }));
+    setErrors((e) => {
+      const next = { ...e };
+      delete next[key];
+      return next;
+    });
+    if (status === "error") setStatus("idle");
+  }
+  function goto(next: number) {
+    changeStepFocus.current = true;
+    setStep(next);
+    setErrors({});
+  }
+  function validate(all = false) {
+    const parsed = bookingSchema.safeParse(values);
+    const keys = all
+      ? null
+      : step === 0
+        ? ["eventType", "date", "guests"]
+        : ["packageSlug"];
+    const next: Record<string, string> = {};
+    if (!parsed.success)
+      parsed.error.issues.forEach((i) => {
+        const key = String(i.path[0]);
+        if ((!keys || keys.includes(key)) && !next[key]) next[key] = i.message;
+      });
+    setErrors(next);
+    if (Object.keys(next).length) {
+      const first = Object.keys(next)[0];
+      const targetStep = ["eventType", "date", "guests"].includes(first)
+        ? 0
+        : first === "packageSlug"
+          ? 1
+          : 2;
+      if (targetStep !== step) {
+        setStep(targetStep);
+        requestAnimationFrame(() =>
+          formRef.current
+            ?.querySelector<HTMLElement>(`[data-field="${first}"]`)
+            ?.focus(),
+        );
+      } else
+        formRef.current
+          ?.querySelector<HTMLElement>(`[data-field="${first}"]`)
+          ?.focus();
+      return false;
+    }
+    return true;
+  }
+  async function submit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (busy.current) return;
+    if (!validate(step === 2)) return;
+    if (step < 2) {
+      goto(step + 1);
+      return;
+    }
+    busy.current = true;
+    setStatus("sending");
+    setMessage("");
+    try {
+      const res = await fetch("/api", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(bookingSchema.parse(values)),
+        signal: AbortSignal.timeout(20000),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.ok) {
+        setMessage(
+          res.status === 429
+            ? "გთხოვთ, ცოტა ხანში სცადოთ ხელახლა."
+            : "მოთხოვნა ვერ გაიგზავნა. სცადეთ მოგვიანებით ან დაგვირეკეთ: +995 599 43 56 44.",
+        );
+        setStatus("error");
+        return;
+      }
+      setStatus("ok");
+    } catch {
+      setMessage(
+        "კავშირის შეფერხება. გაგზავნის სტატუსის დასაზუსტებლად დაგვირეკეთ: +995 599 43 56 44.",
+      );
+      setStatus("error");
+    } finally {
+      busy.current = false;
+    }
+  }
+  const selectedPackage = packages.find((p) => p.slug === values.packageSlug);
+  const guestCount = Number(values.guests);
+  const total =
+    selectedPackage && guestCount >= 60 && guestCount <= 1200
+      ? selectedPackage.price * guestCount
+      : null;
+  const fieldProps = (name: keyof typeof initial) => ({
+    name,
+    "data-field": name,
+    "aria-invalid": !!errors[name],
+    "aria-describedby": errors[name] ? `${name}-error` : undefined,
+  });
+  const error = (name: string) =>
+    errors[name] ? (
+      <span id={`${name}-error`} className="field-error">
+        {errors[name]}
+      </span>
+    ) : null;
+  if (status === "ok")
+    return (
+      <div
+        className="reservation-card reservation-success"
+        ref={alertRef}
+        tabIndex={-1}
+        role="status"
+      >
+        <span className="success-seal">
+          <Icon name="check" />
+        </span>
+        <span className="eyebrow">მოთხოვნა მიღებულია</span>
+        <h2>
+          პირველი ნაბიჯი
+          <br />
+          უკვე გადადგმულია.
+        </h2>
+        <p>
+          თქვენი მოთხოვნა გაიგზავნა. დაგიკავშირდებით თარიღისა და დეტალების
+          დასადასტურებლად.
+        </p>
+        <div className="success-details">
+          <span>{values.eventType}</span>
+          <strong>{formatGeorgianDate(values.date)}</strong>
+          <span>{values.guests} სტუმარი</span>
+        </div>
+        <p className="reservation-disclaimer">
+          ეს არის მოთხოვნა. ჯავშანი ძალაში შედის ადმინისტრაციასთან შეთანხმების
+          შემდეგ.
+        </p>
+        <button
+          type="button"
+          className="btn"
+          onClick={() => {
+            setValues(initial);
+            setStatus("idle");
+            goto(0);
+          }}
+        >
+          ახალი მოთხოვნა <Icon name="arrow" />
+        </button>
+      </div>
+    );
+  return (
+    <form
+      className="reservation-card"
+      ref={formRef}
+      onSubmit={submit}
+      noValidate
+      aria-busy={status === "sending"}
+    >
+      <div className="reservation-topline">
+        <span>ლა ფიესტა</span>
+        <span>თქვენი ღონისძიების დაგეგმვა</span>
+      </div>
+      <nav
+        className="reservation-progress"
+        aria-label="მოთხოვნის შევსების ეტაპები"
+      >
+        {steps.map((label, i) => (
+          <button
+            type="button"
+            key={label}
+            disabled={i > step || status === "sending"}
+            aria-current={step === i ? "step" : undefined}
+            onClick={() => goto(i)}
+            className={i === step ? "current" : i < step ? "complete" : ""}
+          >
+            <span>{i < step ? <Icon name="check" /> : `0${i + 1}`}</span>
+            <small>{label}</small>
+          </button>
+        ))}
+      </nav>
+      <div className="reservation-heading">
+        <span className="eyebrow">ნაბიჯი 0{step + 1} / 03</span>
+        <h2 ref={heading} tabIndex={-1}>
+          {
+            ["როდის შევხვდეთ?", "როგორი სუფრა გსურთ?", "როგორ დაგიკავშირდეთ?"][
+              step
+            ]
+          }
+        </h2>
+        <p>
+          {
+            [
+              "აირჩიეთ ღონისძიება, თარიღი და სტუმრების რაოდენობა.",
+              "შეარჩიეთ პაკეტი ან მენიუ ჩვენთან ერთად შეათანხმეთ.",
+              "დატოვეთ თქვენი ნომერი — დეტალებს პირადად შევათანხმებთ.",
+            ][step]
+          }
+        </p>
+      </div>
+      {status === "error" && (
+        <div
+          ref={alertRef}
+          role="alert"
+          tabIndex={-1}
+          className="form-alert error"
+        >
+          {message}
+        </div>
+      )}
+      <fieldset disabled={status === "sending"}>
+        <legend className="visually-hidden">{steps[step]}</legend>
+        <div className="honey" aria-hidden="true">
+          <label>
+            კომპანია
+            <input
+              value={values.company}
+              onChange={(e) => update("company", e.target.value)}
+              tabIndex={-1}
+              autoComplete="off"
+            />
+          </label>
+        </div>
+        {step === 0 && (
+          <div className="reservation-fields">
+            <CustomSelect
+              name="eventType"
+              label="რას აღნიშნავთ?"
+              options={eventTypes.map((t) => ({ value: t, label: t }))}
+              value={values.eventType}
+              onChange={(v) => update("eventType", v)}
+              error={errors.eventType}
+              disabled={status === "sending"}
+            />
+            <CalendarPicker
+              value={values.date}
+              onChange={(v) => update("date", v)}
+              error={errors.date}
+              disabled={status === "sending"}
+            />
+            <div className="guest-control">
+              <div>
+                <label htmlFor="reservation-guests" className="field-label">
+                  სტუმრების რაოდენობა
+                </label>
+                <small>მინიმუმ 60 სტუმარი</small>
+              </div>
+              <div
+                className={`guest-stepper ${errors.guests ? "invalid" : ""}`}
+              >
+                <button
+                  type="button"
+                  aria-label="სტუმრების რაოდენობის შემცირება ათით"
+                  disabled={guestCount <= 60}
+                  onClick={() =>
+                    update(
+                      "guests",
+                      String(Math.max(60, (guestCount || 60) - 10)),
+                    )
+                  }
+                >
+                  −
+                </button>
+                <input
+                  id="reservation-guests"
+                  inputMode="numeric"
+                  type="text"
+                  value={values.guests}
+                  maxLength={4}
+                  onChange={(e) => {
+                    if (/^\d*$/.test(e.target.value))
+                      update("guests", e.target.value);
+                  }}
+                  {...fieldProps("guests")}
+                  aria-label="სტუმრების რაოდენობა"
+                />
+                <button
+                  type="button"
+                  aria-label="სტუმრების რაოდენობის გაზრდა ათით"
+                  disabled={guestCount >= 1200}
+                  onClick={() =>
+                    update(
+                      "guests",
+                      String(Math.min(1200, (guestCount || 60) + 10)),
+                    )
+                  }
+                >
+                  +
+                </button>
+              </div>
+              {error("guests")}
+            </div>
+          </div>
+        )}
+        {step === 1 && (
+          <div
+            className="reservation-packages"
+            role="radiogroup"
+            aria-label="სასურველი მენიუ"
+            data-field="packageSlug"
+            tabIndex={-1}
+          >
+            {[...packages]
+              .sort((a, b) => a.price - b.price)
+              .map((pkg) => (
+                <label
+                  key={pkg.slug}
+                  className={`reservation-package ${values.packageSlug === pkg.slug ? "chosen" : ""}`}
+                >
+                  <input
+                    type="radio"
+                    name="menu-choice"
+                    checked={values.packageSlug === pkg.slug}
+                    onChange={() => update("packageSlug", pkg.slug)}
+                  />
+                  <span className="reservation-package-photo">
+                    <Image
+                      src={
+                        "/menu/" +
+                        (pkg.slug === "40gel"
+                          ? "lobio.jpg"
+                          : pkg.slug === "70gel"
+                            ? "xachapuri.jpg"
+                            : "gochi.jpg")
+                      }
+                      alt=""
+                      fill
+                      sizes="90px"
+                    />
+                  </span>
+                  <span className="reservation-package-copy">
+                    <strong>{pkg.name}</strong>
+                    <small>{pkg.highlights.slice(0, 2).join(" · ")}</small>
+                    <Link
+                      href={`/menu/${pkg.slug}`}
+                      target="_blank"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      მენიუს ნახვა ↗
+                    </Link>
+                  </span>
+                  <span className="reservation-package-price">
+                    {pkg.price} ₾<small>სტუმარზე</small>
+                  </span>
+                  <span className="radio-indicator" aria-hidden="true">
+                    {values.packageSlug === pkg.slug && <Icon name="check" />}
+                  </span>
+                </label>
+              ))}
+            <label
+              className={`reservation-package undecided ${values.packageSlug === "undecided" ? "chosen" : ""}`}
+            >
+              <input
+                type="radio"
+                name="menu-choice"
+                checked={values.packageSlug === "undecided"}
+                onChange={() => update("packageSlug", "undecided")}
+              />
+              <span className="undecided-icon">
+                <Icon name="plate" />
+              </span>
+              <span className="reservation-package-copy">
+                <strong>ერთად შევარჩიოთ</strong>
+                <small>მენიუს პირადად შევათანხმებთ</small>
+              </span>
+              <span className="radio-indicator" aria-hidden="true">
+                {values.packageSlug === "undecided" && <Icon name="check" />}
+              </span>
+            </label>
+            {error("packageSlug")}
+            <p className="reservation-disclaimer">
+              ფასი და მენიუს შემადგენლობა საბოლოოდ დასტურდება ადმინისტრაციასთან.
+            </p>
+          </div>
+        )}
+        {step === 2 && (
+          <div className="reservation-fields">
+            <div className="reservation-receipt">
+              <div>
+                <span>თქვენი ღონისძიება</span>
+                <button type="button" onClick={() => goto(0)}>
+                  შეცვლა ↗
+                </button>
+              </div>
+              <strong>
+                {values.eventType} · {formatGeorgianDate(values.date)}
+              </strong>
+              <p>
+                {values.guests} სტუმარი <span>·</span>{" "}
+                {selectedPackage
+                  ? selectedPackage.name
+                  : "მენიუს ერთად შევარჩევთ"}
+              </p>
+              {total !== null && (
+                <div className="receipt-total">
+                  <span>სავარაუდო ღირებულება</span>
+                  <b>{new Intl.NumberFormat("ka-GE").format(total)} ₾</b>
+                </div>
+              )}
+            </div>
+            <label className="bespoke-input">
+              <span className="field-label">სახელი და გვარი</span>
+              <input
+                autoComplete="name"
+                maxLength={100}
+                placeholder="როგორ მოგმართოთ?"
+                value={values.name}
+                onChange={(e) => update("name", e.target.value)}
+                {...fieldProps("name")}
+              />
+              {error("name")}
+            </label>
+            <label className="bespoke-input">
+              <span className="field-label">ტელეფონის ნომერი</span>
+              <span className="phone-input">
+                <Icon name="phone" />
+                <input
+                  type="tel"
+                  autoComplete="tel"
+                  maxLength={30}
+                  placeholder="მაგ.: 599 43 56 44"
+                  value={values.phone}
+                  onChange={(e) => update("phone", e.target.value)}
+                  {...fieldProps("phone")}
+                />
+              </span>
+              {error("phone")}
+            </label>
+            <label className="bespoke-input">
+              <span className="field-label">
+                თქვენი სურვილები <small>არასავალდებულო</small>
+              </span>
+              <textarea
+                rows={3}
+                maxLength={1000}
+                placeholder="მოგვიყევით, როგორ წარმოგიდგენიათ ეს დღე…"
+                value={values.message}
+                onChange={(e) => update("message", e.target.value)}
+                {...fieldProps("message")}
+              />
+              {error("message")}
+            </label>
+            <p className="reservation-disclaimer">
+              გაგზავნით ეთანხმებით მონაცემების გამოყენებას თქვენთან
+              დასაკავშირებლად. მოთხოვნა გადაეგზავნება ადმინისტრაციას ტელეგრამში.
+            </p>
+          </div>
+        )}
+        <div className="reservation-navigation">
+          {step > 0 && (
+            <button
+              className="reservation-back"
+              type="button"
+              onClick={() => goto(step - 1)}
+            >
+              ← უკან
+            </button>
+          )}
+          <button
+            className="btn reservation-next"
+            disabled={status === "sending"}
+            type="submit"
+          >
+            {status === "sending"
+              ? "იგზავნება…"
+              : step === 2
+                ? "მოთხოვნის გაგზავნა"
+                : "გაგრძელება"}
+            <Icon name="arrow" />
+          </button>
+        </div>
+      </fieldset>
+      <div className="reservation-bottom">
+        <Icon name="heart" />
+        <span>ჯავშანი დასტურდება პირადი შეთანხმების შემდეგ</span>
+      </div>
+    </form>
+  );
 }

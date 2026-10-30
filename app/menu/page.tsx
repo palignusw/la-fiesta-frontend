@@ -1,22 +1,32 @@
-import Section from "@/components/Section/Section";
+import type { Metadata } from "next";
 import PackageGrid from "@/components/Menu/PackageGrid";
-import { packages, texts } from "@/lib/content";
-
+import MenuComparison from "@/components/Experience/MenuComparison";
+import { packages } from "@/lib/content";
+export const metadata: Metadata = {
+  title: "მენიუ",
+  alternates: { canonical: "/menu" },
+};
 export default function MenuPage() {
-  const t = texts?.MenuPackages ?? {
-    title: "ბანკეტის პაკეტები",
-    subtitle: "აირჩიეთ შესაბამისი შეთავაზება თქვენი ღონისძიებისთვის",
-    note: "ფასები მითითებულია ერთ სტუმარზე. ალკოჰოლური სასმელები — შეთანხმებით.",
-    view: "ნახვა",
-    perPerson: "ფასი ერთ სტუმარზე",
-    back: "დაბრუნება პაკეტებში",
-    book: "დაჯავშნა",
-  };
-
   return (
-    <Section title={t.title} subtitle={t.subtitle}>
-      <PackageGrid items={packages} />
-      <p style={{ marginTop: 14, color: "var(--muted)" }}>{t.note}</p>
-    </Section>
+    <section className="section container">
+      <div className="page-heading">
+        <span className="eyebrow">გემრიელი შეხვედრებისთვის</span>
+        <h1>
+          ქართული სუფრა,
+          <br />
+          თქვენი არჩევანით.
+        </h1>
+        <p>
+          გაეცანით საბანკეტო პაკეტებს. ფასები მოცემულია ერთ სტუმარზე.
+          <br />
+          მენიუსა და ღონისძიების დეტალებს პირადად შევათანხმებთ.
+        </p>
+      </div>
+      <PackageGrid items={[...packages].sort((a, b) => a.price - b.price)} />
+      <MenuComparison />
+      <p className="fine-print">
+        მენიუს შემადგენლობა და ფასი დაჯავშნამდე გადაამოწმეთ ადმინისტრაციასთან.
+      </p>
+    </section>
   );
 }
