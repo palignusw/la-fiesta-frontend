@@ -1,5 +1,6 @@
 import Header from "@/components/Header/Header";
 import "./globals.css";
+import "./experience.css";
 import Footer from "@/components/Footer/Footer";
 import { Metadata } from "next";
 import Script from "next/script";

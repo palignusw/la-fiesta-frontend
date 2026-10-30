@@ -76,7 +76,7 @@ export default async function PackagePage({
           <br />
           მენიუს შემადგენლობა და ფასი დასტურდება ადმინისტრაციასთან.
         </p>
-        <Link href="/contacts" className="btn">
+        <Link href={`/contacts?menu=${pkg.slug}`} className="btn">
           ჯავშნის მოთხოვნა ↗
         </Link>
       </div>

@@ -31,3 +31,12 @@ Remove old deployment variables `NEXT_PUBLIC_API_URL`, `ADMIN_USER`, `ADMIN_PASS
 - `public/gallery`, `public/menu`, `public/hero`: original venue and food photography.
 
 Existing menu prices (40/70/85 ₾), phone number and location are retained from the repository. Verify prices and event conditions before launch. No real Telegram enquiries should be sent during automated checks.
+
+## Custom reservation experience
+
+The enquiry form has three steps: event/date/guests, menu, then contact details and review. Values remain in React state when navigating between steps; nothing is persisted in the browser. The calendar uses Georgian labels and supports month/year selection and arrow, Home/End, PageUp/PageDown keyboard navigation. Past dates are disabled; selected dates are requests, not confirmed availability. Event and menu links may prefill `?event=` and `?menu=` using known options only.
+
+- `components/Booking/CalendarPicker.tsx`, `CustomSelect.tsx`: custom controls, with no native date/select UI or date-picker library.
+- `lib/calendar.ts`: calendar dates and Georgian formatting.
+- `app/experience.css`: editorial burgundy/ivory identity and reservation styles.
+- `components/Experience/EventExplorer.tsx`: event tabs on the homepage.
