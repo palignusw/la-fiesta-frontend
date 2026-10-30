@@ -30,7 +30,6 @@ export const metadata: Metadata = {
   ],
   icons: {
     icon: [{ url: "/favicon.ico" }],
-    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
   },
   alternates: { canonical: "/" },
   openGraph: {
@@ -78,7 +77,7 @@ const jsonLd = [
     name: "La Fiesta",
     alternateName: "ლა ფიესტა",
     url: "https://lafiesta.ge",
-    telephone: "+99555150910",
+    telephone: "+995599435644",
     priceRange: "₾₾",
     acceptsReservations: true,
     image: ["https://lafiesta.ge/hero/hall.png"],
@@ -93,22 +92,6 @@ const jsonLd = [
     geo: { "@type": "GeoCoordinates", latitude: 42.43033, longitude: 42.38122 },
     hasMap: "https://maps.google.com/?q=42.43033,42.38122",
     menu: "https://lafiesta.ge/menu",
-    openingHoursSpecification: [
-      {
-        "@type": "OpeningHoursSpecification",
-        dayOfWeek: [
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday",
-          "Sunday",
-        ],
-        opens: "11:00",
-        closes: "02:00",
-      },
-    ],
   },
   {
     "@context": "https://schema.org",
@@ -171,7 +154,7 @@ export default function RootLayout({
           <Analytics />
         </Suspense>
         <Header />
-        <main>{children}</main>
+        <main id="main-content">{children}</main>
         <Footer />
       </body>
     </html>
