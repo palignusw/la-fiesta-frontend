@@ -1,55 +1,17 @@
-import type { MetadataRoute } from 'next'
-const site = 'https://lafiesta.ge'
-
+import type { MetadataRoute } from "next";
+import { packages } from "@/lib/content";
 export default function sitemap(): MetadataRoute.Sitemap {
-	return [
-		{
-			url: `${site}/`,
-			changeFrequency: 'weekly',
-			priority: 1.0,
-			lastModified: new Date(),
-		},
-		{
-			url: `${site}/menu`,
-			changeFrequency: 'weekly',
-			priority: 0.9,
-			lastModified: new Date(),
-		},
-		{
-			url: `${site}/gallery`,
-			changeFrequency: 'monthly',
-			priority: 0.7,
-			lastModified: new Date(),
-		},
-		{
-			url: `${site}/about`,
-			changeFrequency: 'monthly',
-			priority: 0.6,
-			lastModified: new Date(),
-		},
-		{
-			url: `${site}/contacts`,
-			changeFrequency: 'monthly',
-			priority: 0.8,
-			lastModified: new Date(),
-		},
-		{
-			url: `${site}/menu/70gel`,
-			changeFrequency: 'monthly',
-			priority: 0.8,
-			lastModified: new Date(),
-		},
-		{
-			url: `${site}/menu/90gel`,
-			changeFrequency: 'monthly',
-			priority: 0.8,
-			lastModified: new Date(),
-		},
-		{
-			url: `${site}/location`,
-			changeFrequency: 'monthly',
-			priority: 0.8,
-			lastModified: new Date(),
-		},
-	]
+  return [
+    "",
+    "/menu",
+    "/gallery",
+    "/about",
+    "/contacts",
+    "/location",
+    ...packages.map((p) => `/menu/${p.slug}`),
+  ].map((path) => ({
+    url: `https://lafiesta.ge${path || "/"}`,
+    changeFrequency: "monthly",
+    priority: path ? 0.8 : 1,
+  }));
 }
