@@ -30,7 +30,7 @@ Remove old deployment variables `NEXT_PUBLIC_API_URL`, `ADMIN_USER`, `ADMIN_PASS
 - `app/page.tsx`: homepage.
 - `public/gallery`, `public/menu`, `public/hero`: original venue and food photography.
 
-Existing menu prices (40/70/85 ₾), phone number and location are retained from the repository. Verify prices and event conditions before launch. No real Telegram enquiries should be sent during automated checks.
+Existing menu prices (40/80/95 ₾), phone number and location are retained from the repository. Verify prices and event conditions before launch. No real Telegram enquiries should be sent during automated checks.
 
 ## Custom reservation experience
 
@@ -47,8 +47,6 @@ The homepage uses real menu data for package previews, comparison rows, price ra
 
 ## Google rating
 
-The homepage links to the owner's confirmed Google Business profile. A dated manual snapshot (4.8 from 39 ratings, 2026-10-30) is the fallback only. It is not emitted as AggregateRating or promised to produce search-result stars.
+The homepage links to the owner's confirmed Google Business profile. It displays the owner's manual snapshot (4.8 from 39 ratings, 2026-10-30) with its date. Update `googleReviews` in `lib/restaurant.ts` after checking the Google profile; the displayed date is derived from `updatedAt`.
 
-For automatic rating/count updates, enable Places API (New) in your Google Cloud project and set server-only `GOOGLE_PLACES_API_KEY` and `GOOGLE_PLACES_PLACE_ID` in Vercel for the desired environments, then redeploy. The ID must identify the La Fiesta listing in Martvili; a `share.google` URL is not a Place ID. Restrict the API key to Places API. Google may charge for API use; review its billing and quotas before enabling it.
-
-The server fetches only business identity, location, rating, rating count and Google Maps URI. It rejects mismatched IDs, names and locations. Next.js caches the request for one hour; refresh happens through incoming page requests/revalidation rather than a background hourly job. Google failures, invalid responses or missing configuration use the visibly dated manual snapshot. No API key or raw API error is exposed to the browser. This does not scrape Google or republish individual review texts.
+There are no Google Places API requests, API keys, subscriptions or automatic synchronization. Visitors open Google to see current ratings and individual reviews. The score is not emitted as AggregateRating and does not promise search-result stars.

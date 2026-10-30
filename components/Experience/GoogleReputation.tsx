@@ -1,7 +1,6 @@
 import Icon from "./Icon";
-import { getGoogleReputation } from "@/lib/google-reputation";
-export default async function GoogleReputation() {
-  const googleReviews = await getGoogleReputation();
+import { googleReviews } from "@/lib/restaurant";
+export default function GoogleReputation() {
   return (
     <section
       className="container google-reputation"
@@ -29,15 +28,16 @@ export default async function GoogleReputation() {
           Google-პროფილზე.
         </p>
         <small>
-          {googleReviews.source === "google" ? (
-            "რეიტინგი და შეფასებების რაოდენობა მიღებულია Google-იდან. მონაცემები პერიოდულად ახლდება."
-          ) : (
-            <>
-              შენახული შეფასება —{" "}
-              <time dateTime={googleReviews.updatedAt}>30.10.2026</time>.
-              მიმდინარე მონაცემები იხილეთ Google-ში.
-            </>
-          )}
+          შენახული შეფასება —{" "}
+          <time dateTime={googleReviews.updatedAt}>
+            {new Intl.DateTimeFormat("ka-GE", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+              timeZone: "UTC",
+            }).format(new Date(googleReviews.updatedAt + "T12:00:00Z"))}
+          </time>
+          . მიმდინარე მონაცემები იხილეთ Google-ში.
         </small>
       </div>
       <a
