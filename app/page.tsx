@@ -4,6 +4,9 @@ import PackageGrid from "@/components/Menu/PackageGrid";
 import { packages } from "@/lib/content";
 import EventExplorer from "@/components/Experience/EventExplorer";
 import Icon from "@/components/Experience/Icon";
+import MenuComparison from "@/components/Experience/MenuComparison";
+import VenueDetails from "@/components/Experience/VenueDetails";
+import CuisineSelection from "@/components/Experience/CuisineSelection";
 export default function HomePage() {
   return (
     <>
@@ -24,15 +27,15 @@ export default function HomePage() {
             რესტორანი და საბანკეტო სივრცე · მარტვილი
           </div>
           <h1>
-            აქ იწყება
+            რესტორანი მარტვილში.
             <br />
-            თქვენი <em>დღესასწაული.</em>
+            <em>ლა ფიესტა.</em>
           </h1>
           <div className="editorial-bottom">
             <p>
-              ლამაზი სივრცე. ქართული სუფრა.
+              ქორწილი, ნათლობა თუ ოჯახური ბანკეტი —
               <br />
-              თქვენი ადამიანები — ერთ მაგიდასთან.
+              შეარჩიეთ მენიუ და დაგეგმეთ თქვენი ღონისძიება.
             </p>
             <Link href="/contacts" className="btn ivory-button">
               დაგეგმეთ თქვენი დღე
@@ -55,11 +58,11 @@ export default function HomePage() {
       <div className="experience-strip">
         <div className="container">
           <span>
-            <Icon name="heart" /> თქვენი განსაკუთრებული დღე
+            <Icon name="heart" /> ქორწილი · ნათლობა · ბანკეტი
           </span>
           <i />
           <span>
-            <Icon name="plate" /> ქართული და მეგრული გემო
+            <Icon name="plate" /> ქართული და მეგრული კერძები
           </span>
           <i />
           <span>
@@ -67,27 +70,50 @@ export default function HomePage() {
           </span>
         </div>
       </div>
-      <section className="section container welcome-editorial">
-        <div className="welcome-title">
-          <span className="eyebrow">სიხარული იწყება შეხვედრით</span>
+      <section className="container venue-introduction">
+        <div>
+          <span className="eyebrow">გაიცანით ლა ფიესტა</span>
           <h2>
-            ზოგი დღე
+            ქართული სუფრა და
             <br />
-            უბრალოდ <em>განსაკუთრებულია.</em>
+            <em>სადღესასწაულო გარემო.</em>
           </h2>
-        </div>
-        <div className="welcome-note">
-          <span className="decorative-star" aria-hidden="true">
-            ✳
-          </span>
           <p>
-            ამ დღისთვის იკრიბებიან თქვენი ადამიანები. იშლება ქართული სუფრა.
-            იწყება საუბარი, მუსიკა და მოგონებები.
+            ლა ფიესტა მარტვილში მდებარე რესტორანი და საბანკეტო დარბაზია. ჩვენთან
+            შეგიძლიათ დაგეგმოთ ქორწილი, ნათლობა და ოჯახური თუ მეგობრული შეკრება.
           </p>
-          <p>ლა ფიესტაში სწორედ ასეთი შეხვედრებისთვის გელოდებით.</p>
           <Link href="/about" className="text-link">
-            გაიცანით ლა ფიესტა
+            ჩვენ შესახებ
             <Icon name="diagonal" />
+          </Link>
+        </div>
+        <div className="venue-fact-grid">
+          <Link href="/location">
+            <Icon name="pin" />
+            <strong>მარტვილი</strong>
+            <span>მდებარეობა და მარშრუტი</span>
+            <b>↗</b>
+          </Link>
+          <Link href="/menu">
+            <Icon name="plate" />
+            <strong>{packages.length} მენიუ</strong>
+            <span>
+              {Math.min(...packages.map((p) => p.price))}–
+              {Math.max(...packages.map((p) => p.price))} ₾ ერთ სტუმარზე
+            </span>
+            <b>↗</b>
+          </Link>
+          <Link href="/gallery">
+            <Icon name="sparkle" />
+            <strong>დარბაზის ფოტოები</strong>
+            <span>ინტერიერი და გაფორმების მაგალითები</span>
+            <b>↗</b>
+          </Link>
+          <Link href="/contacts">
+            <Icon name="calendar" />
+            <strong>დაგეგმეთ ღონისძიება</strong>
+            <span>გაგვიზიარეთ თარიღი და სურვილები</span>
+            <b>↗</b>
           </Link>
         </div>
       </section>
@@ -106,7 +132,7 @@ export default function HomePage() {
             <p>
               ქართული და მეგრული კერძები თქვენს სუფრაზე.
               <br />
-              მენიუ სტუმრებისა და სურვილების მიხედვით შეარჩიეთ.
+              შეარჩიეთ მენიუ თქვენი ღონისძიებისთვის.
             </p>
             <Link href="/menu" className="text-link">
               ყველა პაკეტი
@@ -115,43 +141,10 @@ export default function HomePage() {
           </div>
         </div>
         <PackageGrid items={[...packages].sort((a, b) => a.price - b.price)} />
+        <MenuComparison />
       </section>
-      <section className="venue-story container">
-        <div className="venue-tall">
-          <Image
-            src="/hero/hro.jpg"
-            alt="ლა ფიესტას შენობა"
-            fill
-            sizes="(max-width:760px) 100vw, 45vw"
-          />
-        </div>
-        <div className="venue-story-copy">
-          <span className="eyebrow">გარემო ქმნის განწყობას</span>
-          <h2>
-            დეტალები,
-            <br />
-            რომლებიც თქვენს
-            <br />
-            <em>დღეს ერგება.</em>
-          </h2>
-          <p>
-            დარბაზი, სადღესასწაულო სუფრა და თქვენი საყვარელი ადამიანები.
-            დაათვალიერეთ სივრცე და წარმოიდგინეთ თქვენი დღე ლა ფიესტაში.
-          </p>
-          <Link href="/gallery" className="text-link">
-            შეაბიჯეთ ჩვენს სივრცეში
-            <Icon name="diagonal" />
-          </Link>
-          <div className="venue-small">
-            <Image
-              src="/gallery/hall8.jpg"
-              alt="ლა ფიესტას დარბაზის დეტალები"
-              fill
-              sizes="(max-width:760px) 70vw, 27vw"
-            />
-          </div>
-        </div>
-      </section>
+      <CuisineSelection />
+      <VenueDetails />
       <section className="section container planning-section">
         <div className="section-heading">
           <div>
@@ -179,7 +172,7 @@ export default function HomePage() {
               n: "02",
               icon: "plate",
               title: "აირჩიეთ მენიუ",
-              text: "გაეცანით პაკეტებს ან სუფრის შერჩევაში ჩვენ დაგეხმარებით.",
+              text: "გაეცანით პაკეტებს. თუ არჩევანი ჯერ არ გაგიკეთებიათ, მენიუს შერჩევაში დაგეხმარებით.",
             },
             {
               n: "03",
@@ -218,15 +211,32 @@ export default function HomePage() {
             {[
               {
                 q: "ფორმის გაგზავნისას თარიღი ავტომატურად იჯავშნება?",
-                a: "ფორმა აგზავნის მოთხოვნას. თავისუფალ თარიღსა და პირობებს ადმინისტრაცია პირადად დაგიდასტურებთ.",
+                a: "არა. ფორმის შევსებით გვიგზავნით მოთხოვნას. თარიღისა და პირობების შეთანხმების შემდეგ ჯავშანს ადმინისტრაცია დაგიდასტურებთ.",
               },
               {
                 q: "როგორ შევარჩიო მენიუ?",
                 a: "მენიუს გვერდზე შეგიძლიათ ნახოთ პაკეტები და კერძები. თუ ჯერ არ გადაგიწყვეტიათ, ფორმაში აირჩიეთ „ერთად შევარჩიოთ“.",
               },
               {
-                q: "როგორ დაგიკავშირდებით?",
-                a: "მოგვწერეთ ფორმით, დაგვირეკეთ ან გამოიყენეთ ვოთსაპი. ფორმაში მიუთითეთ ნომერი, რომელზეც დაგიკავშირდებით.",
+                q: "როგორ დაგიკავშირდეთ?",
+                a: "შეგიძლიათ შეავსოთ მოთხოვნის ფორმა, დაგვირეკოთ ან მოგვწეროთ ვოთსაპში. ფორმაში მიუთითეთ საკონტაქტო ნომერი.",
+              },
+              {
+                q: "სად მდებარეობს ლა ფიესტა?",
+                a: "ლა ფიესტა მდებარეობს მარტვილში, სამეგრელოში. ზუსტი მდებარეობისა და მარშრუტის სანახავად გახსენით გვერდი „მდებარეობა“.",
+              },
+              {
+                q: "რა ღირს მენიუ?",
+                a: `პაკეტების ფასებია ${[...packages]
+                  .sort((a, b) => a.price - b.price)
+                  .map((p) => p.price)
+                  .join(
+                    ", ",
+                  )} ლარი. ფასები მოცემულია ერთ სტუმარზე. საბოლოო ფასსა და შემადგენლობას დაჯავშნამდე შევათანხმებთ.`,
+              },
+              {
+                q: "შემიძლია დარბაზის წინასწარ დათვალიერება?",
+                a: "დარბაზის დათვალიერების დროის შესათანხმებლად დაგვიკავშირდით ტელეფონით ან ვოთსაპით.",
               },
             ].map((item) => (
               <details key={item.q}>
@@ -238,6 +248,53 @@ export default function HomePage() {
               </details>
             ))}
           </div>
+        </div>
+      </section>
+      <section className="container home-contact-section">
+        <div className="home-contact-photo">
+          <Image
+            src="/hero/hro.jpg"
+            alt="ლა ფიესტას შენობა მარტვილში"
+            fill
+            sizes="(max-width:760px) 100vw, 45vw"
+          />
+        </div>
+        <div className="home-contact-copy">
+          <span className="eyebrow">დაგვიკავშირდით ან გვეწვიეთ</span>
+          <h2>
+            შევხვდეთ
+            <br />
+            <em>მარტვილში.</em>
+          </h2>
+          <p>
+            გსურთ მენიუს დაზუსტება ან ღონისძიების დაგეგმვა? დაგვიკავშირდით და
+            ერთად შევათანხმოთ დეტალები.
+          </p>
+          <a href="tel:+995599435644" className="home-contact-phone">
+            +995 599 43 56 44
+          </a>
+          <div className="home-contact-links">
+            <a
+              href="https://www.google.com/maps/search/?api=1&query=42.43033,42.38122"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <Icon name="pin" />
+              მარშრუტის ნახვა ↗
+            </a>
+            <a
+              href="https://wa.me/995599435644"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <Icon name="phone" />
+              მოგვწერეთ ვოთსაპში ↗
+            </a>
+          </div>
+          <Link href="/contacts" className="btn">
+            ჯავშნის მოთხოვნა
+            <Icon name="arrow" />
+          </Link>
         </div>
       </section>
       <section className="final-invitation">

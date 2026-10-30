@@ -10,11 +10,11 @@ import { Suspense } from "react";
 export const metadata: Metadata = {
   metadataBase: new URL("https://lafiesta.ge"),
   title: {
-    default: "ლა ფიესტა (La Fiesta) — საქორწილო/ბანკეტის დარბაზი მარტვილში",
+    default: "ლა ფიესტა — რესტორანი და საბანკეტო დარბაზი მარტვილში",
     template: "%s | ლა ფიესტა (La Fiesta)",
   },
   description:
-    "ელეგანტური ბანკეტები, ქორწილები და უმაღლესი მომსახურება მარტვილში — ლა ფიესტა (La Fiesta).",
+    "რესტორანი და საბანკეტო დარბაზი მარტვილში. ქართული და მეგრული კერძები, მენიუს პაკეტები, დარბაზის ფოტოები და ღონისძიების დაგეგმვა — ლა ფიესტა.",
   keywords: [
     "ლა ფიესტა",
     "La Fiesta",
@@ -37,9 +37,9 @@ export const metadata: Metadata = {
     type: "website",
     url: "https://lafiesta.ge",
     siteName: "ლა ფიესტა (La Fiesta)",
-    title: "ლა ფიესტა (La Fiesta) — საქორწილო/ბანკეტის დარბაზი მარტვილში",
+    title: "ლა ფიესტა — რესტორანი და საბანკეტო დარბაზი მარტვილში",
     description:
-      "ელეგანტური ბანკეტები, ქორწილები და უმაღლესი მომსახურება მარტვილში.",
+      "ქორწილები, ნათლობები და ბანკეტები მარტვილში. გაეცანით მენიუსა და დარბაზის ფოტოებს.",
     images: [
       {
         url: "https://lafiesta.ge/hero/hall.png",
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "ლა ფიესტა (La Fiesta) — ბანკეტის დარბაზი მარტვილში",
-    description: "ელეგანტური ბანკეტები და უმაღლესი მომსახურება.",
+    description: "ქართული სუფრა და ღონისძიებების დაგეგმვა მარტვილში.",
     images: ["/hero/hall.png"],
   },
   robots: { index: true, follow: true },

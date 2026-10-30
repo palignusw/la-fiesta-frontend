@@ -40,3 +40,7 @@ The enquiry form has three steps: event/date/guests, menu, then contact details 
 - `lib/calendar.ts`: calendar dates and Georgian formatting.
 - `app/experience.css`: editorial burgundy/ivory identity and reservation styles.
 - `components/Experience/EventExplorer.tsx`: event tabs on the homepage.
+
+## Restaurant content
+
+The homepage uses real menu data for package previews, comparison rows, price ranges and links from featured dishes to packages. Update `lib/content.ts` rather than duplicating prices in presentation components. `MenuComparison.tsx`, `CuisineSelection.tsx` and `VenueDetails.tsx` supply the richer menu and venue sections. Venue photos are examples of past setups; no capacity, parking, included decoration, testimonials or event statistics are assumed.
