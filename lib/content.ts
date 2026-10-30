@@ -509,6 +509,7 @@ export const albums = [
 ] as const;
 
 export const media: MediaItem[] = [
+  {id: "decor1", src: "/gallery/dekor1.jpg", album: "დეკორი", alt: "ლა ფიესტას დეკორი"},
   {
     id: "hall1",
     src: "/gallery/hall1.jpg",
@@ -655,3 +656,4 @@ export const texts = {
     rights: "ყველა უფლება დაცულია © {year} La Fiesta",
   },
 } as const;
+
