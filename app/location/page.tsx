@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import { restaurant, mapUrl, mapEmbedUrl } from "@/lib/restaurant";
 export const metadata: Metadata = {
   title: "მდებარეობა",
   alternates: { canonical: "/location" },
 };
-const map = "https://www.google.com/maps/search/?api=1&query=42.43033,42.38122";
+
 export default function LocationPage() {
   return (
     <section className="section container">
@@ -18,14 +19,14 @@ export default function LocationPage() {
         </div>
         <div>
           <p>ლა ფიესტა · მარტვილი, საქართველო</p>
-          <a href="tel:+995599435644" className="text-link">
-            +995 599 43 56 44
+          <a href={`tel:${restaurant.phone}`} className="text-link">
+            {restaurant.displayPhone}
           </a>
         </div>
       </div>
       <div className="location-map">
         <iframe
-          src="https://www.google.com/maps?q=42.43033,42.38122&z=16&hl=ka&output=embed"
+          src={mapEmbedUrl}
           title="ლა ფიესტას მდებარეობა რუკაზე"
           loading="lazy"
           allowFullScreen
@@ -34,7 +35,7 @@ export default function LocationPage() {
       </div>
       <div className="map-footer">
         <p>მარშრუტის სანახავად გახსენით რუკა.</p>
-        <a href={map} className="btn" target="_blank" rel="noreferrer">
+        <a href={mapUrl} className="btn" target="_blank" rel="noreferrer">
           მარშრუტის ნახვა ↗
         </a>
       </div>

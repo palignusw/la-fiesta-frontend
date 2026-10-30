@@ -6,6 +6,10 @@ import { Metadata } from "next";
 import Script from "next/script";
 import Analytics from "./analytics";
 import { Suspense } from "react";
+import {
+  getRestaurantStructuredData,
+  serializeStructuredData,
+} from "@/lib/restaurant";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://lafiesta.ge"),
@@ -59,58 +63,6 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-const jsonLd = [
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: "La Fiesta",
-    alternateName: "ლა ფიესტა",
-    url: "https://lafiesta.ge",
-    logo: "https://lafiesta.ge/brand/la-fiesta-logo.png",
-    sameAs: [
-      "https://www.tiktok.com/@la_fiesta2022",
-      "https://www.facebook.com/profile.php?id=100083011586797",
-    ],
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": ["LocalBusiness", "Restaurant", "EventVenue"],
-    name: "La Fiesta",
-    alternateName: "ლა ფიესტა",
-    url: "https://lafiesta.ge",
-    telephone: "+995599435644",
-    priceRange: "₾₾",
-    acceptsReservations: true,
-    image: ["https://lafiesta.ge/hero/hall.png"],
-    logo: "https://lafiesta.ge/brand/la-fiesta-logo.png",
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: "მარტვილი",
-      addressRegion: "Samegrelo-Zemo Svaneti",
-      postalCode: "3100",
-      addressCountry: "GE",
-    },
-    geo: { "@type": "GeoCoordinates", latitude: 42.43033, longitude: 42.38122 },
-    hasMap: "https://maps.google.com/?q=42.43033,42.38122",
-    menu: "https://lafiesta.ge/menu",
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: "La Fiesta",
-    url: "https://lafiesta.ge",
-    inLanguage: "ka-GE",
-    publisher: {
-      "@type": "Organization",
-      name: "La Fiesta",
-      logo: {
-        "@type": "ImageObject",
-        url: "https://lafiesta.ge/brand/la-fiesta-logo.png",
-      },
-    },
-  },
-];
-
 export default function RootLayout({
   children,
 }: {
@@ -124,8 +76,9 @@ export default function RootLayout({
         {/* JSON-LD */}
         <script
           type="application/ld+json"
-          suppressHydrationWarning
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{
+            __html: serializeStructuredData(getRestaurantStructuredData()),
+          }}
         />
         {/* GA4 скрипты */}
         {
