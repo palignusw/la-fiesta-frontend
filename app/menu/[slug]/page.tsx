@@ -1,207 +1,85 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { packages } from "@/lib/content";
-import type { MenuItem } from "@/lib/content"; // 👈 важный импорт типов
-import SectionSpy from "@/components/SectionSpy/SectionSpy";
-import s from "./page.module.scss";
-import type { Metadata } from "next";
 import Image from "next/image";
-
-type Params = { slug: string };
-type Search = { [key: string]: string | string[] | undefined };
-
-/** type-guard: пункт с картинкой (объект, а не строка) */
-function isItemObj(
-  item: MenuItem
-): item is Extract<MenuItem, { label: string }> {
-  return typeof item === "object" && item !== null && "label" in item;
-}
-
+import { packages } from "@/lib/content";
+import type { Metadata } from "next";
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const pkg = packages.find((p) => p.slug === slug);
-
-  if (!pkg) {
-    return {
-      title: "პაკეტი ვერ მოიძებნა | ლა ფიესტა (La Fiesta)",
-      description: "საჩვენებელი პაკეტი ვერ მოიძებნა.",
-      alternates: { canonical: `/menu/${slug}` },
-      openGraph: {
-        title: "პაკეტი ვერ მოიძებნა | ლა ფიესტა (La Fiesta)",
-        description: "საჩვენებელი პაკეტი ვერ მოიძებნა.",
-        url: `/menu/${slug}`,
-        images: [
-          {
-            url: "/og/cover.jpg",
-            width: 1200,
-            height: 630,
-            alt: "ლა ფიესტა (La Fiesta)",
-          },
-        ],
-        type: "article",
-        locale: "ka_GE",
-        siteName: "ლა ფიესტა (La Fiesta)",
-      },
-    };
-  }
-
-  const title = `${pkg.name} — ლა ფიესტა (La Fiesta)`;
-  const description = `${pkg.name} · ${pkg.price} ₾ · ${pkg.perPersonLabel}`;
-
+  const p = packages.find((p) => p.slug === slug);
   return {
-    title,
-    description,
+    title: p?.name || "მენიუ ვერ მოიძებნა",
     alternates: { canonical: `/menu/${slug}` },
-    openGraph: {
-      title,
-      description,
-      url: `/menu/${slug}`,
-      images: [
-        {
-          url: "/og/cover.jpg",
-          width: 1200,
-          height: 630,
-          alt: "ლა ფიესტა (La Fiesta)",
-        },
-      ],
-      type: "article",
-      locale: "ka_GE",
-      siteName: "ლა ფიესტა (La Fiesta)",
-    },
-    keywords: ["ბანკეტი", "მენიუ", "საქორწილო დარბაზი", "მარტვილი", pkg.name],
+    openGraph: { images: ["/hero/hro.jpg"] },
   };
 }
-
 export default async function PackagePage({
   params,
 }: {
-  params: Promise<Params>;
-  searchParams?: Promise<Search>;
+  params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-
-  const t = {
-    back: "დაბრუნება პაკეტებში",
-    book: "დაჯავშნა",
-  };
-
   const pkg = packages.find((p) => p.slug === slug);
   if (!pkg) notFound();
-
-  const ids: string[] = pkg.sections.map(
-    (sec, i) =>
-      `sec-${(sec.title || "section").toLowerCase().replace(/\s+/g, "-")}-${i}`
-  );
-
   return (
-    <div className="container">
-      <div className={s.wrap}>
-        <Link href="/menu" className={`btn outline ${s.back}`}>
-          ← {t.back}
-        </Link>
-
-        <div className={s.head}>
-          <h1 className={s.title}>{pkg.name}</h1>
-          <div className={s.price}>{pkg.price} ₾</div>
+    <section className="section container">
+      <Link className="text-link" href="/menu">
+        ← ყველა პაკეტი
+      </Link>
+      <div className="menu-detail-head">
+        <div>
+          <span className="eyebrow">ლა ფიესტას საბანკეტო მენიუ</span>
+          <h1>{pkg.name}</h1>
         </div>
-        <p className={s.meta}>{pkg.perPersonLabel}</p>
-
-        <div className={s.grid}>
-          <main className={s.main}>
-            <SectionSpy ids={ids} />
-            <nav className={s.toc}>
-              {pkg.sections.map((sec, i) => (
-                <a key={i} href={`#${ids[i]}`}>
-                  {sec.title}
-                </a>
-              ))}
-            </nav>
-
-            {pkg.sections.map((sec, i) => {
-              const hasImages = sec.items.some(
-                (it) => isItemObj(it) && !!it.img
-              );
-
-              return (
-                <section key={i} id={ids[i]} className={s.card}>
-                  <h3 className={s.fancyTitle}>{sec.title}</h3>
-
-                  {hasImages ? (
-                    <ul className={s.menuRows}>
-                      {sec.items.map((item, idx) => {
-                        const label = isItemObj(item) ? item.label : item;
-                        const img = isItemObj(item) ? item.img ?? null : null;
-                        const alt = isItemObj(item) ? item.alt ?? label : label;
-
-                        return (
-                          <li key={idx} className={s.rowCard}>
-                            {img && (
-                              <a
-                                href={img}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className={s.rowPhoto}
-                                aria-label={label}
-                              >
-                                <Image
-                                  src={img}
-                                  alt={alt}
-                                  fill
-								  sizes="(max-width:480px) 100vw, (max-width:600px) 48vw, (max-width:1100px) 40vw, 260px"
-                                  className={s.rowImg}
-                                />
-                              </a>
-                            )}
-                            <div className={s.rowBody}>
-                              <div className={s.rowTitle}>{label}</div>
-                            </div>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  ) : (
-                    <ul className={s.luxList}>
-                      {sec.items.map((item, idx) => (
-                        <li key={idx} className={s.luxItem}>
-                          {isItemObj(item) ? item.label : item}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </section>
-              );
-            })}
-
-            <div className={s.actions}>
-              <Link href="/contacts" className={`btn ${s.btnShine}`}>
-                {t.book}
-              </Link>
-              <Link href="/menu" className="btn outline">
-                {t.back}
-              </Link>
-            </div>
-          </main>
-
-          <aside>
-            <div className={s.sticky}>
-              <nav className={s.toc}>
-                {pkg.sections.map((sec, i) => (
-                  <a key={i} href={`#${ids[i]}`}>
-                    {sec.title}
-                  </a>
-                ))}
-              </nav>
-              <Link href="/contacts" className={`btn ${s.btnShine}`}>
-                {t.book}
-              </Link>
-            </div>
-          </aside>
+        <div className="menu-detail-price">
+          {pkg.price} ₾<small>{pkg.perPersonLabel}</small>
         </div>
       </div>
-    </div>
+      <nav className="menu-tabs" aria-label="მენიუს კატეგორიები">
+        {pkg.sections.map((s, i) => (
+          <a href={`#category-${i}`} key={i}>
+            {s.title}
+          </a>
+        ))}
+      </nav>
+      {pkg.sections.map((section, i) => (
+        <section className="menu-category" id={`category-${i}`} key={i}>
+          <h2>{section.title}</h2>
+          <ul className="dish-grid">
+            {section.items.map((item, j) => {
+              const dish = typeof item === "string" ? { label: item } : item;
+              return (
+                <li key={j}>
+                  {dish.img && (
+                    <div className="dish-photo">
+                      <Image
+                        src={dish.img}
+                        alt={dish.alt || dish.label}
+                        fill
+                        sizes="(max-width:540px) 45vw, (max-width:1100px) 30vw, 22vw"
+                      />
+                    </div>
+                  )}
+                  <h3>{dish.label}</h3>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      ))}
+      <div className="detail-cta">
+        <p>
+          მოგეწონათ მენიუ? ღონისძიების დეტალები ერთად შევათანხმოთ.
+          <br />
+          მენიუს შემადგენლობა და ფასი დასტურდება ადმინისტრაციასთან.
+        </p>
+        <Link href="/contacts" className="btn">
+          ჯავშნის მოთხოვნა ↗
+        </Link>
+      </div>
+    </section>
   );
 }

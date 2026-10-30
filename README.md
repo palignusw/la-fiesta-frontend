@@ -1,36 +1,33 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# La Fiesta
 
-## Getting Started
+Georgian restaurant and event venue website built with Next.js. No separate NestJS service, database, booking admin, or booking persistence is required.
 
-First, run the development server:
+## Run
 
-```bash
+```sh
+npm ci
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Telegram enquiries
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Set `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` in the hosting environment (or `.env.local` for local development). Existing variables with these names are compatible. The bot must be allowed to send messages to the destination; start the bot for a private chat or add it to the group.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The browser posts to the same-origin `/api` route in this Next.js app. This small serverless handler validates the request and forwards it to Telegram. It stores no booking records and never exposes the token. A fully static browser-only implementation cannot safely keep a bot token secret. Standard Next.js hosting such as Vercel is required; static export is not supported.
 
-## Learn More
+Success appears only after Telegram confirms delivery. Missing configuration returns an error and offers the phone contact. Submission is an enquiry, not a confirmed reservation or availability check. The team confirms dates manually.
 
-To learn more about Next.js, take a look at the following resources:
+Abuse protection uses a honeypot, body size checks, same-origin checks and a bounded in-memory per-instance rate limiter (five attempts per ten minutes). The limiter is best effort and resets on restarts; it is not distributed. On Vercel the platform-provided forwarding header selects the bucket; other hosts use a shared bucket. For stronger production abuse controls, use hosting-level rules. Do not log booking payloads. Telegram itself retains the forwarded message; this app has no booking database.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Remove old deployment variables `NEXT_PUBLIC_API_URL`, `ADMIN_USER`, `ADMIN_PASS`, and unused Resend settings. The external NestJS deployment can be stopped separately after this version is deployed.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Content
 
-## Deploy on Vercel
+- `lib/content.ts`: menu packages, prices, dishes, gallery.
+- `lib/booking.ts`: enquiry validation and event types.
+- `app/globals.css`: shared design and responsive styles.
+- `app/page.tsx`: homepage.
+- `public/gallery`, `public/menu`, `public/hero`: original venue and food photography.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Existing menu prices (40/70/85 ₾), phone number and location are retained from the repository. Verify prices and event conditions before launch. No real Telegram enquiries should be sent during automated checks.

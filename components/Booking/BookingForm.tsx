@@ -1,290 +1,216 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-'use client'
-
-import { useState } from 'react'
-import s from './BookingForm.module.scss'
-import { z } from 'zod'
-import { packages } from '@/lib/content'
-import DateResponsive from './DateResponsive'
-import Select from '@/components/UI/Select/Select'
-
-const EVENT_TYPES = [
-	'ქორწილი',
-	'ნათლობა',
-	'ბანკეტი',
-	'ქელეხი',
-] as const
-type EventType = (typeof EVENT_TYPES)[number]
-
-type FormPayload = {
-	name: string
-	phone: string
-	date?: string
-	guests?: number
-	message?: string
-	company?: string
-	packageSlug: string
-	eventType: EventType
-}
-
-type Errors = Partial<Record<keyof FormPayload, string>>
-
-const isValidGEPhone = (raw: string) => {
-	const v = (raw || '').replace(/\s|-/g, '')
-	const mobileLocal = /^0?5\d{8}$/
-	const mobileIntl = /^\+?9955\d{8}$/
-	const cityLocal = /^0?(?:32|\d{2})\d{7}$/
-	const cityIntl = /^\+?995(?:32|\d{2})\d{7}$/
-	return (
-		mobileLocal.test(v) ||
-		mobileIntl.test(v) ||
-		cityLocal.test(v) ||
-		cityIntl.test(v)
-	)
-}
-const isFutureDate = (d?: string) => {
-	if (!d) return false
-	const dt = new Date(d + 'T00:00:00')
-	const today = new Date()
-	today.setHours(0, 0, 0, 0)
-	return dt.getTime() >= today.getTime()
-}
-
-const PACKAGE_SLUGS = packages.map(p => p.slug) as [string, ...string[]]
-
-const ClientSchema = z.object({
-	name: z.string().min(2, 'შეიყვანეთ სრული სახელი'),
-	phone: z
-		.string()
-		.refine(isValidGEPhone, 'ნომერი დაწერეთ სწორი ფორმატით მაგ:599435644'),
-	date: z
-		.string()
-		.min(1, 'აირჩიეთ თარიღი')
-		.refine(isFutureDate, 'აირჩიეთ მომავალი თარიღი'),
-	guests: z.coerce
-		.number()
-		.refine(v => !Number.isNaN(v), 'შეიყვანეთ რიცხვი')
-		.int('მხოლოდ მთელი რიცხვი')
-		.min(60, 'სტუმრების მინ 60')
-		.max(1200, 'ძალიან ბევრი სტუმარი'),
-	message: z.string().max(1000, 'მაქსიმუმ 1000 სიმბოლო').optional(),
-	company: z.string().max(0).optional(),
-	packageSlug: z.enum(PACKAGE_SLUGS, { message: 'აირჩიეთ პაკეტი' }),
-	eventType: z.enum(EVENT_TYPES, { message: 'აირჩიეთ ტიპი' }),
-})
-
-// Тексты для серверных ответов
-const REASON_TEXT: Record<string, string> = {
-	occupied: 'ამ თარიღზე ადგილი უკვე დაკავებულია. გთხოვთ აირჩიოთ სხვა თარიღი.',
-}
-const ERROR_TEXT: Record<string, string> = {
-	INVALID_PACKAGE: 'აირჩიეთ სწორი პაკეტი',
-	PAST_DATE: 'აირჩიეთ მომავალი თარიღი',
-	VALIDATION: 'შეამოწმეთ ველები — ვერიფიკაცია ჩავარდა',
-	SERVER_ERROR: 'სერვერის შეცდომა',
-}
-
+"use client";
+import { useEffect, useRef, useState } from "react";
+import { packages } from "@/lib/content";
+import { bookingSchema, eventTypes, todayInGeorgia } from "@/lib/booking";
 export default function BookingForm() {
-	const [state, setState] = useState<'idle' | 'sending' | 'ok' | 'err'>('idle')
-	const [errMsg, setErrMsg] = useState('')
-	const [errors, setErrors] = useState<Errors>({})
-
-	async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
-		e.preventDefault()
-		setErrMsg('')
-		setErrors({})
-		setState('sending')
-
-		const form = e.currentTarget
-		const fd = new FormData(form)
-		const payload: any = Object.fromEntries(fd.entries())
-
-		const parsed = ClientSchema.safeParse(payload)
-		if (!parsed.success) {
-			const map: Errors = {}
-			parsed.error.issues.forEach(i => {
-				const key = i.path[0] as keyof FormPayload
-				if (!map[key]) map[key] = i.message
-			})
-			setErrors(map)
-			setState('idle')
-			const firstKey = Object.keys(map)[0]
-			if (firstKey)
-				(
-					form.querySelector(`[name="${firstKey}"]`) as HTMLElement | null
-				)?.focus()
-			return
-		}
-
-		try {
-			const res = await fetch('/api', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify(parsed.data),
-			})
-
-			if (!res.ok) {
-				// Пытаемся вытащить осмысленную ошибку из JSON
-				let msg = `HTTP ${res.status}`
-				try {
-					const err = await res.json()
-					if (err?.issues?.length) {
-						msg = err.issues[0]?.message || ERROR_TEXT.VALIDATION
-					} else if (err?.error && ERROR_TEXT[err.error]) {
-						msg = ERROR_TEXT[err.error]
-					} else if (err?.error) {
-						msg = String(err.error)
-					}
-				} catch {
-					const txt = await res.text()
-					if (txt) msg += `: ${txt.slice(0, 120)}`
-				}
-				setState('err')
-				setErrMsg(msg)
-				return
-			}
-
-			const data = await res.json()
-
-			if (!data.ok) {
-				// Специальный случай: дата занята
-				if (data.reason === 'occupied') {
-					setErrors(prev => ({ ...prev, date: REASON_TEXT.occupied }))
-					setState('idle')
-					setErrMsg('')
-					const dateAlt = form.querySelector(
-						`.${s.dateAlt}`
-					) as HTMLInputElement | null
-					dateAlt?.focus()
-					return
-				}
-
-				// Прочие ошибки с сервера
-				const msg =
-					(data.error && (ERROR_TEXT[data.error] || String(data.error))) ||
-					ERROR_TEXT.SERVER_ERROR
-				setState('err')
-				setErrMsg(msg)
-				return
-			}
-
-			// Успех
-			setState('ok')
-			form.reset()
-			// очищаем ошибки у полей
-			setErrors({})
-			setTimeout(() => setState('idle'), 10000)
-		} catch (err: any) {
-			setState('err')
-			setErrMsg(err?.message ?? 'Network error')
-		}
-	}
-
-	return (
-		<form className={s.form} onSubmit={onSubmit} noValidate>
-			{/* honeypot */}
-			<input
-				type='text'
-				name='company'
-				className={s.honey}
-				tabIndex={-1}
-				autoComplete='off'
-			/>
-
-			{state === 'ok' && (
-				<div className={`${s.alert} ${s.success}`}>
-					<span className={s.icon}>✓</span> თქვენი ჯავშანი წარმატებით გაიგზავნა,მალე დაგიკავშირდებით!
-				</div>
-			)}
-			{state === 'err' && (
-				<div className={`${s.alert} ${s.danger}`}>
-					<span className={s.icon}>!</span> შეცდომა: {errMsg}
-				</div>
-			)}
-
-			{/* Имя */}
-			<div className={s.field}>
-				<input
-					name='name'
-					placeholder='სახელი და გვარი'
-					aria-invalid={!!errors.name}
-					className={errors.name ? s.inputError : ''}
-				/>
-				{errors.name && <div className={s.errorText}>{errors.name}</div>}
-			</div>
-
-			{/* Пакет + тип события */}
-			<div className={s.row2}>
-				<div className={s.field}>
-					<Select
-						name='packageSlug'
-						placeholder='აირჩიეთ პაკეტი'
-						options={packages.map(p => ({ value: p.slug, label: p.name }))}
-						error={errors.packageSlug}
-					/>
-				</div>
-				<Select
-					name='eventType'
-					placeholder='ივენთის ტიპი'
-					options={EVENT_TYPES.map(t => ({ value: t, label: t }))}
-					error={errors.eventType}
-				/>
-			</div>
-
-			{/* Телефон + дата */}
-			<div className={s.row2}>
-				<div className={s.field}>
-					<input
-						type='tel'
-						name='phone'
-						placeholder='ტელეფონი'
-						aria-invalid={!!errors.phone}
-						className={errors.phone ? s.inputError : ''}
-					/>
-					{errors.phone && <div className={s.errorText}>{errors.phone}</div>}
-				</div>
-
-				<div className={s.field}>
-					<DateResponsive
-						name='date'
-						label='თარიღი'
-						error={errors.date}
-						note='სამუშაო საათები: 11:00–23:00'
-					/>
-				</div>
-			</div>
-
-			{/* Гости */}
-			<div className={s.field}>
-				<input
-					type='number'
-					name='guests'
-					min={1}
-					placeholder='სტუმრების რაოდენობა'
-					aria-invalid={!!errors.guests}
-					className={errors.guests ? s.inputError : ''}
-				/>
-				{errors.guests && <div className={s.errorText}>{errors.guests}</div>}
-			</div>
-
-			{/* Сообщение */}
-			<div className={s.field}>
-				<textarea
-					name='message'
-					placeholder='დამატებითი ინფორმაცია'
-					rows={5}
-					aria-invalid={!!errors.message}
-					className={errors.message ? s.inputError : ''}
-				/>
-				{errors.message && <div className={s.errorText}>{errors.message}</div>}
-			</div>
-
-			<button
-				className={`btn ${s.btnShine} ${s.submit}`}
-				disabled={state === 'sending'}
-			>
-				{state === 'sending' ? '...' : 'გაგზავნა'}
-			</button>
-		</form>
-	)
+  const [status, setStatus] = useState<"idle" | "sending" | "ok" | "error">(
+    "idle",
+  );
+  const [message, setMessage] = useState("");
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [minDate, setMinDate] = useState("");
+  const busy = useRef(false);
+  const alertRef = useRef<HTMLDivElement>(null);
+  useEffect(() => setMinDate(todayInGeorgia()), []);
+  useEffect(() => {
+    if (status === "ok" || status === "error") alertRef.current?.focus();
+  }, [status]);
+  async function submit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (busy.current) return;
+    const form = e.currentTarget;
+    const payload = Object.fromEntries(new FormData(form));
+    setErrors({});
+    setMessage("");
+    setStatus("idle");
+    const parsed = bookingSchema.safeParse(payload);
+    if (!parsed.success) {
+      const next: Record<string, string> = {};
+      parsed.error.issues.forEach((i) => {
+        const key = String(i.path[0]);
+        if (!next[key]) next[key] = i.message;
+      });
+      setErrors(next);
+      (
+        form.elements.namedItem(Object.keys(next)[0]) as HTMLElement | null
+      )?.focus();
+      return;
+    }
+    busy.current = true;
+    setStatus("sending");
+    try {
+      const res = await fetch("/api", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(parsed.data),
+        signal: AbortSignal.timeout(20000),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.ok) {
+        setMessage(
+          res.status === 429
+            ? "გთხოვთ, ცოტა ხანში სცადოთ ხელახლა."
+            : res.status === 400
+              ? "შეამოწმეთ შევსებული მონაცემები."
+              : "მოთხოვნა ვერ გაიგზავნა. სცადეთ მოგვიანებით ან დაგვირეკეთ: +995 599 43 56 44.",
+        );
+        setStatus("error");
+        return;
+      }
+      form.reset();
+      setStatus("ok");
+    } catch {
+      setMessage(
+        "კავშირის შეფერხება. გაგზავნის სტატუსის დასაზუსტებლად დაგვირეკეთ: +995 599 43 56 44.",
+      );
+      setStatus("error");
+    } finally {
+      busy.current = false;
+    }
+  }
+  const error = (name: string) =>
+    errors[name] ? (
+      <span id={`${name}-error`} className="field-error">
+        {errors[name]}
+      </span>
+    ) : null;
+  const props = (name: string) => ({
+    "aria-invalid": !!errors[name],
+    "aria-describedby": errors[name] ? `${name}-error` : undefined,
+  });
+  return (
+    <form className="booking-form" onSubmit={submit} noValidate>
+      <h2>ჯავშნის მოთხოვნა</h2>
+      <p>შეავსეთ ფორმა და ჩვენ დაგიკავშირდებით.</p>
+      {(status === "ok" || status === "error") && (
+        <div
+          ref={alertRef}
+          tabIndex={-1}
+          role={status === "error" ? "alert" : "status"}
+          className={`form-alert ${status === "error" ? "error" : ""}`}
+        >
+          {status === "ok"
+            ? "თქვენი მოთხოვნა გაიგზავნა! დაგიკავშირდებით თარიღისა და დეტალების დასადასტურებლად."
+            : message}
+        </div>
+      )}
+      <fieldset disabled={status === "sending"}>
+        <legend className="visually-hidden">ღონისძიების დეტალები</legend>
+        <div className="honey" aria-hidden="true">
+          <label>
+            კომპანია
+            <input name="company" tabIndex={-1} autoComplete="off" />
+          </label>
+        </div>
+        <div className="form-grid">
+          <label className="form-field wide">
+            სახელი და გვარი
+            <input
+              name="name"
+              autoComplete="name"
+              maxLength={100}
+              placeholder="თქვენი სახელი და გვარი"
+              required
+              {...props("name")}
+            />
+            {error("name")}
+          </label>
+          <label className="form-field wide">
+            ტელეფონი
+            <input
+              type="tel"
+              name="phone"
+              autoComplete="tel"
+              maxLength={30}
+              placeholder="მაგ.: 599 43 56 44"
+              required
+              {...props("phone")}
+            />
+            {error("phone")}
+          </label>
+          <label className="form-field">
+            სასურველი თარიღი
+            <input
+              type="date"
+              lang="ka"
+              name="date"
+              min={minDate}
+              required
+              {...props("date")}
+            />
+            {error("date")}
+          </label>
+          <label className="form-field">
+            სტუმრების რაოდენობა
+            <input
+              type="number"
+              name="guests"
+              inputMode="numeric"
+              min={60}
+              max={1200}
+              step={1}
+              placeholder="მინ. 60"
+              required
+              {...props("guests")}
+            />
+            {error("guests")}
+          </label>
+          <label className="form-field">
+            ღონისძიების ტიპი
+            <select
+              name="eventType"
+              defaultValue=""
+              required
+              {...props("eventType")}
+            >
+              <option value="" disabled>
+                აირჩიეთ ტიპი
+              </option>
+              {eventTypes.map((t) => (
+                <option key={t}>{t}</option>
+              ))}
+            </select>
+            {error("eventType")}
+          </label>
+          <label className="form-field">
+            სასურველი მენიუ
+            <select
+              name="packageSlug"
+              defaultValue="undecided"
+              {...props("packageSlug")}
+            >
+              <option value="undecided">ჯერ არ ამირჩევია</option>
+              {[...packages]
+                .sort((a, b) => a.price - b.price)
+                .map((p) => (
+                  <option key={p.slug} value={p.slug}>
+                    {p.name}
+                  </option>
+                ))}
+            </select>
+            {error("packageSlug")}
+          </label>
+          <label className="form-field wide">
+            დამატებითი ინფორმაცია{" "}
+            <span className="visually-hidden">არასავალდებულო</span>
+            <textarea
+              name="message"
+              rows={4}
+              maxLength={1000}
+              placeholder="გაგვიზიარეთ თქვენი სურვილები (არასავალდებულო)"
+              {...props("message")}
+            />
+            {error("message")}
+          </label>
+        </div>
+        <button className="btn" type="submit" disabled={status === "sending"}>
+          {status === "sending" ? "იგზავნება…" : "მოთხოვნის გაგზავნა ↗"}
+        </button>
+      </fieldset>
+      <p className="form-privacy">
+        გაგზავნით ეთანხმებით მონაცემების გამოყენებას თქვენს მოთხოვნაზე
+        დასაკავშირებლად. მოთხოვნა გადაეგზავნება ადმინისტრაციას ტელეგრამში.
+      </p>
+    </form>
+  );
 }
