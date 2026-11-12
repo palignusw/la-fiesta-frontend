@@ -1,8 +1,11 @@
 import { MenuPackage } from "@/lib/content";
 import Link from "next/link";
+import styles from "./PackageGrid.module.scss";
+import { LuCrown } from "react-icons/lu";
 import Image from "next/image";
 import Icon from "@/components/Experience/Icon";
 export default function PackageCard({ pkg }: { pkg: MenuPackage }) {
+  const premium = pkg.slug === "120gel";
   const photo =
     pkg.slug === "85gel"
       ? "gochi.jpg"
@@ -11,19 +14,19 @@ export default function PackageCard({ pkg }: { pkg: MenuPackage }) {
         : "lobio.jpg";
   const main = pkg.sections.find((s) => s.title === "ძირითადი კერძები");
   return (
-    <article className="package-card package-content-card">
+    <article className={`package-card package-content-card ${premium ? styles.premium : ""}`}>
       <Link
         href={`/menu/${pkg.slug}`}
         className="package-photo"
         aria-label={`${pkg.name} — სრული მენიუ`}
       >
         <Image
-          src={"/menu/" + photo}
+          src={pkg.photo ?? "/menu/" + photo}
           alt={pkg.name}
           fill
           sizes="(max-width:640px) 100vw, 33vw"
         />
-        <span>საბანკეტო მენიუ</span>
+        <span>{premium && <LuCrown aria-hidden="true" />} {premium ? "პრემიუმ მენიუ" : "საბანკეტო მენიუ"}</span>
       </Link>
       <div className="package-body">
         <div className="package-top">

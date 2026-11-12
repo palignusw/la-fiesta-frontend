@@ -371,7 +371,7 @@ export default function BookingForm() {
                   <span className="reservation-package-photo">
                     <Image
                       src={
-                        "/menu/" +
+                        pkg.photo ?? "/menu/" +
                         (pkg.slug === "40gel"
                           ? "lobio.jpg"
                           : pkg.slug === "70gel"
