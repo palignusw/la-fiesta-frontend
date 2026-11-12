@@ -1,13 +1,26 @@
-import s from './PackageGrid.module.scss'
-import PackageCard from './PackageCard'
-import { MenuPackage } from '@/lib/content'
+import { LuCrown } from "react-icons/lu";
+import { MenuPackage } from "@/lib/content";
+import { restaurant } from "@/lib/restaurant";
+import PackageCard from "./PackageCard";
+import styles from "./PackageGrid.module.scss";
 
 export default function PackageGrid({ items }: { items: MenuPackage[] }) {
-	return (
-		<div className={s.grid}>
-			{items.map(p => (
-				<PackageCard key={p.slug} pkg={p} />
-			))}
-		</div>
-	)
+  return (
+    <div className={styles.grid}>
+      {items.map((pkg) => (
+        <PackageCard key={pkg.slug} pkg={pkg} />
+      ))}
+      <article className={styles.premium}>
+        <div className={styles.medallion} aria-hidden="true">
+          <LuCrown />
+        </div>
+        <h3>პრემიუმ მენიუ</h3>
+        <p className={styles.price}>120 ₾ <small>ერთ სტუმარზე</small></p>
+        <p>მენიუს შემადგენლობას ინდივიდუალურად შევათანხმებთ.</p>
+        <a className={styles.call} href={`tel:${restaurant.phone}`}>
+          დაგვიკავშირდით
+        </a>
+      </article>
+    </div>
+  );
 }

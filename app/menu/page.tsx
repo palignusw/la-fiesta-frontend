@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
-import { LuCrown } from "react-icons/lu";
 import styles from "./banquet.module.scss";
 import PackageGrid from "@/components/Menu/PackageGrid";
 import MenuComparison from "@/components/Experience/MenuComparison";
 import { packages } from "@/lib/content";
 import {
   getMenuStructuredData,
-  restaurant,
   serializeStructuredData,
 } from "@/lib/restaurant";
 export const metadata: Metadata = {
@@ -36,18 +34,6 @@ export default function MenuPage() {
         </p>
       </div>
       <PackageGrid items={[...packages].sort((a, b) => a.price - b.price)} />
-      <article className={styles.premium}>
-        <div className={styles.crown} aria-hidden="true">
-          <LuCrown />
-        </div>
-        <div>
-          <h2>პრემიუმ მენიუ</h2>
-          <p>მენიუს შემადგენლობასა და ფასს ინდივიდუალურად შევათანხმებთ.</p>
-        </div>
-        <a href={`tel:${restaurant.phone}`} className="btn">
-          დაგვიკავშირდით
-        </a>
-      </article>
       <MenuComparison />
       <p className="fine-print">
         მენიუს შემადგენლობა და ფასი დაჯავშნამდე გადაამოწმეთ ადმინისტრაციასთან.
