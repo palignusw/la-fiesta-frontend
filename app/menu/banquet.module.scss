@@ -1,0 +1,113 @@
+.catalog {
+  --menu-gold: #edc780;
+  --menu-ink: #21170c;
+}
+
+.catalog :global(.page-heading) h1 em {
+  color: var(--menu-gold);
+}
+
+.catalog :global(.package-content-card) {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+  background: linear-gradient(155deg, var(--surface-raised), var(--surface));
+}
+
+.catalog :global(.package-photo) {
+  height: clamp(180px, 22vw, 280px);
+  border-radius: 0;
+}
+
+.catalog :global(.package-photo > span) {
+  border: 1px solid #edc78066;
+  color: var(--menu-gold);
+}
+
+.catalog :global(.package-body) {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: clamp(18px, 2vw, 30px);
+}
+
+.catalog :global(.package-top h3) {
+  font-size: clamp(17px, 1.6vw, 22px);
+}
+
+.catalog :global(.package-dish-list li) {
+  font-size: 13px;
+}
+
+.catalog :global(.package-counts) {
+  margin-top: auto;
+}
+
+.premium {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(18px, 4vw, 54px);
+  margin-top: 32px;
+  padding: clamp(24px, 5vw, 66px);
+  border: 1px solid #c49a50;
+  border-radius: 20px;
+  background: radial-gradient(ellipse at 4% 5%, #56391d, transparent 62%), #211810;
+  color: #f6eddd;
+}
+
+.premium::before {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border: 1px solid #edc78044;
+  border-radius: 14px;
+  pointer-events: none;
+}
+
+.crown {
+  display: grid;
+  place-items: center;
+  width: clamp(60px, 8vw, 110px);
+  aspect-ratio: 1;
+  border: 1px solid #edc78088;
+  border-radius: 50%;
+  background: #23180e;
+  color: var(--menu-gold);
+  font-size: clamp(28px, 4vw, 54px);
+}
+
+.premium h2 {
+  margin: 0 0 12px;
+  color: var(--menu-gold);
+  font-size: clamp(25px, 4vw, 54px);
+  letter-spacing: normal;
+}
+
+.premium p {
+  margin: 0;
+  color: #eadac1;
+  line-height: 1.8;
+  font-size: 13px;
+}
+
+.premium a {
+  border-radius: 999px;
+  background: linear-gradient(135deg, #f9e0a9, #d5a355);
+  color: var(--menu-ink);
+}
+
+.premium a:hover {
+  background: #f9e0a9;
+}
+
+@media (max-width: 760px) {
+  .premium {
+    grid-template-columns: 1fr;
+    justify-items: start;
+  }
+}
