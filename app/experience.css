@@ -107,15 +107,15 @@ h2 em {
 }
 .hero-editorial-image img {
   object-fit: cover;
-  object-position: center 48%;
+  object-position: 62% center;
   animation: hero-unfold 1.3s ease-out both;
 }
 .editorial-shade {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, #100d0ab5, #100d0a30 80%),
-    linear-gradient(0deg, #100d0ace 0%, #100d0a12 80%);
+    linear-gradient(90deg, #100d0af5 0%, #100d0aa8 42%, transparent 83%),
+    linear-gradient(0deg, #100d0add 0%, transparent 44%);
 }
 .editorial-content {
   position: relative;
@@ -137,7 +137,7 @@ h2 em {
 .hero-line {
   width: 42px;
   height: 1px;
-  background: var(--surface-raised);
+  background: var(--gold);
 }
 .editorial-content h1 {
   font-size: clamp(50px, 5.8vw, 88px);
@@ -1852,7 +1852,7 @@ h2 em {
     padding-block: 65px 110px;
   }
   .hero-editorial-image img {
-    object-position: 51% center;
+    object-position: 64% center;
   }
   .editorial-shade {
     background:
