@@ -26,7 +26,12 @@ export default function PackageCard({ pkg }: { pkg: MenuPackage }) {
           fill
           sizes="(max-width:640px) 100vw, 33vw"
         />
-        <span>{premium && <LuCrown aria-hidden="true" />} {premium ? "პრემიუმ მენიუ" : "საბანკეტო მენიუ"}</span>
+        {premium && (
+          <span className={styles.crown} aria-hidden="true">
+            <LuCrown />
+          </span>
+        )}
+        <span>{premium ? "პრემიუმ მენიუ" : "საბანკეტო მენიუ"}</span>
       </Link>
       <div className="package-body">
         <div className="package-top">
