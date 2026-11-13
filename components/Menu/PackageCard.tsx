@@ -50,7 +50,10 @@ export default function PackageCard({ pkg }: { pkg: MenuPackage }) {
           <span> ₾</span>
           <small>{pkg.perPersonLabel}</small>
         </div>
-        <p className="package-categories">{pkg.highlights.join(" · ")}</p>
+        <p><strong>მენიუში {itemCount} დასახელებაა</strong></p>
+        <p className="package-categories">
+          {pkg.sections.map((section) => section.title).join(" · ")}
+        </p>
         <ul className="package-dish-list">
           {main?.items.slice(0, 4).map((item) => {
             const label = typeof item === "string" ? item : item.label;
@@ -62,10 +65,6 @@ export default function PackageCard({ pkg }: { pkg: MenuPackage }) {
             );
           })}
         </ul>
-        <div className="package-counts">
-          <span>{itemCount} პოზიცია</span>
-          <span>{pkg.sections.length} კატეგორია</span>
-        </div>
         <div className="package-card-actions">
           <Link href={`/menu/${pkg.slug}`} className="text-link">
             სრული მენიუ <Icon name="diagonal" />
