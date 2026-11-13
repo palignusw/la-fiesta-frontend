@@ -3,6 +3,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { packages } from "@/lib/content";
 import type { Metadata } from "next";
+const placeholderPhoto = "/gallery/dekor1.jpg";
+
 export async function generateMetadata({
   params,
 }: {
@@ -53,16 +55,14 @@ export default async function PackagePage({
               const dish = typeof item === "string" ? { label: item } : item;
               return (
                 <li key={j}>
-                  {dish.img && (
-                    <div className="dish-photo">
-                      <Image
-                        src={dish.img}
-                        alt={dish.alt || dish.label}
-                        fill
-                        sizes="(max-width:540px) 45vw, (max-width:1100px) 30vw, 22vw"
-                      />
-                    </div>
-                  )}
+                  <div className="dish-photo">
+                    <Image
+                      src={dish.img ?? placeholderPhoto}
+                      alt={dish.img ? dish.alt ?? dish.label : ""}
+                      fill
+                      sizes="(max-width:540px) 45vw, (max-width:1100px) 30vw, 22vw"
+                    />
+                  </div>
                   <h3>{dish.label}</h3>
                 </li>
               );

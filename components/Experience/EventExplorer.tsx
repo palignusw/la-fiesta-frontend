@@ -9,7 +9,7 @@ const events = [
     title: "ქორწილი —\nთქვენი დღესასწაული.",
     description:
       "გაეცანით დარბაზის ფოტოებს, შეარჩიეთ საბანკეტო მენიუ და გაგვიზიარეთ თქვენი სურვილები. თარიღსა და ღონისძიების დეტალებს წინასწარ შევათანხმებთ.",
-    image: "hall3.jpg",
+    image: "/events/wedding.webp",
     note: "დღე, რომელიც თქვენ გეკუთვნით",
     icon: "heart",
   },
@@ -18,7 +18,7 @@ const events = [
     title: "ნათლობა —\nოჯახისა და ახლობლების წრეში.",
     description:
       "ნათლობის აღსანიშნავად შეარჩიეთ სასურველი მენიუ და მოგვწერეთ სტუმრების რაოდენობა. სუფრისა და ღონისძიების დეტალებს ერთად შევათანხმებთ.",
-    image: "hall5.jpg",
+    image: "/events/christening.webp",
     note: "ოჯახური სიხარულის გასაზიარებლად",
     icon: "sparkle",
   },
@@ -27,7 +27,7 @@ const events = [
     title: "კარგი მიზეზი\nერთად შესაკრებად.",
     description:
       "დაბადების დღე, ოჯახური შეკრება თუ მეგობრული საღამო — მოგვწერეთ სასურველი თარიღი და შეარჩიეთ მენიუ თქვენი სტუმრებისთვის.",
-    image: "hall1.jpg",
+    image: "/events/banquet.webp",
     note: "თქვენი საყვარელი ადამიანების გარემოცვაში",
     icon: "people",
   },
@@ -100,13 +100,13 @@ export default function EventExplorer() {
           <div className="occasion-image">
             <Image
               key={event.image}
-              src={"/gallery/" + event.image}
+              src={event.image}
               alt={`ლა ფიესტა — ${event.name}`}
               fill
               sizes="(max-width:760px) 100vw, 55vw"
             />
             <div className="occasion-caption">
-              <span>ლა ფიესტას სივრცე</span>
+              <span>ღონისძიების ილუსტრაცია</span>
               <span>მარტვილი, საქართველო</span>
             </div>
           </div>

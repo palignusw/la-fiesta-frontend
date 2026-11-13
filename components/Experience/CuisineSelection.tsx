@@ -5,25 +5,25 @@ import Icon from "./Icon";
 const dishes = [
   {
     name: "ხაჭაპური",
-    img: "xachapuri.jpg",
+    img: "editorial/xachapuri.webp",
     note: "ქართული სუფრის ნაცნობი გემო",
     match: "ხაჭაპური",
   },
   {
     name: "გებჟალია",
-    img: "gebjalia.jpg",
+    img: "editorial/gebjalia.webp",
     note: "მეგრული სამზარეულოდან",
     match: "გებჟალია",
   },
   {
     name: "ელარჯი",
-    img: "elarji.jpg",
+    img: "editorial/elarji.webp",
     note: "მეგრული სუფრისთვის",
     match: "ელარჯი",
   },
   {
     name: "ღორის მწვადი",
-    img: "mwv.webp",
+    img: "editorial/mwv.webp",
     note: "ცხელი კერძებიდან",
     match: "ღორის მწვადი",
   },

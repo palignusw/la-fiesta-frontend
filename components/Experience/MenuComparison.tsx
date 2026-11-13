@@ -1,17 +1,6 @@
 import Link from "next/link";
-import { packages } from "@/lib/content";
+import { menuCategories, packages } from "@/lib/content";
 import Icon from "./Icon";
-const rows = [
-  { label: "ძირითადი კერძები", match: (s: string) => s === "ძირითადი კერძები" },
-  { label: "ცივი კერძები", match: (s: string) => s === "ცივი კერძები" },
-  {
-    label: "სალათები",
-    match: (s: string) => s === "სალათი" || s === "სალათები",
-  },
-  { label: "ცომეული", match: (s: string) => s === "ცომეული" },
-  { label: "დესერტი", match: (s: string) => s === "დესერტი" },
-  { label: "სასმელები", match: (s: string) => s === "სასმელები" },
-];
 export default function MenuComparison() {
   const sorted = [...packages].sort((a, b) => a.price - b.price);
   return (
@@ -46,11 +35,11 @@ export default function MenuComparison() {
             </tr>
           </thead>
           <tbody>
-            {rows.map((row) => (
-              <tr key={row.label}>
-                <th scope="row">{row.label}</th>
+            {menuCategories.map((category) => (
+              <tr key={category}>
+                <th scope="row">{category}</th>
                 {sorted.map((p) => {
-                  const section = p.sections.find((s) => row.match(s.title));
+                  const section = p.sections.find((s) => s.title === category);
                   return (
                     <td key={p.slug}>
                       {section ? (

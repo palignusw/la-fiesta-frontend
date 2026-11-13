@@ -20,12 +20,12 @@ export default function ContactsPage() {
           <p>ჩვენ კი დაგეხმარებით, რომ მას ლამაზი დასაწყისი ჰქონდეს.</p>
           <div className="reservation-intro-photo">
             <Image
-              src="/gallery/hall3.jpg"
-              alt="დღესასწაული ლა ფიესტაში"
+              src="/events/wedding.webp"
+              alt="საქორწილო დარბაზის გაფორმების ილუსტრაცია"
               fill
               sizes="(max-width:800px) 100vw, 40vw"
             />
-            <span>ერთად ყოფნისთვის შექმნილი სივრცე</span>
+            <span>დარბაზის გაფორმების ილუსტრაცია</span>
           </div>
           <div className="reservation-help">
             <div>

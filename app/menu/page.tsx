@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import styles from "./banquet.module.scss";
 import PackageGrid from "@/components/Menu/PackageGrid";
 import MenuComparison from "@/components/Experience/MenuComparison";
 import { packages } from "@/lib/content";
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
 };
 export default function MenuPage() {
   return (
-    <section className="section container">
+    <section className={`section container ${styles.catalog}`}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -24,7 +25,7 @@ export default function MenuPage() {
         <h1>
           ქართული სუფრა,
           <br />
-          თქვენი არჩევანით.
+          <em>თქვენი არჩევანით.</em>
         </h1>
         <p>
           გაეცანით საბანკეტო პაკეტებს. ფასები მოცემულია ერთ სტუმარზე.

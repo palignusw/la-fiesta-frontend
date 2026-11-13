@@ -1,8 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
-import { packages } from "@/lib/content";
+import { packages, type MenuPackage } from "@/lib/content";
 import { bookingSchema, eventTypes } from "@/lib/booking";
 import { formatGeorgianDate } from "@/lib/calendar";
 import CalendarPicker from "./CalendarPicker";
@@ -27,6 +26,8 @@ export default function BookingForm() {
   );
   const [message, setMessage] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [preview, setPreview] = useState<MenuPackage | null>(null);
+  const previewDialog = useRef<HTMLDialogElement>(null);
   const busy = useRef(false);
   const formRef = useRef<HTMLFormElement>(null);
   const heading = useRef<HTMLHeadingElement>(null);
@@ -143,6 +144,10 @@ export default function BookingForm() {
       busy.current = false;
     }
   }
+  useEffect(() => {
+    if (preview && !previewDialog.current?.open) previewDialog.current?.showModal();
+  }, [preview]);
+
   const selectedPackage = packages.find((p) => p.slug === values.packageSlug);
   const guestCount = Number(values.guests);
   const total =
@@ -371,12 +376,12 @@ export default function BookingForm() {
                   <span className="reservation-package-photo">
                     <Image
                       src={
-                        "/menu/" +
+                        pkg.photo ?? "/menu/" +
                         (pkg.slug === "40gel"
-                          ? "lobio.jpg"
+                          ? "editorial/lobio.webp"
                           : pkg.slug === "70gel"
-                            ? "xachapuri.jpg"
-                            : "gochi.jpg")
+                            ? "editorial/xachapuri.webp"
+                            : "editorial/gochi.webp")
                       }
                       alt=""
                       fill
@@ -386,13 +391,16 @@ export default function BookingForm() {
                   <span className="reservation-package-copy">
                     <strong>{pkg.name}</strong>
                     <small>{pkg.highlights.slice(0, 2).join(" · ")}</small>
-                    <Link
-                      href={`/menu/${pkg.slug}`}
-                      target="_blank"
-                      onClick={(e) => e.stopPropagation()}
+                    <button
+                      type="button"
+                      className="reservation-preview-trigger"
+                      onClick={(event) => {
+                        event.preventDefault();
+                        setPreview(pkg);
+                      }}
                     >
                       მენიუს ნახვა ↗
-                    </Link>
+                    </button>
                   </span>
                   <span className="reservation-package-price">
                     {pkg.price} ₾<small>სტუმარზე</small>
@@ -502,6 +510,20 @@ export default function BookingForm() {
           </div>
         )}
         <div className="reservation-navigation">
+          <dl className="reservation-mobile-summary">
+            <div>
+              <dt>თარიღი</dt>
+              <dd>{values.date ? formatGeorgianDate(values.date) : "ასარჩევია"}</dd>
+            </div>
+            <div>
+              <dt>სტუმრები</dt>
+              <dd>{values.guests || "—"}</dd>
+            </div>
+            <div>
+              <dt>მენიუ</dt>
+              <dd>{selectedPackage?.name ?? (values.packageSlug === "undecided" ? "შეთანხმებით" : "ასარჩევია")}</dd>
+            </div>
+          </dl>
           {step > 0 && (
             <button
               className="reservation-back"
@@ -529,6 +551,34 @@ export default function BookingForm() {
         <Icon name="heart" />
         <span>ჯავშანი დასტურდება პირადი შეთანხმების შემდეგ</span>
       </div>
+      <dialog
+        ref={previewDialog}
+        className="reservation-preview"
+        aria-labelledby="reservation-preview-title"
+        onClose={() => setPreview(null)}
+      >
+        {preview && (
+          <>
+            <header>
+              <h2 id="reservation-preview-title">{preview.name}</h2>
+              <button type="button" onClick={() => previewDialog.current?.close()}>
+                დახურვა
+              </button>
+            </header>
+            <p>{preview.price} ₾ ერთ სტუმარზე</p>
+            {preview.sections.map((section) => (
+              <section key={section.title}>
+                <h3>{section.title}</h3>
+                <ul>
+                  {section.items.map((item, index) => (
+                    <li key={index}>{typeof item === "string" ? item : item.label}</li>
+                  ))}
+                </ul>
+              </section>
+            ))}
+          </>
+        )}
+      </dialog>
     </form>
   );
 }

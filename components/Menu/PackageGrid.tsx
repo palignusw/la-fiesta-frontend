@@ -1,13 +1,13 @@
-import s from './PackageGrid.module.scss'
-import PackageCard from './PackageCard'
-import { MenuPackage } from '@/lib/content'
+import { MenuPackage } from "@/lib/content";
+import PackageCard from "./PackageCard";
+import styles from "./PackageGrid.module.scss";
 
 export default function PackageGrid({ items }: { items: MenuPackage[] }) {
-	return (
-		<div className={s.grid}>
-			{items.map(p => (
-				<PackageCard key={p.slug} pkg={p} />
-			))}
-		</div>
-	)
+  return (
+    <div className={styles.grid}>
+      {items.map((pkg) => (
+        <PackageCard key={pkg.slug} pkg={pkg} />
+      ))}
+    </div>
+  );
 }

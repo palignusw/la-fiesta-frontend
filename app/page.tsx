@@ -14,8 +14,8 @@ export default function HomePage() {
       <section className="editorial-hero">
         <div className="hero-editorial-image">
           <Image
-            src="/gallery/hall3.jpg"
-            alt="სადღესასწაულო დღე ლა ფიესტაში"
+            src="/hero/la-fiesta-golden-hall.webp"
+            alt=""
             fill
             priority
             sizes="100vw"

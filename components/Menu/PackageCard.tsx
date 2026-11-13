@@ -1,29 +1,38 @@
 import { MenuPackage } from "@/lib/content";
 import Link from "next/link";
+import styles from "./PackageGrid.module.scss";
+import { LuCrown } from "react-icons/lu";
 import Image from "next/image";
 import Icon from "@/components/Experience/Icon";
 export default function PackageCard({ pkg }: { pkg: MenuPackage }) {
+  const premium = pkg.slug === "120gel";
   const photo =
     pkg.slug === "85gel"
-      ? "gochi.jpg"
+      ? "editorial/gochi.webp"
       : pkg.slug === "70gel"
-        ? "xachapuri.jpg"
-        : "lobio.jpg";
+        ? "editorial/xachapuri.webp"
+        : "editorial/lobio.webp";
+  const itemCount = pkg.sections.reduce((total, section) => total + section.items.length, 0);
   const main = pkg.sections.find((s) => s.title === "ძირითადი კერძები");
   return (
-    <article className="package-card package-content-card">
+    <article className={`package-card package-content-card ${premium ? styles.premium : ""}`}>
       <Link
         href={`/menu/${pkg.slug}`}
         className="package-photo"
         aria-label={`${pkg.name} — სრული მენიუ`}
       >
         <Image
-          src={"/menu/" + photo}
+          src={pkg.photo ?? "/menu/" + photo}
           alt={pkg.name}
           fill
           sizes="(max-width:640px) 100vw, 33vw"
         />
-        <span>საბანკეტო მენიუ</span>
+        {premium && (
+          <span className={styles.crown} aria-hidden="true">
+            <LuCrown />
+          </span>
+        )}
+        <span>{premium ? "პრემიუმ მენიუ" : "საბანკეტო მენიუ"}</span>
       </Link>
       <div className="package-body">
         <div className="package-top">
@@ -41,7 +50,10 @@ export default function PackageCard({ pkg }: { pkg: MenuPackage }) {
           <span> ₾</span>
           <small>{pkg.perPersonLabel}</small>
         </div>
-        <p className="package-categories">{pkg.highlights.join(" · ")}</p>
+        <p><strong>მენიუში {itemCount} დასახელებაა</strong></p>
+        <p className="package-categories">
+          {pkg.sections.map((section) => section.title).join(" · ")}
+        </p>
         <ul className="package-dish-list">
           {main?.items.slice(0, 4).map((item) => {
             const label = typeof item === "string" ? item : item.label;
@@ -53,10 +65,6 @@ export default function PackageCard({ pkg }: { pkg: MenuPackage }) {
             );
           })}
         </ul>
-        <div className="package-counts">
-          <span>{pkg.sections.length} განყოფილება</span>
-          <span>სრული სია პაკეტის გვერდზე</span>
-        </div>
         <div className="package-card-actions">
           <Link href={`/menu/${pkg.slug}`} className="text-link">
             სრული მენიუ <Icon name="diagonal" />
