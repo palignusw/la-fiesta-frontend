@@ -37,13 +37,13 @@ export const packages: MenuPackage[] = [
             label: "ხაშლამა",
             img: "/menu/xashlama.jpg",
           },
-          "კურდღელი",
-          "მეგრული საცივი ინდაურით",
+          { label: "კურდღელი", img: "/menu/roast-rabbit.webp" },
+          { label: "მეგრული საცივი ინდაურით", img: "/menu/turkey-satsivi.webp" },
           {
             label: "წიწილა ტაბაკა",
             img: "/menu/tabaka.jpg",
           },
-          "ოსტრი",
+          { label: "ოსტრი", img: "/menu/ostri.webp" },
           {
             label: "ღორის მწვადი",
             img: "/menu/mwv.webp",
@@ -90,12 +90,12 @@ export const packages: MenuPackage[] = [
             label: "სალათი ცეზარი",
             img: "/menu/cezari.jpg",
           },
-          "სოკო კეცზე სულგუნით",
+          { label: "სოკო კეცზე სულგუნით", img: "/menu/soko.jpg" },
           {
             label: "აჩმა",
             img: "/menu/achma.jpg",
           },
-          "მეგრული ხაჭაპური",
+          { label: "მეგრული ხაჭაპური", img: "/menu/xachapuri.jpg" },
           {
             label: "გებჟალია",
             img: "/menu/gebjalia.jpg",
@@ -122,7 +122,7 @@ export const packages: MenuPackage[] = [
             label: "ფხალის ასორტი (ბადრიჯანი, ბულგარული წიწაკა, ისპანახი)",
             img: "/menu/fxali.webp",
           },
-          "მწნილის ასორტი",
+          { label: "მწნილის ასორტი", img: "/menu/mjave.webp" },
           {
             label: "კიტრი და პომიდორი",
             img: "/menu/kitripomidori.webp",
@@ -156,9 +156,9 @@ export const packages: MenuPackage[] = [
             label: "ქიშმიში და მიწისთხილი",
             img: "/menu/txili.webp",
           },
-          "ნამცხვრის მრავალფეროვანი ასორტი",
+          { label: "ნამცხვრის მრავალფეროვანი ასორტი", img: "/menu/namcxvari.jpg" },
           { label: "არაჟანი", img: "/menu/arajani.webp" },
-          "სეზონური ხილის ასორტი",
+          { label: "სეზონური ხილის ასორტი", img: "/menu/xili.jpg" },
           {
             label: "ჟელატინი",
             img: "/menu/jele.jpg",
@@ -168,8 +168,8 @@ export const packages: MenuPackage[] = [
       {
         title: "სასმელები",
         items: [
-          "ყავა ან ჩაი",
-          "ლიმონათი (ზედაზენი)",
+          { label: "ყავა ან ჩაი", img: "/menu/yava.jpg" },
+          { label: "ლიმონათი (ზედაზენი)", img: "/menu/limonati.png" },
           {
             label: "მინერალური წყალი (ნაბეღლავი)",
             img: "/menu/nabeghlavi.jpg",
