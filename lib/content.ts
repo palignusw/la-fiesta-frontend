@@ -205,172 +205,161 @@ export const packages: MenuPackage[] = [
       {
         title: "ძირითადი კერძები",
         items: [
-          { label: "გოჭი", img: "/menu/gochi.jpg", alt: "გოჭი" },
           {
-            label: "ოსტრი ან ქაბაბი",
-            img: "/menu/qababi.jpg",
-            alt: "ოსტრი ან ქაბაბი",
+            label: "გოჭი",
+            img: "/menu/gochi.jpg",
           },
-          { label: "ხაშლამა", img: "/menu/xashlama.jpg", alt: "ხაშლამა" },
           {
-            label: "ქათამი ბაჟეში",
-            img: "/menu/baje.webp",
-            alt: "ქათამი ბაჟეში",
+            label: "ხაშლამა",
+            img: "/menu/xashlama.jpg",
           },
+          { label: "ქათამი ბაჟეში", img: "/menu/baje.webp" },
           {
             label: "წიწილა ტაბაკა",
             img: "/menu/tabaka.jpg",
-            alt: "წიწილა ტაბაკა",
           },
           {
-            label: "სოკო სულგუნით",
-            img: "/menu/soko.jpg",
-            alt: "სოკო სულგუნით",
+            label: "ღორის მწვადი",
+            img: "/menu/mwv.webp",
           },
-          { label: "ღორის მწვადი", img: "/menu/mwv.webp", alt: "ღორის მწვადი" },
+          "ზუთხის მწვადი ან ქათმის მწვადი გარნირით (კარტოფილი ფრი და სოუსი)",
           {
-            label: "მწვადი ხბოს ან ასიტრინის",
-            img: "/menu/mwvadixbo.jpg",
-            alt: "მწვადი ხბოს ან ასიტრინის",
+            label: "კუჭმაჭი",
+            img: "/menu/kuchmachi.jpg",
           },
-          { label: "კუჭმაჭი", img: "/menu/kuchmachi.jpg", alt: "კუჭმაჭი" },
-          { label: "კუპატი", img: "/menu/kupati.jpg", alt: "კუპატი" },
+          {
+            label: "კუპატი",
+            img: "/menu/kupati.jpg",
+          },
           {
             label: "ხორციანი რულეტი",
             img: "/menu/ruleti.jpeg",
-            alt: "ხორციანი რულეტი",
           },
-          { label: "მწყერი", img: "/menu/mwyeri.jpg", alt: "მწყერი" },
+          {
+            label: "ხორციანი ბლინი",
+            img: "/menu/blini.jpg",
+          },
+          {
+            label: "მწყერი",
+            img: "/menu/mwyeri.jpg",
+          },
+          {
+            label: "კალმახი",
+            img: "/menu/kalmaxi.jpg",
+          },
+          {
+            label: "სათალი",
+            img: "/menu/satali.jpg",
+          },
         ],
       },
       {
-        title: "ცივი კერძები",
-        items: [
-          {
-            label: "ყველის ასორტი (სულგუნი, შებოლილი სულგუნი, იმერული ყველი)",
-            img: "/menu/sulguni.jpg",
-            alt: "ყველის ასორტი",
-          },
-          {
-            label: "ფხალის ასორტი (ბადრიჯანი, ბულგარული, ისპანახი)",
-            img: "/menu/fxali.webp",
-            alt: "ფხალის ასორტი",
-          },
-          {
-            label: "გებჟალია",
-            img: "/menu/gebjalia.jpg",
-            alt: "გებჟალია",
-          },
-
-          {
-            label: "მჟავის ასორტი",
-            img: "/menu/mjave.webp",
-            alt: "მჟავის ასორტი",
-          },
-
-          { label: "ზეთისხილი", img: "/menu/zetisxili.jpg", alt: "ზეთისხილი" },
-        ],
-      },
-      {
-        title: "თევზეული",
-        items: [
-          { label: "კალმახი", img: "/menu/kalmaxi.jpg", alt: "კალმახი" },
-          { label: "სათალი", img: "/menu/satali.jpg", alt: "სათალი" },
-          { label: "ხიზილალა", img: "/menu/xizilala.jpg", alt: "ხიზილალა" },
-        ],
-      },
-      {
-        title: "სალათები",
+        title: "სალათები, ცივი კერძები და გარნირი",
         items: [
           {
             label: "ქათმის სალათი",
             img: "/menu/qatmissalati.jpg",
-            alt: "ქათმის სალათი",
           },
           {
-            label: "ცეზარის სალათი",
+            label: "სალათი ცეზარი",
             img: "/menu/cezari.jpg",
-            alt: "ცეზარის სალათი",
+          },
+          { label: "სოკო კეცზე სულგუნით", img: "/menu/soko.jpg" },
+          {
+            label: "აჩმა",
+            img: "/menu/achma.jpg",
+          },
+          { label: "მეგრული ხაჭაპური", img: "/menu/xachapuri.jpg" },
+          {
+            label: "გებჟალია",
+            img: "/menu/gebjalia.jpg",
           },
           {
-            label: "კიტრი-პომიდორი",
+            label: "ყველის ასორტი (სულგუნი, შებოლილი სულგუნი, იმერული ყველი)",
+            img: "/menu/sulguni.jpg",
+          },
+          "ყველიანი კვერები",
+          {
+            label: "ელარჯი",
+            img: "/menu/elarji.jpg",
+          },
+          {
+            label: "მჭადი",
+            img: "/menu/mchadi.webp",
+          },
+          "ლორი",
+          {
+            label: "შოთის პური",
+            img: "/menu/shoti.jpg",
+          },
+          {
+            label: "ფხალის ასორტი (ბადრიჯანი, ბულგარული წიწაკა, ისპანახი)",
+            img: "/menu/fxali.webp",
+          },
+          { label: "მწნილის ასორტი", img: "/menu/mjave.webp" },
+          {
+            label: "კიტრი და პომიდორი",
             img: "/menu/kitripomidori.webp",
-            alt: "კიტრი-პომიდორი",
           },
           {
             label: "მწვანილის თაიგული",
             img: "/menu/mwvanili.jpg",
-            alt: "მწვანილის თაიგული",
+          },
+          {
+            label: "ტყემლის საწებელი",
+            img: "/menu/tyemali.jpg",
+          },
+          {
+            label: "პომიდვრის საწებელი",
+            img: "/menu/sawebeli.jpg",
+          },
+          {
+            label: "ხიზილალა",
+            img: "/menu/xizilala.jpg",
+          },
+          {
+            label: "ზეთისხილი",
+            img: "/menu/zetisxili.jpg",
           },
         ],
       },
       {
         title: "დესერტი",
         items: [
-          { label: "ნამცხვარი", img: "/menu/namcxvari.jpg", alt: "ნამცხვარი" },
-          { label: "ჟელატინი", img: "/menu/jele.jpg", alt: "ჟელატინი" },
           {
             label: "ქიშმიში და მიწისთხილი",
             img: "/menu/txili.webp",
-            alt: "ქიშმიში და მიწისთხილი",
           },
+          { label: "ნამცხვრის მრავალფეროვანი ასორტი", img: "/menu/namcxvari.jpg" },
+          "არაქანი",
+          { label: "სეზონური ხილის ასორტი", img: "/menu/xili.jpg" },
           {
-            label: "ნაყინი ან მაწონი (თაფლითა და თხილით)",
-            img: "/menu/nayini.jpeg",
-            alt: "ნაყინი ან მაწონი",
-          },
-        ],
-      },
-      {
-        title: "ცომეული",
-        items: [
-          { label: "ხაჭაპური", img: "/menu/xachapuri.jpg", alt: "ხაჭაპური" },
-          { label: "აჩმა", img: "/menu/achma.jpg", alt: "აჩმა" },
-          {
-            label: "ხორციანი ბლინი",
-            img: "/menu/blini.jpg",
-            alt: "ხორციანი ბლინი",
-          },
-          { label: "ღომი", img: "/menu/ghomi.jpg", alt: "ღომი" },
-          { label: "ელარჯი", img: "/menu/elarji.jpg", alt: "ელარჯი" },
-          { label: "მჭადი", img: "/menu/mchadi.webp", alt: "მჭადი" },
-          { label: "შოთის პური", img: "/menu/shoti.jpg", alt: "შოთის პური" },
-        ],
-      },
-      {
-        title: "საწებლები",
-        items: [
-          {
-            label: "პომიდვრის საწებელი",
-            img: "/menu/sawebeli.jpg",
-            alt: "პომიდვრის საწებელი",
-          },
-          { label: "ტყემალი", img: "/menu/tyemali.jpg", alt: "ტყემალი" },
-        ],
-      },
-      {
-        title: "ხილი",
-        items: [
-          {
-            label: "დაჭრილი ხილი (სეზონური)",
-            img: "/menu/xili.jpg",
-            alt: "დაჭრილი ხილი (სეზონური)",
+            label: "ჟელატინი",
+            img: "/menu/jele.jpg",
           },
         ],
       },
       {
         title: "სასმელები",
         items: [
+          { label: "ყავა ან ჩაი", img: "/menu/yava.jpg" },
+          { label: "ლიმონათი (ზედაზენი)", img: "/menu/limonati.png" },
           {
-            label: "ლიმონათი (ზედაზენი, ზანდუკელი)",
-            img: "/menu/limonati.png",
-            alt: "ლიმონათი",
+            label: "მინერალური წყალი (ნაბეღლავი)",
+            img: "/menu/nabeghlavi.jpg",
           },
-          { label: "ნაბეღლავი", img: "/menu/nabeghlavi.jpg", alt: "ნაბეღლავი" },
-          { label: "ფანტა", img: "/menu/fanta.jpg", alt: "ფანტა" },
-          { label: "კოკა-კოლა", img: "/menu/kola.jpg", alt: "კოკა-კოლა" },
-          { label: "წყალი", img: "/menu/wyali.jpg", alt: "წყალი" },
-          { label: "ყავა და ჩაი", img: "/menu/yava.jpg", alt: "ყავა და ჩაი" },
+          {
+            label: "ფანტა",
+            img: "/menu/fanta.jpg",
+          },
+          {
+            label: "კოკა-კოლა",
+            img: "/menu/kola.jpg",
+          },
+          {
+            label: "წყალი",
+            img: "/menu/wyali.jpg",
+          },
         ],
       },
     ],
