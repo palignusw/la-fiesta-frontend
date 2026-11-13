@@ -1,4 +1,8 @@
 import Link from "next/link";
+import { FaFacebookF, FaTiktok, FaWhatsapp } from "react-icons/fa6";
+
+const socialIconStyle = { color: "var(--gold)", marginInlineEnd: 8, verticalAlign: "-0.12em" };
+
 export default function Footer() {
   return (
     <footer className="site-footer">
@@ -33,6 +37,7 @@ export default function Footer() {
             target="_blank"
             rel="noreferrer"
           >
+            <FaFacebookF aria-hidden="true" style={socialIconStyle} />
             ფეისბუქი ↗
           </a>
           <a
@@ -40,9 +45,11 @@ export default function Footer() {
             target="_blank"
             rel="noreferrer"
           >
+            <FaTiktok aria-hidden="true" style={socialIconStyle} />
             ტიკტოკი ↗
           </a>
           <a href="https://wa.me/995599435644" target="_blank" rel="noreferrer">
+            <FaWhatsapp aria-hidden="true" style={socialIconStyle} />
             ვოთსაპი ↗
           </a>
         </div>
