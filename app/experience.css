@@ -3673,3 +3673,32 @@ h2 em {
   margin-block: 6px;
   font-size: 13px;
 }
+
+
+/* Readable supporting text in the menus and booking form. */
+.package-card .package-body p,
+.reservation-package-copy > small,
+.reservation-package-price > small {
+  color: #d7c9b5;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.package-card .package-price small {
+  color: #d7c9b5;
+  font-size: 11px;
+}
+
+.package-card .package-dish-list li,
+.reservation-package-copy > strong {
+  font-size: 13px;
+}
+
+.reservation-package-copy {
+  min-width: 0;
+}
+
+.reservation-package-copy > .reservation-preview-trigger {
+  font-size: 12px;
+  line-height: 1.5;
+}
