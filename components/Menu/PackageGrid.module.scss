@@ -5,16 +5,9 @@
 }
 
 .grid .premium {
-  border: 1px solid #cc9e51;
-  border-radius: 18px;
-  overflow: hidden;
+  border-color: #cc9e51;
   background: radial-gradient(ellipse at 50% 0%, #5a3919, transparent 75%), #21170f;
-  box-shadow: inset 0 0 0 5px #21170f, inset 0 0 0 6px #e9bc663d;
-}
-
-.premium :global(.package-photo) {
-  border-radius: 0;
-  border-bottom: 1px solid #cc9e51;
+  box-shadow: inset 0 0 0 1px #cc9e51;
 }
 
 .premium :global(.package-photo > span) {
@@ -28,11 +21,6 @@
 .premium :global(.package-photo > span) svg {
   width: 17px;
   height: 17px;
-}
-
-.grid .premium :global(.package-body) {
-  padding-inline: 18px;
-  padding-bottom: 20px;
 }
 
 .premium :global(.package-reserve) {
