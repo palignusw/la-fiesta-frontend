@@ -22,7 +22,7 @@ export const packages: MenuPackage[] = [
     slug: "120gel",
     name: "პრემიუმ მენიუ",
     price: 120,
-    photo: "/gallery/dekor1.jpg",
+    photo: "/menu/roast-rabbit.webp",
     perPersonLabel: "ფასი ერთ სტუმარზე",
     highlights: ["ცხელი კერძები", "ცივი კერძები", "დესერტი", "სასმელები"],
     sections: [
