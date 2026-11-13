@@ -3618,7 +3618,8 @@ h2 em {
   text-decoration: underline;
   text-underline-offset: 3px;
   font-size: 10px;
-  justify-self: start;
+  align-self: flex-start;
+  text-align: left;
 }
 
 .reservation-preview {
