@@ -48,7 +48,7 @@ export const packages: MenuPackage[] = [
             label: "ღორის მწვადი",
             img: "/menu/mwv.webp",
           },
-          "ზუთხის მწვადი ან ქათმის მწვადი გარნირით (კარტოფილი ფრი და სოუსი)",
+          { label: "ზუთხის მწვადი ან ქათმის მწვადი გარნირით (კარტოფილი ფრი და სოუსი)", img: "/menu/chicken-skewers.webp" },
           {
             label: "კუჭმაჭი",
             img: "/menu/kuchmachi.jpg",
@@ -104,7 +104,7 @@ export const packages: MenuPackage[] = [
             label: "ყველის ასორტი (სულგუნი, შებოლილი სულგუნი, იმერული ყველი)",
             img: "/menu/sulguni.jpg",
           },
-          "ყველიანი კვერები",
+          { label: "ყველიანი კვერები", img: "/menu/cheese-kverebi.webp" },
           {
             label: "ელარჯი",
             img: "/menu/elarji.jpg",
@@ -113,7 +113,7 @@ export const packages: MenuPackage[] = [
             label: "მჭადი",
             img: "/menu/mchadi.webp",
           },
-          "ლორი",
+          { label: "ლორი", img: "/menu/smoked-lori.webp" },
           {
             label: "შოთის პური",
             img: "/menu/shoti.jpg",
@@ -157,7 +157,7 @@ export const packages: MenuPackage[] = [
             img: "/menu/txili.webp",
           },
           "ნამცხვრის მრავალფეროვანი ასორტი",
-          "არაქანი",
+          { label: "არაჟანი", img: "/menu/arajani.webp" },
           "სეზონური ხილის ასორტი",
           {
             label: "ჟელატინი",
@@ -222,7 +222,7 @@ export const packages: MenuPackage[] = [
             label: "ღორის მწვადი",
             img: "/menu/mwv.webp",
           },
-          "ზუთხის მწვადი ან ქათმის მწვადი გარნირით (კარტოფილი ფრი და სოუსი)",
+          { label: "ზუთხის მწვადი ან ქათმის მწვადი გარნირით (კარტოფილი ფრი და სოუსი)", img: "/menu/chicken-skewers.webp" },
           {
             label: "კუჭმაჭი",
             img: "/menu/kuchmachi.jpg",
@@ -278,7 +278,7 @@ export const packages: MenuPackage[] = [
             label: "ყველის ასორტი (სულგუნი, შებოლილი სულგუნი, იმერული ყველი)",
             img: "/menu/sulguni.jpg",
           },
-          "ყველიანი კვერები",
+          { label: "ყველიანი კვერები", img: "/menu/cheese-kverebi.webp" },
           {
             label: "ელარჯი",
             img: "/menu/elarji.jpg",
@@ -287,7 +287,7 @@ export const packages: MenuPackage[] = [
             label: "მჭადი",
             img: "/menu/mchadi.webp",
           },
-          "ლორი",
+          { label: "ლორი", img: "/menu/smoked-lori.webp" },
           {
             label: "შოთის პური",
             img: "/menu/shoti.jpg",
@@ -331,7 +331,7 @@ export const packages: MenuPackage[] = [
             img: "/menu/txili.webp",
           },
           { label: "ნამცხვრის მრავალფეროვანი ასორტი", img: "/menu/namcxvari.jpg" },
-          "არაქანი",
+          { label: "არაჟანი", img: "/menu/arajani.webp" },
           { label: "სეზონური ხილის ასორტი", img: "/menu/xili.jpg" },
           {
             label: "ჟელატინი",
