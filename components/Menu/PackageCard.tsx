@@ -8,10 +8,10 @@ export default function PackageCard({ pkg }: { pkg: MenuPackage }) {
   const premium = pkg.slug === "120gel";
   const photo =
     pkg.slug === "85gel"
-      ? "gochi.jpg"
+      ? "editorial/gochi.webp"
       : pkg.slug === "70gel"
-        ? "xachapuri.jpg"
-        : "lobio.jpg";
+        ? "editorial/xachapuri.webp"
+        : "editorial/lobio.webp";
   const main = pkg.sections.find((s) => s.title === "ძირითადი კერძები");
   return (
     <article className={`package-card package-content-card ${premium ? styles.premium : ""}`}>

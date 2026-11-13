@@ -373,10 +373,10 @@ export default function BookingForm() {
                       src={
                         pkg.photo ?? "/menu/" +
                         (pkg.slug === "40gel"
-                          ? "lobio.jpg"
+                          ? "editorial/lobio.webp"
                           : pkg.slug === "70gel"
-                            ? "xachapuri.jpg"
-                            : "gochi.jpg")
+                            ? "editorial/xachapuri.webp"
+                            : "editorial/gochi.webp")
                       }
                       alt=""
                       fill
