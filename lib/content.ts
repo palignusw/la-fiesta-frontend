@@ -42,7 +42,7 @@ export const packages: MenuPackage[] = [
           },
           {
             label: "ხაშლამა",
-            img: "/menu/editorial/xashlama.webp",
+            img: "/menu/editorial/khashlama.webp",
           },
           { label: "კურდღელი", img: "/menu/roast-rabbit.webp" },
           { label: "მეგრული საცივი ინდაურით", img: "/menu/turkey-satsivi.webp" },
@@ -218,7 +218,7 @@ export const packages: MenuPackage[] = [
           },
           {
             label: "ხაშლამა",
-            img: "/menu/editorial/xashlama.webp",
+            img: "/menu/editorial/khashlama.webp",
           },
           { label: "ქათამი ბაჟეში", img: "/menu/editorial/baje.webp" },
           {
@@ -393,7 +393,7 @@ export const packages: MenuPackage[] = [
             img: "/menu/editorial/baje.webp",
             alt: "ქათამი ბაჟეში",
           },
-          { label: "ხაშლამა", img: "/menu/editorial/xashlama.webp", alt: "ხაშლამა" },
+          { label: "ხაშლამა", img: "/menu/editorial/khashlama.webp", alt: "ხაშლამა" },
           { label: "ღორის მწვადი", img: "/menu/editorial/mwv.webp", alt: "ღორის მწვადი" },
           { label: "კუჭმაჭი", img: "/menu/editorial/kuchmachi.webp", alt: "კუჭმაჭი" },
           {
