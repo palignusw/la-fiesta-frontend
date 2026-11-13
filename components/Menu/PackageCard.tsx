@@ -12,6 +12,7 @@ export default function PackageCard({ pkg }: { pkg: MenuPackage }) {
       : pkg.slug === "70gel"
         ? "editorial/xachapuri.webp"
         : "editorial/lobio.webp";
+  const itemCount = pkg.sections.reduce((total, section) => total + section.items.length, 0);
   const main = pkg.sections.find((s) => s.title === "ძირითადი კერძები");
   return (
     <article className={`package-card package-content-card ${premium ? styles.premium : ""}`}>
@@ -62,7 +63,7 @@ export default function PackageCard({ pkg }: { pkg: MenuPackage }) {
           })}
         </ul>
         <div className="package-counts">
-          <span>{pkg.sections.length} განყოფილება</span>
+          <span>{itemCount} პოზიცია</span>
           <span>სრული სია პაკეტის გვერდზე</span>
         </div>
         <div className="package-card-actions">
