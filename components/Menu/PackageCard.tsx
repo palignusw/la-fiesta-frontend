@@ -64,7 +64,7 @@ export default function PackageCard({ pkg }: { pkg: MenuPackage }) {
         </ul>
         <div className="package-counts">
           <span>{itemCount} პოზიცია</span>
-          <span>სრული სია პაკეტის გვერდზე</span>
+          <span>{pkg.sections.length} კატეგორია</span>
         </div>
         <div className="package-card-actions">
           <Link href={`/menu/${pkg.slug}`} className="text-link">
