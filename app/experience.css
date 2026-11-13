@@ -3566,3 +3566,46 @@ h2 em {
   outline: 2px solid var(--brand);
   outline-offset: 4px;
 }
+
+.reservation-mobile-summary {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .reservation-navigation {
+    position: sticky;
+    bottom: 0;
+    z-index: 5;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 10px 0 max(10px, env(safe-area-inset-bottom));
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    box-shadow: 0 -8px 20px #100d0a55;
+  }
+
+  .reservation-mobile-summary {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, .75fr) minmax(0, 1fr);
+    gap: 8px;
+    width: 100%;
+    margin: 0;
+  }
+
+  .reservation-mobile-summary dt {
+    color: var(--muted);
+    font-size: 10px;
+  }
+
+  .reservation-mobile-summary dd {
+    margin: 3px 0 0;
+    color: var(--text);
+    font-size: 11px;
+    overflow-wrap: anywhere;
+  }
+
+  .reservation-navigation .reservation-next {
+    flex: 1;
+    min-width: 0;
+  }
+}

@@ -502,6 +502,20 @@ export default function BookingForm() {
           </div>
         )}
         <div className="reservation-navigation">
+          <dl className="reservation-mobile-summary">
+            <div>
+              <dt>თარიღი</dt>
+              <dd>{values.date ? formatGeorgianDate(values.date) : "ასარჩევია"}</dd>
+            </div>
+            <div>
+              <dt>სტუმრები</dt>
+              <dd>{values.guests || "—"}</dd>
+            </div>
+            <div>
+              <dt>მენიუ</dt>
+              <dd>{selectedPackage?.name ?? (values.packageSlug === "undecided" ? "შეთანხმებით" : "ასარჩევია")}</dd>
+            </div>
+          </dl>
           {step > 0 && (
             <button
               className="reservation-back"
