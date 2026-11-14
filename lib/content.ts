@@ -120,7 +120,6 @@ export const packages: MenuPackage[] = [
             label: "მჭადი",
             img: "/menu/editorial/mchadi.webp",
           },
-          { label: "ლორი", img: "/menu/smoked-lori.webp" },
           {
             label: "შოთის პური",
             img: "/menu/editorial/shoti.webp",
@@ -294,7 +293,6 @@ export const packages: MenuPackage[] = [
             label: "მჭადი",
             img: "/menu/editorial/mchadi.webp",
           },
-          { label: "ლორი", img: "/menu/smoked-lori.webp" },
           {
             label: "შოთის პური",
             img: "/menu/editorial/shoti.webp",
